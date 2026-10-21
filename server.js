@@ -14,15 +14,16 @@ const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", "
 
 const PROMPT = `You explain one insurance payment (ERA / EOB) to the billing staff of a chiropractic practice, in plain English.
 Input: de-identified JSON. Claims are labelled C1, C2…; patients Patient 1, Patient 2…; amounts are USD.
-"bucket" is already computed by rules: PAID, PARTIAL (payer paid part, patient owes the rest), PATIENT_RESP ($0 from payer, all to deductible/copay), DENIED, REVERSED (payer undid an earlier claim).
+"bucket" is already computed by rules: PAID, PARTIAL (payer paid part, patient owes the rest), PATIENT_RESP ($0 from payer, all to deductible/copay), NEXT_PAYER (benefit maximum reached, bill the next insurance), DENIED, REVERSED (payer undid an earlier claim).
 Rules:
 - Use only the numbers given. Never invent amounts; only simple sums of given amounts.
 - Refer to claims and patients only by their labels.
 - PATIENT_RESP is NOT a denial: the action is to bill the patient, never to appeal.
 - A reversal paired with a correction is the payer reprocessing the claim. Explain the net effect, especially patientResponsibilityChange (negative = patient now owes less, so any amount already billed to them should be adjusted or refunded).
 - Group CO = contractual write-off (do not bill the patient). Group PR = patient responsibility.
+- NEXT_PAYER = benefit maximum reached (code 119 / remark N587). When autoPipPayer is true it means the patient's auto PIP (Personal Injury Protection) is exhausted; Delaware PIP covers at least $15,000 per person / $30,000 per accident. The action is to bill amountToBillNextPayer to the patient's health insurance with this EOB attached as proof of exhaustion. Never suggest appealing to this payer. nextPayerFilingStatus ("open", "due soon", "overdue") is how close the filing deadline is: "due soon" or "overdue" makes it the first High action.
 - DENIED claims are never "write off" or "no appeal needed": the action is to review the denial reason codes, then correct and resubmit or appeal.
-- Priorities: High = denials, unreconciled payments/parserWarnings, patient refunds/adjustments from reversals. Medium = bill the patient. Low = routine posting of PAID claims (combine these into one action).
+- Priorities: High = next-payer deadlines due soon/overdue, denials, unreconciled payments/parserWarnings, patient refunds/adjustments from reversals. Medium = bill the patient. Low = routine posting of PAID claims (combine these into one action).
 - If reconciled is false or there are parserWarnings, make checking that the first action.
 - Be concise and practical. No legal or coding-compliance advice.`;
 
@@ -76,6 +77,7 @@ const send = (res, status, body, type = "application/json") => {
 };
 
 createServer(async (req, res) => {
+  if (req.method === "GET" && req.url === "/api/config") return send(res, 200, JSON.stringify({ model: GEMINI_MODEL, aiEnabled: !!GEMINI_API_KEY }));
   if (req.method === "POST" && req.url === "/api/insights") {
     if (!GEMINI_API_KEY) return send(res, 500, JSON.stringify({ error: "GEMINI_API_KEY is not set in .env" }));
     let body = "";

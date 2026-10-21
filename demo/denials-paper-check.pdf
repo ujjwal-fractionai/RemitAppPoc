@@ -1,0 +1,137 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Length 7978 >>
+stream
+BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST HEALTH PLAN OF DELAWARE                                  PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 759 Tm (        200 PLAN AVE                                                  FAX:              \(302\)555-0101) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 748 Tm (        NEWARK, DE 19711                                              PHONE:            \(302\)555-0100) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          CHECK #:          0004417) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/16/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        47.65) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/15/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:BROWN, ALEX             MBR:MEM100001       ACNT:0000500001      ICN:GRP500001) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 5000000001) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:4   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  0902 090226  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-50      60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 605 Tm (                                                REM: N130) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 594 Tm (        PT RESP 0.00                          SUB TOTALS      60.00      0.00      0.00      0.00              60.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 583 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 572 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 561 Tm (        NAME:GARCIA, MIA             MBR:MEM100002       ACNT:0000500002      ICN:GRP500002) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 550 Tm (                                                                                 5000000002) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (        CLM Status:4   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  0310 031026  11  1   98941             75.00      0.00      0.00      0.00   CO-29      75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 506 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 484 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 473 Tm (        NAME:KIM, JORDAN             MBR:MEM100003       ACNT:0000500003      ICN:GRP500003) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 462 Tm (                                                                                 5000000003) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 451 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (        1234567893  0915 091526  11  1   98941             75.00      0.00      0.00      0.00   CO-16      75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (                                                REM: MA130) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (        NAME:PATEL, RIYA             MBR:MEM100004       ACNT:0000500004      ICN:GRP500004) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (                                                                                 5000000004) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 341 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (        1234567893  0918 091826  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80       33.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (        1234567893  0918 091826  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-97      60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 308 Tm (        PT RESP 0.00                          SUB TOTALS     135.00     33.20      0.00      0.00             101.80     33.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 297 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 286 Tm (                                                                                                            NET 33.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 275 Tm (        NAME:SMITH, CHRIS            MBR:MEM100005       ACNT:0000500005      ICN:GRP500005) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 264 Tm (                                                                                 5000000005) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 253 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 242 Tm (        CLM Status:4   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 231 Tm (        1234567893  0922 092226  11  1   97012  GP         55.00      0.00      0.00      0.00   CO-197     55.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 220 Tm (        PT RESP 0.00                          SUB TOTALS      55.00      0.00      0.00      0.00              55.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 209 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 198 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 187 Tm (        NAME:BROWN, ALEX             MBR:MEM100001       ACNT:0000500001      ICN:GRP500001) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 176 Tm (                                                                                 5000000006) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 165 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 154 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 143 Tm (        1234567893  0929 092926  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80       13.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 132 Tm (                                                                                               PR-3       20.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 121 Tm (        PT RESP 20.00                         SUB TOTALS      75.00     33.20      0.00      0.00              61.80     13.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 110 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 99 Tm (                                                                                                            NET 13.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 88 Tm (                                                            Page 1) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 4104 >>
+stream
+BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST HEALTH PLAN OF DELAWARE                                  PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 759 Tm (        200 PLAN AVE                                                  FAX:              \(302\)555-0101) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 748 Tm (        NEWARK, DE 19711                                              PHONE:            \(302\)555-0100) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          CHECK #:          0004417) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/16/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        47.65) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/15/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 660 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 649 Tm (                            6      475.00       66.40        0.00        0.00      428.60       46.40       -1.25       47.65) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 638 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 627 Tm (                                                L6                     0004417                     -1.25) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 605 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 594 Tm (                 50 These are non-covered services because this is not deemed a 'medical necessity' by the) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 583 Tm (                    payer.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 572 Tm (                 29 The time limit for filing has expired.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 561 Tm (                 16 Claim/service lacks information or has submission/billing error\(s\).) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 550 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 539 Tm (                 97 The benefit for this service is included in the payment/allowance for another) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (                    service/procedure that has already been adjudicated.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (                197 Precertification/authorization/notification/pre-treatment absent.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 506 Tm (        PR-         Patient Responsibility) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (                  3 Co-payment Amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 484 Tm (        N130        Consult plan benefit documents/guidelines for information about restrictions for this) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 473 Tm (                    service.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 462 Tm (        MA130       Your claim contains incomplete and/or invalid information, and no appeal rights are afforded) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 451 Tm (                    because the claim is unprocessable. Please submit a new claim with the complete/correct) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (                    information.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (        L6          Interest owed.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (                                                            Page 2) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000189 00000 n 
+0000008219 00000 n 
+0000008345 00000 n 
+0000012501 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+12627
+%%EOF

@@ -102,3 +102,33 @@ test("pageLines rebuilds rows by position", () => {
   const it = (str, x, y) => ({ str, width: str.length * 4.2, transform: [1, 0, 0, 1, x, y] });
   assert.deepEqual(pageLines([it("CD", 21, 700), it("AB", 8.4, 700), it("EF", 0, 690)]), ["  AB CD", "EF"]);
 });
+
+// Every demo PDF's text goes through the real parser; demos/make-demos.js declares what each should produce.
+import { DEMOS, eobPages } from "./demo/make-demos.js";
+
+for (const d of DEMOS) {
+  test(`demo ${d.file} parses as expected`, () => {
+    const r = analyze(parseEob(eobPages(d).flat()), new Date(2026, 9, 21));
+    assert.deepEqual(r.claims.map((c) => c.bucket), d.expect.buckets);
+    assert.equal(r.reconciled, d.expect.reconciled);
+    assert.equal(r.pairs.length, d.expect.pairs);
+    if (d.expect.reconciled) assert.deepEqual(r.warnings, []);
+    else assert.ok(r.difference !== 0);
+    if (d.expect.pip) assert.ok(r.pip);
+    if (d.expect.nextPayer) assert.equal(r.claims.reduce((t, c) => t + c.nextPayerAmount, 0), d.expect.nextPayer);
+  });
+}
+
+test("PIP follow-up deadline: 90 days from check date, status by today", () => {
+  const pip = DEMOS.find((d) => d.expect.pip);
+  const at = (y, m, day) => analyze(parseEob(eobPages(pip).flat()), new Date(y, m - 1, day)).followUp;
+  assert.equal(at(2026, 8, 10).status, "open"); // check date 08/04/2026 → due 11/02/2026
+  assert.equal(at(2026, 10, 21).daysLeft, 12);
+  assert.equal(at(2026, 10, 21).status, "due soon");
+  assert.equal(at(2026, 11, 3).status, "overdue");
+  const r = analyze(parseEob(eobPages(pip).flat()), new Date(2026, 9, 21));
+  assert.match(r.claims[1].action, /PIP maximum reached\. Bill \$90\.50 .* by 11\/02\/2026/);
+  assert.ok(!r.claims[2].lines.some((l) => l.denied), "benefit-max lines are not denials");
+  const json = JSON.stringify(deidentify(r));
+  assert.ok(!json.includes("PARKER") && !json.includes("11/02/2026") && !json.includes("PIP0000001"));
+});

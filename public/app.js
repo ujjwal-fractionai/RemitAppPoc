@@ -1,5 +1,8 @@
 import * as pdfjs from "./vendor/pdf.min.mjs";
-import { analyze, deidentify, pageLines, parseEob, usd } from "./eob.js";
+import {
+  analyze, BENEFIT_MAX, CONTRACTUAL, DE_PIP_MINIMUM, deidentify, DENY_GROUPS, DUE_SOON_DAYS, FOLLOW_UP_AFTER_DAYS,
+  mdy, NEXT_PAYER_FILING_DAYS, pageLines, parseEob, PIP_PAYER_WORDS, usd,
+} from "./eob.js";
 
 pdfjs.GlobalWorkerOptions.workerSrc = "./vendor/pdf.worker.min.mjs";
 
@@ -8,6 +11,7 @@ const BUCKETS = {
   PAID: { label: "Paid", icon: "✓", tone: "paid", help: "Payer paid. Only contractual write-off." },
   PARTIAL: { label: "Partial", icon: "½", tone: "partial", help: "Payer paid part. Patient owes the rest." },
   PATIENT_RESP: { label: "Patient owes", icon: "$", tone: "owes", help: "$0 from payer: deductible/copay. Not a denial." },
+  NEXT_PAYER: { label: "Bill next payer", icon: "→", tone: "next", help: "Benefit maximum reached (e.g. PIP). Bill the health insurance." },
   DENIED: { label: "Denied", icon: "✕", tone: "denied", help: "Nobody pays. Fix and resubmit or appeal." },
   REVERSED: { label: "Reversed", icon: "↺", tone: "reversed", help: "Payer undid an earlier claim. See its correction." },
 };
@@ -85,9 +89,10 @@ function render(r) {
         kv(ref[0], ref[1]), kv("Check date", r.header["CHECK DATE"] ?? "—"), kv("Check amount", usd(r.checkAmount), "strong"),
         kv("Claims", r.claims.length), kv("Billed", usd(sum(nonRev, (c) => c.billed))),
         kv("Payer paid", usd(sum(r.claims, (c) => c.paid)), "paid"), kv("Fees / provider adj.", usd(sum(r.plb, (p) => p.amount))),
-        kv("Bill patients", usd(billPatients), "owes"), reversedPt && kv("Patient charges reversed", usd(reversedPt), "reversed"),
+        kv("Bill patients", usd(billPatients), "owes"), reversedPt !== 0 && kv("Patient charges reversed", usd(reversedPt), "reversed"),
       ),
     ),
+    pipCard(r),
     r.warnings.length > 0 &&
       h("section", { class: "card warn" }, h("h2", {}, "⚠ Check these before trusting the numbers"), h("ul", {}, r.warnings.map((w) => h("li", {}, w)))),
 
@@ -138,6 +143,7 @@ function tile(r, b) {
     PAID: `${usd(sum(cs, (c) => c.paid))} paid`,
     PARTIAL: `${usd(sum(cs, (c) => c.paid))} paid · ${usd(sum(cs, (c) => c.pr))} patient`,
     PATIENT_RESP: `${usd(sum(cs, (c) => c.pr))} to bill patients`,
+    NEXT_PAYER: `${usd(sum(cs, (c) => c.nextPayerAmount))} to bill next payer`,
     DENIED: `${usd(sum(cs, (c) => c.billed))} billed`,
     REVERSED: `${cs.filter((c) => c.pair).length} of ${cs.length} matched to a correction`,
   }[b];
@@ -154,6 +160,51 @@ function tile(r, b) {
     drawClaims(r);
   });
   return btn;
+}
+
+const followUpPill = (f) =>
+  !f ? pill("reversed", "No check date found: set a deadline manually")
+  : f.status === "overdue" ? pill("denied", `Overdue by ${-f.daysLeft} day${f.daysLeft === -1 ? "" : "s"}`)
+  : f.status === "due soon" ? pill("partial", `Due soon: ${f.daysLeft} day${f.daysLeft === 1 ? "" : "s"} left`)
+  : pill("owes", `Open: ${f.daysLeft} days left`);
+
+// Benefit maximum reached (CARC 119 / N587), e.g. Delaware auto PIP exhausted → the patient's health insurance pays next.
+function pipCard(r) {
+  const cs = r.claims.filter((c) => c.bucket === "NEXT_PAYER");
+  if (!cs.length) return null;
+  const f = r.followUp, total = sum(cs, (c) => c.nextPayerAmount);
+  const byPatient = [...Map.groupBy(cs, (c) => c.patient).values()];
+  return h("section", { class: "card alert" },
+    h("div", { class: "card-head" },
+      h("h2", {}, h("span", { class: "spark", style: toneStyle("next") }, r.pip ? "🚗" : "→"),
+        r.pip ? "PIP maximum reached: Delaware auto PIP is exhausted" : "Benefit maximum reached"),
+      followUpPill(f),
+    ),
+    h("p", { class: "lead" }, r.pip
+      ? `This auto insurer's Personal Injury Protection (PIP) benefits are used up (code 119, remark N587). It will not pay any more on this accident, so ${usd(total)} must be billed to the patient's own health insurance instead.`
+      : `The payer says the benefit maximum is reached (code 119). ${usd(total)} must be billed to the patient's next coverage instead.`),
+    r.pip && h("p", { class: "muted small" }, `Delaware PIP covers at least ${usd(DE_PIP_MINIMUM.perPerson)} per person and ${usd(DE_PIP_MINIMUM.perAccident)} per accident (21 Del. C. § 2118). Policies can carry higher limits, so confirm the limit with the adjuster.`),
+    h("div", { class: "table-wrap" }, h("table", { class: "plain" },
+      h("thead", {}, h("tr", {}, ["Patient", "Claims", "Paid by this payer", "Bill to health insurance", "File by", "Follow-up"].map((t, i) => h("th", { class: i === 2 || i === 3 ? "num" : "" }, t)))),
+      h("tbody", {}, byPatient.map((pcs) => h("tr", {},
+        h("td", {}, h("span", { class: "name" }, pcs[0].name), h("div", { class: "muted small" }, `${pcs[0].patient} · acct ${pcs[0].acnt}`)),
+        h("td", {}, pcs.map((c) => c.label).join(", ")),
+        h("td", { class: "num" }, usd(sum(pcs, (c) => c.paid))),
+        h("td", { class: "num" }, h("b", {}, usd(sum(pcs, (c) => c.nextPayerAmount)))),
+        h("td", {}, f ? mdy(f.due) : "—"),
+        h("td", {}, followUpPill(f)),
+      ))),
+    )),
+    h("h4", {}, "What to do"),
+    h("ol", { class: "steps" },
+      h("li", {}, r.pip ? "Call the PIP adjuster to confirm benefits are exhausted. Save this EOB or their exhaustion letter." : "Confirm with the payer that the benefit maximum is reached and save this EOB."),
+      h("li", {}, "Get the patient's health insurance details and update them in ChiroTouch."),
+      h("li", {}, `Bill the health insurance ${usd(total)} with this EOB attached as proof ${r.pip ? "PIP" : "the benefit"} is exhausted.`),
+      h("li", {}, f ? `File by ${mdy(f.due)}. If there's no response within ${FOLLOW_UP_AFTER_DAYS} days, follow up with the health plan.` : `Set a filing deadline and follow up within ${FOLLOW_UP_AFTER_DAYS} days.`),
+      h("li", {}, "If the patient has no other coverage, talk to the patient (and their attorney, if any) about the balance."),
+    ),
+    h("p", { class: "muted small" }, `Deadline is an estimate: ${NEXT_PAYER_FILING_DAYS} days from this EOB's check date. Confirm the health plan's timely-filing limit; many count from the date of service.`),
+  );
 }
 
 function pairRow(p) {
@@ -241,4 +292,104 @@ async function insights(r) {
   } catch (e) {
     box.replaceChildren(h("p", { class: "error" }, `AI insights unavailable: ${e.message}. Everything else on this page is computed exactly from the PDF.`));
   }
+}
+
+// ---- tabs (#explainer / #rules) ----
+function showView() {
+  const view = location.hash === "#rules" ? "rules" : "explainer";
+  $("view-explainer").hidden = view !== "explainer";
+  $("view-rules").hidden = view !== "rules";
+  document.querySelectorAll(".nav-item").forEach((a) =>
+    a.getAttribute("href") === `#${view}` ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
+  if (view === "rules" && !$("view-rules").hasChildNodes()) renderRules();
+}
+addEventListener("hashchange", showView);
+showView();
+
+// ---- Rules & settings: read-only view of the constants in eob.js and the server config ----
+function renderRules() {
+  const chips = (xs) => [...xs].map((x) => h("span", { class: "chip" }, x));
+  const where = (name, file = "public/eob.js") => h("code", {}, `${file} · ${name}`);
+  const table = (rows, head = ["Setting", "Value", "Change in"]) =>
+    h("div", { class: "table-wrap" }, h("table", { class: "plain rules" },
+      h("thead", {}, h("tr", {}, head.map((t) => h("th", {}, t)))),
+      h("tbody", {}, rows.map((cells) => h("tr", {}, cells.map((c) => h("td", {}, c))))),
+    ));
+  const model = h("span", { class: "chip" }, "loading…");
+  const aiState = h("span", {});
+  fetch("/api/config").then((r) => r.json()).then((c) => {
+    model.textContent = c.model;
+    aiState.replaceChildren(c.aiEnabled ? pill("paid", "API key set") : pill("denied", "GEMINI_API_KEY missing"));
+  }).catch(() => (model.textContent = "unknown"));
+
+  const rule = (b, when, action) => [badge(b), when, action];
+  $("view-rules").replaceChildren(
+    h("div", { class: "page-head" }, h("div", {},
+      h("h1", {}, "Rules & settings"),
+      h("p", { class: "sub" }, "Every rule and number the explainer uses. Read-only: they come straight from the code, so this page is always current."),
+    )),
+
+    card("How each claim is sorted",
+      h("p", { class: "muted small" }, "Checked top to bottom. The first rule that matches decides the bucket."),
+      table([
+        rule("REVERSED", "Claim status is 22 (reversal of a previous payment)", "Review it with its matched correction and act on the net."),
+        rule("NEXT_PAYER", ["Any line adjusted with reason ", chips(BENEFIT_MAX), " (benefit maximum reached)"], "Bill the patient's health insurance with this EOB attached. Don't appeal."),
+        rule("DENIED", "Claim status is 4 (denied)", "Check the denial codes, then fix and resubmit or appeal."),
+        rule("PATIENT_RESP", "Payer paid $0 and the patient owes more than $0", "Bill the patient (usually deductible). Not a denial: don't appeal."),
+        rule("DENIED", "Payer paid $0 and the patient owes $0", "Check the denial codes, then fix and resubmit or appeal."),
+        rule("PARTIAL", "Payer paid something, and the patient owes something or a line was denied", "Bill the patient and work any denied lines."),
+        rule("PAID", "Anything else", "No action."),
+      ], ["Bucket", "When", "What billing does"]),
+    ),
+
+    card("Adjustment codes",
+      table([
+        ["Normal write-off reasons", [chips([...CONTRACTUAL].map((c) => `CO-${c}`)), h("div", { class: "muted small" }, "A $0 line adjusted only by these is not a denial.")], where("CONTRACTUAL")],
+        ["Denial groups", [chips(DENY_GROUPS), h("div", { class: "muted small" }, "A $0 line adjusted by these groups (except write-off and benefit-max reasons) counts as denied.")], where("DENY_GROUPS")],
+        ["Benefit maximum reasons", [chips(BENEFIT_MAX), h("div", { class: "muted small" }, "Sends the claim to “Bill next payer”.")], where("BENEFIT_MAX")],
+      ]),
+    ),
+
+    card("PIP (auto insurance)",
+      table([
+        ["Payer names treated as auto / PIP", [chips(PIP_PAYER_WORDS), h("div", { class: "muted small" }, "If the payer's name contains one of these words, benefit-max claims are labelled PIP.")], where("PIP_PAYER_WORDS")],
+        ["Delaware PIP minimum", [h("b", {}, `${usd(DE_PIP_MINIMUM.perPerson)} per person · ${usd(DE_PIP_MINIMUM.perAccident)} per accident`), h("div", { class: "muted small" }, "21 Del. C. § 2118. Shown on the PIP card; policies can be higher.")], where("DE_PIP_MINIMUM")],
+      ]),
+    ),
+
+    card("Follow-up deadlines",
+      table([
+        ["Filing window for the next payer", [h("b", {}, `${NEXT_PAYER_FILING_DAYS} days`), " from the EOB's check date", h("div", { class: "muted small" }, "Estimate: confirm each health plan's timely-filing limit (many count from the date of service).")], where("NEXT_PAYER_FILING_DAYS")],
+        ["Status", [pill("owes", `Open: more than ${DUE_SOON_DAYS} days left`), " ", pill("partial", `Due soon: ${DUE_SOON_DAYS} days or fewer`), " ", pill("denied", "Overdue")], where("DUE_SOON_DAYS")],
+        ["Follow up if no response", h("b", {}, `${FOLLOW_UP_AFTER_DAYS} days`), where("FOLLOW_UP_AFTER_DAYS")],
+      ]),
+    ),
+
+    card("Checks on every upload",
+      h("ul", { class: "steps" },
+        h("li", {}, "Each line balances: billed − deductible − coinsurance − adjustments = paid."),
+        h("li", {}, "Each claim adds up: its line payments equal its NET."),
+        h("li", {}, "Patient amount matches: all PR adjustments equal PT RESP (reversals skipped)."),
+        h("li", {}, "Payment reconciles: claim payments − provider adjustments = check amount."),
+        h("li", {}, "Nothing missed: claim count and total paid match the EOB's TOTALS row."),
+        h("li", {}, "Reversals are matched to corrections by account + procedures + dates + opposite charge (fallback: same dates)."),
+      ),
+      h("p", { class: "muted small" }, "Any failure shows a red “Check these before trusting the numbers” card and becomes the AI's first action."),
+    ),
+
+    card("AI (Gemini)",
+      table([
+        ["Model", model, where("GEMINI_MODEL", ".env")],
+        ["Status", aiState, where("GEMINI_API_KEY", ".env")],
+      ]),
+      h("div", { class: "two", style: "margin-top:16px" },
+        h("div", {}, h("h4", {}, "Sent to Gemini"), h("ul", {},
+          ["Claim labels (C1, C2…) and patient labels (Patient 1…)", "Claim status, bucket and dollar amounts", "Procedure, adjustment and remark codes and their meanings", "Payer name, reversal pairs, filing status (open / due soon / overdue)"].map((t) => h("li", {}, t)))),
+        h("div", {}, h("h4", {}, "Never sent"), h("ul", {},
+          ["Patient names", "Member IDs, account numbers, claim numbers / ICNs", "Provider NPIs", "Any dates (service, check, deadlines)", "The PDF itself: it is read in this browser only"].map((t) => h("li", {}, t)))),
+      ),
+    ),
+
+    h("p", { class: "note" }, "To change a rule: edit the constant shown in “Change in”, refresh the page, and run npm test. AI settings live in .env and need a server restart (npm start)."),
+  );
 }

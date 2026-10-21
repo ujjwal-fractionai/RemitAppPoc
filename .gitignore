@@ -5,7 +5,7 @@
 
 # Real EOBs / PHI never go in git (only the synthetic demo is allowed)
 *.pdf
-!demo/synthetic-eob.pdf
+!demo/*.pdf
 *.835
 
 # Node / OS / logs

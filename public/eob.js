@@ -18,8 +18,18 @@ const R = {
   plb: new RegExp(String.raw`^\s*([A-Z0-9]{2})\s+(?:(\S+)\s+)?(${AMT})\s*$`),
 };
 
-const CONTRACTUAL = new Set(["45"]); // CO-45 alone is a normal write-off, not a denial (spec §4.1)
-const DENY_GROUPS = new Set(["CO", "OA", "PI"]);
+// ---- Rules. All shown read-only on the "Rules & settings" tab; change them here. ----
+export const CONTRACTUAL = new Set(["45"]); // CO-45 alone is a normal write-off, not a denial (spec §4.1)
+export const DENY_GROUPS = new Set(["CO", "OA", "PI"]);
+export const BENEFIT_MAX = new Set(["119"]); // CARC 119: benefit maximum reached (e.g. auto PIP exhausted) → bill the next payer
+// ponytail: PIP spotted by payer name; switch to payer IDs once real auto-payer ERAs arrive
+export const PIP_PAYER_WORDS = ["PIP", "AUTO", "AUTOMOBILE", "CASUALTY", "GEICO", "PROGRESSIVE", "ALLSTATE", "STATE FARM", "NATIONWIDE", "USAA", "TRAVELERS", "LIBERTY MUTUAL", "ERIE"];
+const PIP_PAYER = new RegExp(`\\b(${PIP_PAYER_WORDS.join("|")})\\b`, "i");
+export const DE_PIP_MINIMUM = { perPerson: 1500000, perAccident: 3000000 }; // cents; 21 Del. C. § 2118
+// ponytail: one default filing window for every next payer; confirm each plan's timely-filing limit
+export const NEXT_PAYER_FILING_DAYS = 90; // counted from the EOB check date
+export const DUE_SOON_DAYS = 14;
+export const FOLLOW_UP_AFTER_DAYS = 30;
 
 export const cents = (s) => {
   const [i, f = "0"] = s.replace(/[^\d.]/g, "").split(".");
@@ -28,6 +38,7 @@ export const cents = (s) => {
 export const usd = (c) =>
   (c < 0 ? "-$" : "$") + (Math.abs(c) / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const dollars = (c) => (c / 100).toFixed(2);
+export const mdy = (d) => `${String(d.getUTCMonth() + 1).padStart(2, "0")}/${String(d.getUTCDate()).padStart(2, "0")}/${d.getUTCFullYear()}`;
 const sum = (xs, f) => xs.reduce((t, x) => t + f(x), 0);
 
 // pdf.js text items → monospace-ish lines (the EOB is a fixed-width printout).
@@ -119,6 +130,7 @@ export function parseEob(lines) {
 
 function bucket(c) {
   if (c.status === "22") return "REVERSED";
+  if (c.nextPayerAmount > 0) return "NEXT_PAYER";
   if (c.status === "4") return "DENIED";
   if (c.paid === 0) return c.pr > 0 ? "PATIENT_RESP" : "DENIED";
   if (c.pr > 0 || c.lines.some((l) => l.denied)) return "PARTIAL";
@@ -129,13 +141,16 @@ const denialCodes = (c) => [
   ...new Set(c.lines.flatMap((l) => [...l.adjs.filter((a) => !a.code.startsWith("PR-") && a.code !== "CO-45").map((a) => a.code), ...l.remarks])),
 ];
 
-function nextAction(c) {
+function nextAction(c, r) {
   const p = usd(c.pr);
   switch (c.bucket) {
-    case "PAID": return "No action. Paid; only contractual write-off.";
+    case "NEXT_PAYER":
+      return `${r.pip ? "PIP" : "Benefit"} maximum reached. Bill ${usd(c.nextPayerAmount)} to the patient's health insurance with this EOB attached` +
+        (r.followUp ? ` by ${mdy(r.followUp.due)}` : "") + ". Don't appeal to this payer.";
+    case "PAID": return c.billed === c.paid ? "No action. Paid in full." : "No action. Paid; only contractual write-off.";
     case "PARTIAL": {
       const d = c.lines.filter((l) => l.denied).length;
-      return `Bill patient ${p}` + (d ? ` and work ${d} denied line(s) (${denialCodes(c).join(", ")})` : "") + ".";
+      return [c.pr > 0 && `Bill patient ${p}`, d && `Work ${d} denied line(s): ${denialCodes(c).join(", ")}`].filter(Boolean).join(". ") + ".";
     }
     case "PATIENT_RESP":
       return `Bill patient ${p}${sum(c.lines, (l) => l.deduct) > 0 ? " (deductible)" : ""}. Not a denial: don't appeal.`;
@@ -148,8 +163,9 @@ function nextAction(c) {
 const procKey = (c) => c.lines.map((l) => [l.proc, l.mods.join(" "), l.from, l.to].join("|")).sort().join(";");
 const dateKey = (c) => [...new Set(c.lines.map((l) => l.from + l.to))].sort().join(";");
 
-export function analyze(r) {
+export function analyze(r, today = new Date()) {
   const warnings = [], patients = new Map();
+  r.pip = PIP_PAYER.test(r.payer);
 
   r.claims.forEach((c, i) => {
     c.label = `C${i + 1}`;
@@ -162,8 +178,9 @@ export function analyze(r) {
     c.pr = sum(c.lines, (l) => l.deduct + l.coins + sum(l.adjs.filter((a) => a.code.startsWith("PR-")), (a) => a.amount));
     c.lines.forEach((l, n) => {
       if (l.billed - l.deduct - l.coins - sum(l.adjs, (a) => a.amount) !== l.paid) warnings.push(`${c.label} line ${n + 1} doesn't balance`);
-      l.denied = l.paid === 0 && l.adjs.some((a) => DENY_GROUPS.has(a.code.slice(0, 2)) && !CONTRACTUAL.has(a.code.slice(3)));
+      l.denied = l.paid === 0 && l.adjs.some((a) => DENY_GROUPS.has(a.code.slice(0, 2)) && !CONTRACTUAL.has(a.code.slice(3)) && !BENEFIT_MAX.has(a.code.slice(3)));
     });
+    c.nextPayerAmount = sum(c.lines, (l) => sum(l.adjs.filter((a) => BENEFIT_MAX.has(a.code.slice(3))), (a) => a.amount));
     if (sum(c.lines, (l) => l.paid) !== c.paid) warnings.push(`${c.label}: line payments don't add up to NET`);
     if (c.status !== "22" && c.pr !== c.ptResp) warnings.push(`${c.label}: PT RESP ${usd(c.ptResp)} ≠ patient adjustments ${usd(c.pr)}`);
     c.bucket = bucket(c);
@@ -183,13 +200,21 @@ export function analyze(r) {
     match.pair = rev;
     r.pairs.push({ reversal: rev, correction: match, payerNet: match.paid + rev.paid, patientChange: match.pr + rev.pr });
   }
-  r.claims.forEach((c) => (c.action = nextAction(c)));
+  // Next-payer follow-up: filing deadline counted from this EOB's check date
+  const d = (r.header["CHECK DATE"] ?? "").match(/(\d\d)\/(\d\d)\/(\d{4})/);
+  if (d && r.claims.some((c) => c.bucket === "NEXT_PAYER")) {
+    const due = new Date(Date.UTC(+d[3], +d[1] - 1, +d[2] + NEXT_PAYER_FILING_DAYS));
+    const daysLeft = Math.round((due - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())) / 864e5);
+    r.followUp = { due, daysLeft, status: daysLeft < 0 ? "overdue" : daysLeft <= DUE_SOON_DAYS ? "due soon" : "open" };
+  }
+  r.claims.forEach((c) => (c.action = nextAction(c, r)));
 
   const paid = sum(r.claims, (c) => c.paid), plb = sum(r.plb, (p) => p.amount);
   r.checkAmount = cents(r.header["CHECK AMT"] ?? "0");
   r.difference = paid - plb - r.checkAmount;
   r.reconciled = r.difference === 0;
   if (!r.header["CHECK AMT"]) warnings.push("Couldn't find CHECK AMT in the header");
+  else if (!r.reconciled) warnings.push(`Claim payments minus provider adjustments are ${usd(paid - plb)}, but the check is ${usd(r.checkAmount)}. Confirm with the payer before posting.`);
   if (r.totals && r.totals.claims !== r.claims.length) warnings.push(`EOB says ${r.totals.claims} claims, found ${r.claims.length}`);
   if (r.totals && r.totals.paid !== paid) warnings.push(`EOB PROV PAID ${usd(r.totals.paid)} ≠ sum of claims ${usd(paid)}`);
   r.warnings = warnings;
@@ -205,6 +230,8 @@ export function deidentify(r) {
     reconciled: r.reconciled,
     reconcileDifference: dollars(r.difference),
     parserWarnings: r.warnings,
+    autoPipPayer: r.pip,
+    nextPayerFilingStatus: r.followUp?.status ?? null,
     providerAdjustments: r.plb.map((p) => ({ code: p.code, amount: dollars(p.amount), meaning: r.glossary[p.code] ?? "" })),
     claims: r.claims.map((c) => ({
       claim: c.label,
@@ -215,6 +242,7 @@ export function deidentify(r) {
       allowed: dollars(c.allowed),
       payerPaid: dollars(c.paid),
       patientResponsibility: dollars(c.pr),
+      amountToBillNextPayer: dollars(c.nextPayerAmount),
       pairedWith: c.pair?.label ?? null,
       lines: c.lines.map((l) => ({
         procedure: l.proc, modifiers: l.mods, units: l.units,
