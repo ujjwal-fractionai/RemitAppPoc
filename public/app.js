@@ -316,10 +316,14 @@ function renderRules() {
       h("tbody", {}, rows.map((cells) => h("tr", {}, cells.map((c) => h("td", {}, c))))),
     ));
   const model = h("span", { class: "chip" }, "loading…");
-  const aiState = h("span", {});
+  const aiState = h("span", {}), passState = h("span", {}), session = h("b", {}), tries = h("b", {}), lockMin = h("b", {});
   fetch("/api/config").then((r) => r.json()).then((c) => {
     model.textContent = c.model;
     aiState.replaceChildren(c.aiEnabled ? pill("paid", "API key set") : pill("denied", "GEMINI_API_KEY missing"));
+    passState.replaceChildren(c.passcode ? pill("paid", "Passcode required") : pill("denied", "No passcode: only safe on this computer"));
+    session.textContent = `${c.sessionHours} hours`;
+    tries.textContent = `${c.maxFails} tries`;
+    lockMin.textContent = `${c.lockMinutes} minutes`;
   }).catch(() => (model.textContent = "unknown"));
 
   const rule = (b, when, action) => [badge(b), when, action];
@@ -375,6 +379,14 @@ function renderRules() {
         h("li", {}, "Reversals are matched to corrections by account + procedures + dates + opposite charge (fallback: same dates)."),
       ),
       h("p", { class: "muted small" }, "Any failure shows a red “Check these before trusting the numbers” card and becomes the AI's first action."),
+    ),
+
+    card("Access",
+      table([
+        ["Passcode page", passState, where("APP_PASSCODE", ".env")],
+        ["Signed out automatically after", [session, h("div", { class: "muted small" }, "Or click Lock in the sidebar. A server restart also signs everyone out.")], where("SESSION_HOURS", "server.js")],
+        ["Wrong passcode limit", [tries, " then locked for ", lockMin], where("MAX_FAILS / LOCK_MINUTES", "server.js")],
+      ]),
     ),
 
     card("AI (Gemini)",

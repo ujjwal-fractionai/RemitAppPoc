@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REMIT · Enter passcode</title>
+<link rel="icon" href="data:,">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root { color-scheme: light; --page: #f7f9fb; --card: #fff; --fg: #4a4a4a; --muted-fg: #667085; --primary: #1b365d;
+    --primary-hover: #244673; --accent: #00a3e0; --border: #d9e2ea; --denied: #be123c; --denied-bg: rgba(244, 63, 94, .10); }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 16px; background: var(--page); color: var(--fg);
+    font: 14px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  .box { width: 100%; max-width: 380px; padding: 32px; background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 8px 24px rgba(16, 24, 40, .06); }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .mark { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 8px; font-size: 18px; color: var(--accent); background: var(--primary); }
+  .brand b { display: block; color: var(--primary); font-size: 15px; letter-spacing: -.01em; }
+  .brand small { color: var(--muted-fg); font-size: 12px; }
+  h1 { margin: 0 0 4px; font-size: 20px; font-weight: 600; color: var(--primary); letter-spacing: -.02em; }
+  p.sub { margin: 0 0 20px; color: var(--muted-fg); }
+  label { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted-fg); }
+  input { width: 100%; padding: 11px 12px; font: inherit; font-size: 16px; letter-spacing: .1em; color: var(--primary);
+    border: 1px solid var(--border); border-radius: 6px; background: #fff; transition: border-color .15s, box-shadow .15s; }
+  input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 163, 224, .18); }
+  button { width: 100%; margin-top: 16px; padding: 11px 14px; border: 0; border-radius: 6px; cursor: pointer;
+    font: inherit; font-weight: 600; color: #fff; background: var(--primary); }
+  button:hover { background: var(--primary-hover); }
+  button:focus-visible { outline: 3px solid rgba(0, 163, 224, .5); outline-offset: 2px; }
+  .error { margin: 0 0 16px; padding: 10px 12px; border-radius: 6px; color: var(--denied); background: var(--denied-bg); font-weight: 500; }
+  .foot { margin: 20px 0 0; font-size: 12px; color: var(--muted-fg); text-align: center; }
+</style>
+</head>
+<body>
+  <main class="box">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">≡</div>
+      <div><b>REMIT</b><small>Delaware Integrative Healthcare</small></div>
+    </div>
+    <h1>EOB Explainer</h1>
+    <p class="sub">Enter the passcode to continue.</p>
+    <!--ERROR-->
+    <form method="post" action="/login">
+      <label for="passcode">Passcode</label>
+      <input id="passcode" name="passcode" type="password" autocomplete="current-password" required autofocus>
+      <button type="submit">Unlock</button>
+    </form>
+    <p class="foot">🔒 Authorized billing staff only</p>
+  </main>
+</body>
+</html>

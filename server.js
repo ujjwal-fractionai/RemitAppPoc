@@ -1,5 +1,6 @@
 // POC server: serves the page and forwards DE-IDENTIFIED claim data to Gemini.
 // The PDF is parsed in the browser and never reaches this server. Zero npm dependencies.
+import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
@@ -8,7 +9,11 @@ import { fileURLToPath } from "node:url";
 const here = fileURLToPath(new URL(".", import.meta.url));
 for (const f of [".env", "../.env"]) try { process.loadEnvFile(join(here, f)); } catch {}
 
-const { GEMINI_API_KEY, GEMINI_MODEL = "gemini-2.5-flash", PORT = 3000, HOST = "127.0.0.1" } = process.env;
+const { GEMINI_API_KEY, GEMINI_MODEL = "gemini-2.5-flash", PORT = 3000, HOST = "127.0.0.1", APP_PASSCODE } = process.env;
+if (!APP_PASSCODE && !["127.0.0.1", "localhost", "::1"].includes(HOST)) {
+  console.error("Refusing to start: APP_PASSCODE must be set in .env when HOST exposes the app beyond this computer.");
+  process.exit(1);
+}
 const PUBLIC = join(here, "public");
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".mjs": "text/javascript", ".css": "text/css" };
 
@@ -65,7 +70,7 @@ async function insights(payload) {
 const SECURITY = {
   "content-security-policy":
     "default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; " +
-    "img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+    "img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
   "referrer-policy": "no-referrer",
   "x-content-type-options": "nosniff",
   "cache-control": "no-store",
@@ -76,8 +81,79 @@ const send = (res, status, body, type = "application/json") => {
   res.end(body);
 };
 
+// ---- Passcode gate (APP_PASSCODE in .env): keeps crawlers and strangers off the app and the Gemini budget ----
+// ponytail: sessions live in memory (a restart asks for the passcode again); per-IP lockout trusts X-Forwarded-For
+const SESSION_HOURS = 12; // automatic logoff
+const MAX_FAILS = 5, LOCK_MINUTES = 15;
+const sessions = new Map(); // token → expiry ms
+const fails = new Map(); // ip → { count, until }
+const sha = (s) => createHash("sha256").update(s).digest();
+const passcodeOk = (given) => timingSafeEqual(sha(given), sha(APP_PASSCODE));
+const ipOf = (req) => (req.headers["x-forwarded-for"] ?? "").split(",")[0].trim() || req.socket.remoteAddress;
+const cookieToken = (req) => /(?:^|;\s*)remit_session=([a-f0-9]{64})/.exec(req.headers.cookie ?? "")?.[1];
+function authed(req) {
+  if (!APP_PASSCODE) return true;
+  const t = cookieToken(req), exp = t && sessions.get(t);
+  if (exp && exp > Date.now()) return true;
+  if (t) sessions.delete(t);
+  return false;
+}
+const redirect = (res, to, cookie) => {
+  res.writeHead(303, { location: to, ...SECURITY, ...(cookie ? { "set-cookie": cookie } : {}) });
+  res.end();
+};
+const cookie = (req, value, maxAge) =>
+  `remit_session=${value}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}` + (req.headers["x-forwarded-proto"] === "https" ? "; Secure" : "");
+
+const LOGIN_ERRORS = { wrong: "That passcode isn't right. Try again.", locked: `Too many tries. Wait ${LOCK_MINUTES} minutes and try again.`, expired: "Your session ended. Enter the passcode again." };
+async function loginPage(res, error) {
+  const html = (await readFile(join(here, "login.html"), "utf8")).replace("<!--ERROR-->", error ? `<p class="error" role="alert">${LOGIN_ERRORS[error]}</p>` : "");
+  send(res, error === "locked" ? 429 : 200, html, TYPES[".html"]);
+}
+
+async function handleLogin(req, res) {
+  const ip = ipOf(req), f = fails.get(ip);
+  if (f && f.until > Date.now()) return loginPage(res, "locked");
+  let body = "";
+  for await (const chunk of req) {
+    body += chunk;
+    if (body.length > 2000) return send(res, 413, "Too large", "text/plain");
+  }
+  const given = new URLSearchParams(body).get("passcode") ?? "";
+  if (!passcodeOk(given)) {
+    const now = Date.now();
+    const prev = f && now - f.first < LOCK_MINUTES * 60e3 ? f : { count: 0, first: now };
+    const count = prev.count + 1;
+    if (fails.size > 10_000) fails.clear(); // bound memory if someone sprays fake IPs
+    fails.set(ip, { count, first: prev.first, until: count >= MAX_FAILS ? now + LOCK_MINUTES * 60e3 : 0 });
+    console.log(`login failed (${count}/${MAX_FAILS})`); // never log the passcode or IP
+    await new Promise((r) => setTimeout(r, 500)); // slow down guessing
+    return loginPage(res, count >= MAX_FAILS ? "locked" : "wrong");
+  }
+  fails.delete(ip);
+  const token = randomBytes(32).toString("hex");
+  sessions.set(token, Date.now() + SESSION_HOURS * 3600e3);
+  redirect(res, "/", cookie(req, token, SESSION_HOURS * 3600));
+}
+
 createServer(async (req, res) => {
-  if (req.method === "GET" && req.url === "/api/config") return send(res, 200, JSON.stringify({ model: GEMINI_MODEL, aiEnabled: !!GEMINI_API_KEY }));
+  const url = new URL(req.url, "http://x");
+  if (url.pathname === "/login") {
+    if (!APP_PASSCODE) return redirect(res, "/");
+    if (req.method === "POST") return handleLogin(req, res);
+    return authed(req) ? redirect(res, "/") : loginPage(res, url.searchParams.get("e") === "expired" ? "expired" : null);
+  }
+  if (url.pathname === "/logout") {
+    sessions.delete(cookieToken(req));
+    return redirect(res, APP_PASSCODE ? "/login" : "/", cookie(req, "", 0));
+  }
+  if (!authed(req)) {
+    if (req.url.startsWith("/api/")) return send(res, 401, JSON.stringify({ error: "Locked. Reload the page and enter the passcode." }));
+    return redirect(res, req.headers.cookie?.includes("remit_session=") ? "/login?e=expired" : "/login");
+  }
+
+  if (req.method === "GET" && req.url === "/api/config")
+    return send(res, 200, JSON.stringify({ model: GEMINI_MODEL, aiEnabled: !!GEMINI_API_KEY, passcode: !!APP_PASSCODE, sessionHours: SESSION_HOURS, maxFails: MAX_FAILS, lockMinutes: LOCK_MINUTES }));
   if (req.method === "POST" && req.url === "/api/insights") {
     if (!GEMINI_API_KEY) return send(res, 500, JSON.stringify({ error: "GEMINI_API_KEY is not set in .env" }));
     let body = "";
@@ -104,4 +180,5 @@ createServer(async (req, res) => {
   } catch {
     send(res, 404, "Not found", "text/plain");
   }
-}).listen(PORT, HOST, () => console.log(`EOB POC on http://${HOST}:${PORT}  (Gemini model: ${GEMINI_MODEL})`));
+}).listen(PORT, HOST, () =>
+  console.log(`EOB POC on http://${HOST}:${PORT}  (Gemini model: ${GEMINI_MODEL}, passcode ${APP_PASSCODE ? "on" : "OFF: set APP_PASSCODE in .env"})`));
