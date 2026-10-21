@@ -49,27 +49,63 @@ drop.addEventListener("drop", (e) => {
   if (e.dataTransfer.files[0]) load(e.dataTransfer.files[0]);
 });
 
+// Full-screen loader: show nothing until the PDF, the checks and the AI are all done.
+let busy = false;
 async function load(file) {
-  const out = $("out");
+  if (busy) return;
+  busy = true;
   drop.classList.add("compact");
-  out.replaceChildren(h("p", { class: "muted" }, "Reading PDF…"));
+  const steps = loader(["Reading the PDF", "Checking the math and sorting claims", "Asking Gemini for insights"]);
   try {
-    const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
-    const lines = [];
-    for (let p = 1; p <= doc.numPages; p++) lines.push(...pageLines((await (await doc.getPage(p)).getTextContent()).items));
-    const r = analyze(parseEob(lines));
-    if (!r.claims.length) throw new Error("No claims found. Is this a Waystar “View EOB” PDF?");
-    render(r);
-    insights(r);
-  } catch (e) {
-    out.replaceChildren(h("p", { class: "error" }, e.message));
+    let r;
+    try {
+      if (file.type && file.type !== "application/pdf") throw new Error("That file isn't a PDF.");
+      const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+      const lines = [];
+      for (let p = 1; p <= doc.numPages; p++) lines.push(...pageLines((await (await doc.getPage(p)).getTextContent()).items));
+      steps.next();
+      r = analyze(parseEob(lines));
+      if (!r.claims.length) throw new Error("No claims were found in this PDF.");
+      steps.next();
+    } catch (e) {
+      return $("out").replaceChildren(h("section", { class: "card warn" },
+        h("h2", {}, "⚠ Couldn't read this EOB"),
+        h("p", {}, e.message),
+        h("p", { class: "muted small" }, "Use the PDF from Waystar: Claim Processing → Payments → View EOB. Scanned PDFs and other layouts aren't supported yet."),
+      ));
+    }
+    // AI failing never blocks the dashboard: its error shows inside the AI box
+    render(r, await getInsights(r).then((data) => ({ data }), (e) => ({ error: e.message })));
+  } finally {
+    steps.close();
+    busy = false;
   }
+}
+
+function loader(labels) {
+  let i = 0, started = Date.now();
+  const items = labels.map((l) => h("li", {}, h("span", { class: "st", "aria-hidden": "true" }), h("span", {}, l), h("span", { class: "secs" })));
+  const el = h("div", { class: "overlay", role: "status", "aria-live": "polite" },
+    h("div", { class: "loader" },
+      h("div", { class: "spinner", "aria-hidden": "true" }),
+      h("h2", {}, "Working on your EOB…"),
+      h("ol", { class: "load-steps" }, items),
+      h("p", { class: "muted small" }, "The PDF stays in this browser. Gemini usually takes 5–15 seconds."),
+    ));
+  const mark = () => items.forEach((li, n) => (li.className = n < i ? "done" : n === i ? "active" : ""));
+  const tick = setInterval(() => items[i] && (items[i].lastChild.textContent = `${Math.floor((Date.now() - started) / 1000)} s`), 1000);
+  mark();
+  document.body.append(el);
+  return {
+    next() { items[i].lastChild.textContent = ""; i++; started = Date.now(); mark(); },
+    close() { clearInterval(tick); el.remove(); },
+  };
 }
 
 // ---- dashboard ----
 let filter = null;
 
-function render(r) {
+function render(r, ai) {
   const nonRev = r.claims.filter((c) => c.bucket !== "REVERSED");
   const billPatients = sum(nonRev.filter((c) => c.pr > 0), (c) => c.pr);
   const reversedPt = sum(r.claims.filter((c) => c.bucket === "REVERSED"), (c) => c.pr);
@@ -106,7 +142,7 @@ function render(r) {
           h("h2", {}, h("span", { class: "spark" }, "✦"), "AI insights"),
           h("span", { class: "tag" }, "Gemini · de-identified data only"),
         ),
-        h("div", { id: "ai" }),
+        h("div", { id: "ai" }, aiContent(r, ai)),
         h("details", { class: "key" },
           h("summary", {}, "Patient key (on this screen only, never sent to AI)"),
           h("ul", {}, [...new Map(r.claims.map((c) => [c.patient, c])).values()].map((c) => h("li", {}, h("b", {}, c.patient), ` = ${c.name} (acct ${c.acnt})`))),
@@ -273,25 +309,40 @@ function lineTable(r, c) {
 }
 
 // ---- AI ----
-async function insights(r) {
-  const box = $("ai");
-  box.replaceChildren(h("div", { class: "skeleton", "aria-label": "Asking Gemini" }, h("i"), h("i"), h("i")),
-    h("p", { class: "muted small" }, "Asking Gemini… usually 10–20 seconds."));
-  const PRI = { High: "denied", Medium: "partial", Low: "reversed" };
+async function getInsights(r) {
   try {
-    const res = await fetch("/api/insights", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(deidentify(r)) });
+    const res = await fetch("/api/insights", {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(deidentify(r)), signal: AbortSignal.timeout(60_000),
+    });
     const j = await res.json();
     if (!res.ok) throw new Error(j.error || res.statusText);
-    box.replaceChildren(h("div", {},
-      h("p", { class: "summary" }, j.summary),
-      j.actions?.length > 0 && [h("h4", {}, "What to do"),
-        h("ul", { class: "actions" }, j.actions.map((a) => h("li", {}, h("span", { class: "pri", style: toneStyle(PRI[a.priority] ?? "reversed") }, a.priority), h("span", {}, a.text))))],
-      j.reversals && [h("h4", {}, "Reversals explained"), h("p", {}, j.reversals)],
-      j.watch?.length > 0 && [h("h4", {}, "Worth a second look"), h("ul", { class: "watch" }, j.watch.map((w) => h("li", {}, w)))],
-    ));
+    return j;
   } catch (e) {
-    box.replaceChildren(h("p", { class: "error" }, `AI insights unavailable: ${e.message}. Everything else on this page is computed exactly from the PDF.`));
+    throw e.name === "TimeoutError" ? new Error("Gemini took too long to answer.") : e;
   }
+}
+
+const PRI = { High: "denied", Medium: "partial", Low: "reversed" };
+function aiContent(r, { data: j, error }) {
+  if (error) {
+    const retry = h("button", { class: "btn small-btn", type: "button" }, "↻ Try again");
+    retry.addEventListener("click", async () => {
+      const box = $("ai");
+      box.replaceChildren(h("div", { class: "skeleton", "aria-label": "Asking Gemini" }, h("i"), h("i"), h("i")));
+      box.replaceChildren(aiContent(r, await getInsights(r).then((data) => ({ data }), (e) => ({ error: e.message }))));
+    });
+    return h("div", { class: "ai-error", role: "alert" },
+      h("b", {}, "AI insights unavailable"), h("p", {}, error),
+      h("p", { class: "muted small" }, "Everything else on this page is computed exactly from the PDF."), retry);
+  }
+  return h("div", {},
+    h("p", { class: "summary" }, j.summary),
+    j.actions?.length > 0 && [h("h4", {}, "What to do"),
+      h("ul", { class: "actions" }, j.actions.map((a) => h("li", {}, h("span", { class: "pri", style: toneStyle(PRI[a.priority] ?? "reversed") }, a.priority), h("span", {}, a.text))))],
+    j.reversals && [h("h4", {}, "Reversals explained"), h("p", {}, j.reversals)],
+    j.watch?.length > 0 && [h("h4", {}, "Worth a second look"), h("ul", { class: "watch" }, j.watch.map((w) => h("li", {}, w)))],
+    h("p", { class: "muted small ai-meta" }, `✦ Written by Gemini (${j.model}) in ${(j.ms / 1000).toFixed(1)} s from de-identified data. AI can make mistakes: the numbers and buckets above come from the PDF itself.`),
+  );
 }
 
 // ---- tabs (#explainer / #rules) ----

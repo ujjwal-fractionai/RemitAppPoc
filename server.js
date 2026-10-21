@@ -23,6 +23,7 @@ Input: de-identified JSON. Claims are labelled C1, C2…; patients Patient 1, Pa
 Rules:
 - Use only the numbers given. Never invent amounts; only simple sums of given amounts.
 - Refer to claims and patients only by their labels.
+- Explain a code only with its text in codeMeanings. If a code has no meaning there, just name the code; never guess what it means.
 - PATIENT_RESP is NOT a denial: the action is to bill the patient, never to appeal.
 - A reversal paired with a correction is the payer reprocessing the claim. Explain the net effect, especially patientResponsibilityChange (negative = patient now owes less, so any amount already billed to them should be adjusted or refunded).
 - Group CO = contractual write-off (do not bill the patient). Group PR = patient responsibility.
@@ -59,10 +60,13 @@ async function insights(payload) {
       contents: [{ role: "user", parts: [{ text: JSON.stringify(payload) }] }],
       generationConfig: { temperature: 0.2, responseMimeType: "application/json", responseSchema: SCHEMA },
     }),
+    signal: AbortSignal.timeout(45_000),
   });
   const j = await res.json();
   if (!res.ok) throw new Error(j.error?.message ?? `Gemini HTTP ${res.status}`);
-  return JSON.parse(j.candidates[0].content.parts.map((p) => p.text).join(""));
+  const parts = j.candidates?.[0]?.content?.parts;
+  if (!parts) throw new Error("Gemini returned no answer");
+  return JSON.parse(parts.map((p) => p.text).join(""));
 }
 
 // PHI is on screen in the browser: the page may only load code from and talk to this server,
@@ -165,10 +169,11 @@ createServer(async (req, res) => {
     try {
       const out = await insights(JSON.parse(body));
       console.log(`insights ok in ${Date.now() - t} ms`); // never log payloads
-      return send(res, 200, JSON.stringify(out));
+      return send(res, 200, JSON.stringify({ ...out, model: GEMINI_MODEL, ms: Date.now() - t }));
     } catch (e) {
-      console.log(`insights failed in ${Date.now() - t} ms: ${e.message}`);
-      return send(res, 502, JSON.stringify({ error: e.message }));
+      const msg = e.name === "TimeoutError" ? "Gemini didn't answer within 45 seconds" : e.message;
+      console.log(`insights failed in ${Date.now() - t} ms: ${msg}`);
+      return send(res, 502, JSON.stringify({ error: msg }));
     }
   }
 
