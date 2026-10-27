@@ -1,0 +1,102 @@
+<style>
+  .k-wrap{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+  .k-col{flex:1;min-width:150px;background:#f4f7f9;border:1px solid #d9e2ea;border-radius:8px;padding:8px}
+  .k-col h5{margin:0 0 6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#667085;display:flex;justify-content:space-between}
+  .k-card{background:#fff;border:1px solid #d9e2ea;border-radius:6px;padding:8px;margin-bottom:6px;font-size:12px;color:#1b365d;cursor:grab}
+  .k-card b{display:block;font-size:12px}
+  .k-card .m{color:#667085;font-size:11px}
+  .pill{display:inline-block;padding:1px 7px;border-radius:999px;font-size:10px;font-weight:600;margin:3px 3px 0 0}
+  .den{color:#be123c;background:rgba(244,63,94,.1)} .pip{color:#6d28d9;background:rgba(139,92,246,.1)}
+  .ref{color:#047857;background:rgba(16,185,129,.1)} .rev{color:#475467;background:rgba(102,112,133,.12)}
+  .warn{color:#b45309;background:rgba(245,158,11,.12)} .own{color:#0369a1;background:rgba(0,163,224,.1)}
+  .auto{font-size:10px;color:#00a3e0;font-weight:600}
+  table.t{width:100%;border-collapse:collapse;font-size:12px}
+  table.t th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#667085;background:#f4f7f9;padding:6px}
+  table.t td{padding:7px 6px;border-bottom:1px solid #eef2f5;color:#1b365d;vertical-align:top}
+  .btn-s{border:1px solid #d9e2ea;border-radius:5px;padding:2px 8px;font-size:11px;background:#fff;color:#1b365d}
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+  .kpi{background:#fff;border:1px solid #d9e2ea;border-radius:8px;padding:8px}
+  .kpi .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#667085}
+  .kpi .v{font-size:18px;font-weight:600;color:#1b365d}
+  .toggle{display:inline-flex;border:1px solid #d9e2ea;border-radius:6px;overflow:hidden;font-size:11px}
+  .toggle span{padding:3px 10px}.toggle .on{background:#1b365d;color:#fff}
+</style>
+
+<h2>How should documents move through the work?</h2>
+<p class="subtitle">Both options share the same Dashboard (bottom). The question is the Documents page. Click the one closer to what you want. All names are fake.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Your idea: Documents list + "Mark done"</h3>
+      <p>Every uploaded EOB is a row. Two stages: <b>To review</b> → <b>Done</b>. Click a row to open it; click "Mark done" (or drag) when reviewed.</p>
+      <div class="mockup" style="margin-top:8px">
+        <div class="mockup-header">Documents (15)</div>
+        <div class="mockup-body">
+          <table class="t">
+            <tr><th>File</th><th>Payer</th><th>Check</th><th>Issues</th><th>Stage</th><th></th></tr>
+            <tr><td>pip-max-reached.pdf</td><td>Test Auto Ins (PIP)</td><td>$414.50</td><td><span class="pill pip">PIP due in 12 d</span></td><td>To review</td><td><span class="btn-s">Mark done</span></td></tr>
+            <tr><td>denials-check.pdf</td><td>Test Health Plan</td><td>$47.65</td><td><span class="pill den">4 denials</span></td><td>To review</td><td><span class="btn-s">Mark done</span></td></tr>
+            <tr><td>deductible-jan.pdf</td><td>Test Blue Plan</td><td>$88.83</td><td><span class="pill own">5 patient bills</span></td><td>To review</td><td><span class="btn-s">Mark done</span></td></tr>
+            <tr><td>clean-oct-12.pdf</td><td>Test Health Plan</td><td>$212.40</td><td>—</td><td>✓ Done</td><td></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>My suggestion: the app sorts each upload for you, staff move it on</h3>
+      <p>On upload, each EOB <b>lands automatically</b> in the first three columns based on what's inside it. Staff drag it to <b>In progress</b> and <b>Done</b>. A <b>List / Board</b> switch shows the same documents as a table when you'd rather scan than drag.</p>
+      <div class="mockup" style="margin-top:8px">
+        <div class="mockup-header">Documents (15) &nbsp; <span class="toggle"><span>List</span><span class="on">Board</span></span></div>
+        <div class="mockup-body">
+          <div class="k-wrap">
+            <div class="k-col"><h5>⚠ Doesn't add up <span>1</span></h5><span class="auto">auto</span>
+              <div class="k-card"><b>mismatch-oct-20.pdf</b><span class="m">Test Health Plan · $56.30</span><br><span class="pill warn">off by $10.00</span></div></div>
+            <div class="k-col"><h5>Action needed <span>6</span></h5><span class="auto">auto</span>
+              <div class="k-card"><b>pip-max-reached.pdf</b><span class="m">Test Auto Ins · $414.50</span><br><span class="pill pip">PIP due in 12 d</span></div>
+              <div class="k-card"><b>denials-check.pdf</b><span class="m">Test Health Plan · $47.65</span><br><span class="pill den">4 denials</span></div>
+              <div class="k-card"><b>reversals-oct-09.pdf</b><span class="m">Test National · $49.60</span><br><span class="pill ref">refund patient $165</span><span class="pill rev">1 unmatched</span></div></div>
+            <div class="k-col"><h5>Ready to post <span>5</span></h5><span class="auto">auto</span>
+              <div class="k-card"><b>deductible-jan.pdf</b><span class="m">Test Blue Plan · $88.83</span><br><span class="pill own">5 patient bills</span></div>
+              <div class="k-card"><b>clean-oct-14.pdf</b><span class="m">Test Health Plan · $190.10</span></div></div>
+            <div class="k-col"><h5>In progress <span>2</span></h5><span class="m">drag here</span>
+              <div class="k-card"><b>denials-oct-02.pdf</b><span class="m">Test Health Plan · $0.00</span><br><span class="pill den">2 denials</span></div></div>
+            <div class="k-col"><h5>✓ Done <span>1</span></h5><span class="m">drag here</span>
+              <div class="k-card"><b>clean-oct-12.pdf</b><span class="m">Test Health Plan · $212.40</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:22px">
+  <h3>Dashboard (same for A and B)</h3>
+  <div class="mockup">
+    <div class="mockup-header">Dashboard · all uploaded EOBs</div>
+    <div class="mockup-body">
+      <div class="kpis">
+        <div class="kpi"><div class="l">Documents</div><div class="v">15</div></div>
+        <div class="kpi"><div class="l">Claims</div><div class="v">84</div></div>
+        <div class="kpi"><div class="l">Payer paid</div><div class="v" style="color:#047857">$4,210</div></div>
+        <div class="kpi"><div class="l">Bill patients</div><div class="v" style="color:#0369a1">$1,105</div></div>
+        <div class="kpi"><div class="l">Denied</div><div class="v" style="color:#be123c">$620</div></div>
+        <div class="kpi"><div class="l">Bill next payer</div><div class="v" style="color:#6d28d9">$280</div></div>
+      </div>
+      <h3 style="margin:14px 0 6px;font-size:13px">Needs attention · across all documents (click a row → opens that document at that claim)</h3>
+      <table class="t">
+        <tr><th>Type</th><th>Patient</th><th>What to do</th><th>Amount</th><th>Due</th><th>Document</th></tr>
+        <tr><td><span class="pill pip">PIP exhausted</span></td><td>Parker, Sam</td><td>Bill health insurance with this EOB</td><td>$280.50</td><td><span class="pill warn">12 days</span></td><td>pip-max-reached.pdf</td></tr>
+        <tr><td><span class="pill den">Denied CO-50</span></td><td>Brown, Alex</td><td>Not medically necessary: fix &amp; resubmit or appeal</td><td>$60.00</td><td>—</td><td>denials-check.pdf</td></tr>
+        <tr><td><span class="pill ref">Refund / adjust</span></td><td>Morgan, Jesse</td><td>Balance down after reprocessing</td><td>$165.00</td><td>—</td><td>reversals-oct-09.pdf</td></tr>
+        <tr><td><span class="pill warn">Doesn't add up</span></td><td>—</td><td>Check is $10 more than claims: call payer</td><td>$10.00</td><td>—</td><td>mismatch-oct-20.pdf</td></tr>
+      </table>
+      <p class="subtitle" style="margin-top:10px">Plus: denial reasons chart, money by bucket, and stage counts.</p>
+    </div>
+  </div>
+</div>

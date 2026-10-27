@@ -1,5 +1,8 @@
-// POC server: serves the page and forwards DE-IDENTIFIED claim data to Gemini.
-// The PDF is parsed in the browser and never reaches this server. Zero npm dependencies.
+// server.js — POC server: passcode gate, static files from public/, and a proxy that forwards
+// DE-IDENTIFIED claim data (app.js → eob.js:deidentify) to Gemini with the server-side key.
+// Started by `npm start`. Routes: /login, /logout, /api/config, /api/insights, everything else = static.
+// Never receives the PDF or any PHI, never logs request bodies or the passcode. Zero npm dependencies.
+// Flow: docs/FLOW.md §1 (login) and §4 (AI).
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";

@@ -1,3 +1,7 @@
+// app.js — everything the user sees: upload, full-screen loader, dashboard, Rules tab.
+// Loaded by index.html as a module. Calls eob.js for all logic (parse, checks, buckets, de-identify) and
+// POST /api/insights (server.js) for the AI box; GET /api/config for the Rules tab. Flow: docs/FLOW.md §2, §4, §5.
+// Never computes money or buckets itself, and never sends anything but deidentify() output over the network.
 import * as pdfjs from "./vendor/pdf.min.mjs";
 import {
   analyze, BENEFIT_MAX, CONTRACTUAL, DE_PIP_MINIMUM, deidentify, DENY_GROUPS, DUE_SOON_DAYS, FOLLOW_UP_AFTER_DAYS,

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>REMIT mockup</title>
+<style>
+:root{--card:#fff;--page:#f7f9fb;--muted:#f4f7f9;--fg:#4a4a4a;--muted-fg:#667085;--primary:#1b365d;--accent:#00a3e0;--border:#d9e2ea;
+--paid:#047857;--paid-bg:rgba(16,185,129,.10);--partial:#b45309;--partial-bg:rgba(245,158,11,.12);--owes:#0369a1;--owes-bg:rgba(0,163,224,.10);
+--denied:#be123c;--denied-bg:rgba(244,63,94,.10);--rev:#475467;--rev-bg:rgba(102,112,133,.12);--next:#6d28d9;--next-bg:rgba(139,92,246,.10)}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--fg);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.shell{display:flex;min-height:100vh}
+.side{width:236px;flex:none;background:var(--primary);color:#fff;padding:16px;display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;gap:10px;align-items:center;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08)}
+.mark{width:36px;height:36px;border-radius:6px;display:grid;place-items:center;color:var(--accent);background:rgba(0,163,224,.2)}
+.brand b{display:block;font-size:14px}.brand small{color:rgba(255,255,255,.6);font-size:11px}
+.nl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 6px 8px}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:6px;color:rgba(255,255,255,.72);font-weight:500;margin-bottom:4px}
+.ni.on{background:var(--accent);color:#fff}.ni .c{margin-left:auto;font-size:11px;background:rgba(255,255,255,.18);padding:0 7px;border-radius:999px}
+main{flex:1;min-width:0;padding:28px 32px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+h1{margin:0;font-size:22px;font-weight:600;color:var(--primary);letter-spacing:-.02em}.sub{margin:3px 0 0;color:var(--muted-fg)}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:6px;padding:8px 14px;font-weight:500;font-size:13px;border:1px solid var(--border);background:#fff;color:var(--primary)}
+.btn.p{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tabs{display:inline-flex;padding:3px;border-radius:8px;background:var(--muted);border:1px solid var(--border)}
+.tabs span{padding:4px 12px;border-radius:6px;font-size:12px;font-weight:500;color:var(--muted-fg)}.tabs .on{background:#fff;color:var(--primary);box-shadow:0 1px 2px rgba(16,24,40,.08)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.sec{margin-top:18px}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-fg)}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.kpi{padding:14px 16px}.kpi .v{font-size:22px;font-weight:600;color:var(--primary);margin-top:4px;font-variant-numeric:tabular-nums}.kpi .s{font-size:11px;color:var(--muted-fg)}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:1px 9px;border-radius:999px;font-size:11px;font-weight:500;white-space:nowrap}
+.b-paid{color:var(--paid);background:var(--paid-bg)}.b-partial{color:var(--partial);background:var(--partial-bg)}.b-owes{color:var(--owes);background:var(--owes-bg)}
+.b-den{color:var(--denied);background:var(--denied-bg)}.b-rev{color:var(--rev);background:var(--rev-bg)}.b-next{color:var(--next);background:var(--next-bg)}
+.grid2{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--muted)}
+.ch h3{margin:0;font-size:14px;font-weight:600;color:var(--primary)}
+table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted-fg);background:var(--muted);padding:8px 16px}
+td{padding:10px 16px;border-top:1px solid var(--muted);vertical-align:top;color:var(--fg)}td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}td .nm{color:var(--primary);font-weight:500}
+.bar{display:flex;height:10px;border-radius:999px;overflow:hidden;margin:6px 0 10px;gap:2px}
+.leg{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:12px}.leg span:nth-child(even){text-align:right;font-variant-numeric:tabular-nums;color:var(--primary);font-weight:500}
+.board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:start}
+.col{background:var(--muted);border:1px solid var(--border);border-radius:10px;padding:10px}
+.colh{display:flex;align-items:center;gap:6px;margin:2px 4px 10px;font-size:12px;font-weight:600;color:var(--primary)}
+.colh .c{margin-left:auto;font-size:11px;color:var(--muted-fg);background:#fff;border:1px solid var(--border);padding:0 7px;border-radius:999px}
+.colh .auto{font-size:10px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.kc{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.kc .t{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:600;color:var(--primary)}.kc .t span{font-variant-numeric:tabular-nums}
+.kc .m{font-size:12px;color:var(--muted-fg);margin:2px 0 6px}.kc .bd{display:flex;flex-wrap:wrap;gap:4px}
+.kc.drag{transform:rotate(-1.5deg);box-shadow:0 8px 20px rgba(16,24,40,.15);border-color:var(--accent)}
+.drop{border:2px dashed var(--accent);background:rgba(0,163,224,.05);border-radius:8px;height:46px;display:grid;place-items:center;font-size:11px;color:var(--accent)}
+.up{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.prog{flex:1;height:6px;background:var(--muted);border-radius:999px;overflow:hidden}.prog i{display:block;height:100%;width:60%;background:var(--accent)}
+.label{font-size:11px;color:var(--muted-fg);margin:26px 0 8px;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+</style></head><body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><div class="mark">≡</div><div><b>REMIT</b><small>Delaware Integrative Healthcare</small></div></div>
+    <div><p class="nl">Workspace</p>
+      <div class="ni on">▦ Dashboard</div>
+      <div class="ni">▤ Documents <span class="c">15</span></div>
+      <div class="ni">⚙ Rules &amp; settings</div>
+      <div class="ni">🔒 Lock</div></div>
+  </aside>
+  <main>
+    <p class="label">Screen 1 · Dashboard</p>
+    <div class="head"><div><h1>Dashboard</h1><p class="sub">15 EOBs · uploaded Oct 20 – Oct 27 · demo data</p></div><span class="btn p">⤒ Upload EOBs</span></div>
+
+    <div class="card sec up"><b style="color:var(--primary);font-size:13px">Processing 3 of 5</b><div class="prog"><i></i></div><span class="sub" style="margin:0;font-size:12px">AI summaries finish in the background</span></div>
+
+    <div class="kpis sec">
+      <div class="card kpi"><div class="eyebrow"><span class="dot" style="background:var(--primary)"></span>Documents</div><div class="v">15</div><div class="s">84 claims</div></div>
+      <div class="card kpi"><div class="eyebrow"><span class="dot" style="background:var(--paid)"></span>Payer paid</div><div class="v" style="color:var(--paid)">$4,210.35</div><div class="s">to post</div></div>
+      <div class="card kpi"><div class="eyebrow"><span class="dot" style="background:var(--owes)"></span>Bill patients</div><div class="v" style="color:var(--owes)">$1,105.20</div><div class="s">22 claims</div></div>
+      <div class="card kpi"><div class="eyebrow"><span class="dot" style="background:var(--denied)"></span>Denied</div><div class="v" style="color:var(--denied)">$620.00</div><div class="s">9 claims</div></div>
+      <div class="card kpi"><div class="eyebrow"><span class="dot" style="background:var(--next)"></span>Bill next payer</div><div class="v" style="color:var(--next)">$280.50</div><div class="s">PIP · due in 12 d</div></div>
+      <div class="card kpi"><div class="eyebrow"><span class="dot" style="background:var(--accent)"></span>Done</div><div class="v">4 / 15</div><div class="s">documents reviewed</div></div>
+    </div>
+
+    <div class="grid2 sec">
+      <div class="card">
+        <div class="ch"><h3>Needs attention</h3><span class="tabs"><span class="on">All 11</span><span>Denials 5</span><span>PIP 2</span><span>Refunds 2</span></span></div>
+        <table>
+          <tr><th>Type</th><th>Patient</th><th>What to do</th><th style="text-align:right">Amount</th><th>Due</th></tr>
+          <tr><td><span class="badge b-next">PIP exhausted</span></td><td><span class="nm">Parker, Sam</span></td><td>Bill health insurance, attach EOB</td><td class="n">$280.50</td><td><span class="badge b-partial">12 days</span></td></tr>
+          <tr><td><span class="badge b-den">Denied · CO-50</span></td><td><span class="nm">Brown, Alex</span></td><td>Not medically necessary: appeal or resubmit</td><td class="n">$60.00</td><td>—</td></tr>
+          <tr><td><span class="badge b-den">Denied · CO-197</span></td><td><span class="nm">Smith, Chris</span></td><td>No authorization: get auth, resubmit</td><td class="n">$55.00</td><td>—</td></tr>
+          <tr><td><span class="badge b-paid">Refund / adjust</span></td><td><span class="nm">Morgan, Jesse</span></td><td>Balance down $165 after reprocessing</td><td class="n">$165.00</td><td>—</td></tr>
+          <tr><td><span class="badge b-partial">Doesn't add up</span></td><td>—</td><td>Check $10 more than claims: call payer</td><td class="n">$10.00</td><td>—</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="ch"><h3>Where the money went</h3></div>
+        <div style="padding:14px 16px">
+          <div class="bar"><span style="flex:42;background:var(--paid)"></span><span style="flex:11;background:var(--owes)"></span><span style="flex:6;background:var(--denied)"></span><span style="flex:3;background:var(--next)"></span><span style="flex:38;background:#c9d2dd"></span></div>
+          <div class="leg"><span><span class="dot" style="background:var(--paid)"></span>Payer paid</span><span>$4,210.35</span><span><span class="dot" style="background:var(--owes)"></span>Patients owe</span><span>$1,105.20</span><span><span class="dot" style="background:var(--denied)"></span>Denied</span><span>$620.00</span><span><span class="dot" style="background:var(--next)"></span>Next payer</span><span>$280.50</span><span><span class="dot" style="background:#c9d2dd"></span>Contract write-off</span><span>$3,812.95</span></div>
+          <div class="eyebrow" style="margin-top:16px">Top denial reasons</div>
+          <div class="leg" style="margin-top:6px"><span>CO-50 Not medically necessary</span><span>3</span><span>CO-197 No authorization</span><span>2</span><span>CO-29 Timely filing</span><span>2</span><span>CO-16 Missing info</span><span>2</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="label">Screen 2 · Documents (Board view; List view shows the same as a table)</p>
+    <div class="head"><div><h1>Documents</h1><p class="sub">New uploads are sorted automatically. Drag a card to In progress, then Done.</p></div>
+      <div style="display:flex;gap:8px;align-items:center"><span class="tabs"><span>List</span><span class="on">Board</span></span><span class="btn p">⤒ Upload EOBs</span></div></div>
+    <div class="board sec">
+      <div class="col"><div class="colh">⚠ Doesn't add up <span class="auto">auto</span><span class="c">1</span></div>
+        <div class="kc"><div class="t">Test Health Plan <span>$56.30</span></div><div class="m">mismatch-oct-20.pdf · 2 claims</div><div class="bd"><span class="badge b-partial">off by $10.00</span></div></div></div>
+      <div class="col"><div class="colh">Action needed <span class="auto">auto</span><span class="c">6</span></div>
+        <div class="kc"><div class="t">Test Auto Ins · PIP <span>$414.50</span></div><div class="m">pip-max-reached.pdf · 4 claims</div><div class="bd"><span class="badge b-next">PIP · 12 days</span></div></div>
+        <div class="kc drag"><div class="t">Test Health Plan <span>$47.65</span></div><div class="m">denials-check.pdf · 6 claims</div><div class="bd"><span class="badge b-den">4 denials</span><span class="badge b-owes">1 patient bill</span></div></div>
+        <div class="kc"><div class="t">Test National <span>$49.60</span></div><div class="m">reversals-oct-09.pdf · 5 claims</div><div class="bd"><span class="badge b-paid">refund $165</span><span class="badge b-rev">1 unmatched</span></div></div></div>
+      <div class="col"><div class="colh">Ready to post <span class="auto">auto</span><span class="c">4</span></div>
+        <div class="kc"><div class="t">Test Blue Plan <span>$88.83</span></div><div class="m">deductible-jan.pdf · 6 claims</div><div class="bd"><span class="badge b-owes">5 patient bills</span></div></div>
+        <div class="kc"><div class="t">Test Health Plan <span>$190.10</span></div><div class="m">clean-oct-14.pdf · 3 claims</div><div class="bd"><span class="badge b-paid">all paid</span></div></div></div>
+      <div class="col"><div class="colh">In progress <span class="c">1</span></div>
+        <div class="drop">drop here</div></div>
+      <div class="col"><div class="colh">✓ Done <span class="c">4</span></div>
+        <div class="kc" style="opacity:.75"><div class="t">Test Health Plan <span>$212.40</span></div><div class="m">clean-oct-12.pdf · done Oct 26</div></div></div>
+    </div>
+    <p class="sub" style="margin-top:14px">Click any card → the full document view you have today (claims, PIP card, AI insights) plus an <b>Open PDF</b> button and a stage switcher.</p>
+  </main>
+</div>
+</body></html>

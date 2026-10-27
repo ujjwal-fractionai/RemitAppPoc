@@ -1,6 +1,9 @@
-// Waystar "View EOB" PDF text → claims, buckets, reversal pairs, checks.
-// Pure functions: run in the browser (PHI stays there) and in Node tests.
+// eob.js — the POC's brain. Waystar "View EOB" PDF text → claims, checks, buckets, reversal pairs,
+// next-payer follow-up, and the de-identified payload for the AI.
+// Called by app.js (browser, so PHI stays on the user's machine), eob.test.js and demo tooling (Node).
+// Pure: no DOM, no network. Order inside analyze() matters — see docs/FLOW.md §3.
 // Money is integer cents everywhere — never float math on amounts.
+// The rule constants below are shown read-only on the Rules tab (app.js:renderRules); change them here only.
 
 const AMT = String.raw`-?[\d,]*\.\d\d`;
 const R = {
