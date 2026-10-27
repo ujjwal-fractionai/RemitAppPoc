@@ -280,3 +280,82 @@ export function deidentify(r) {
     codeMeanings: r.glossary,
   };
 }
+
+// ---- v2 tracking board: automatic column, "Needs attention" items, dashboard totals ----
+// Pure, like everything above. Called by the browser (board, dashboard) on documents re-analysed from stored lines.
+
+export const STAGES = { mismatch: "Doesn't add up", action: "Action needed", ready: "Ready to post", reviewed: "✓ Reviewed" };
+
+// Where a document lands until someone clicks "Mark reviewed" (spec §9, first match wins).
+export function autoStage(r) {
+  if (!r.reconciled || r.warnings.length) return "mismatch";
+  const needsWork = r.claims.some((c) =>
+    c.bucket === "DENIED" || c.bucket === "NEXT_PAYER" || (c.bucket === "REVERSED" && !c.pair) ||
+    (c.bucket === "PARTIAL" && c.lines.some((l) => l.denied)));
+  return needsWork || r.pairs.some((p) => p.patientChange < 0) ? "action" : "ready";
+}
+
+// Dashboard sorts items by deadline first, then by this order (spec §10).
+export const ATTENTION_ORDER = ["mismatch", "denied", "next_payer", "refund", "unmatched", "denied_line"];
+
+// Everything in one document that a person has to act on, one row each (spec §10 table). Built in ATTENTION_ORDER.
+export function attentionItems(r) {
+  const items = [];
+  const add = (type, c, text, amount, extra) =>
+    items.push({ type, claim: c?.label ?? null, patient: c?.patient ?? null, name: c?.name ?? null, text, amount, status: null, due: null, ...extra });
+
+  if (!r.reconciled || r.warnings.length) {
+    const d = r.difference;
+    add("mismatch", null, r.reconciled ? "The EOB's own numbers don't balance: check before posting."
+      : `Check is ${usd(Math.abs(d))} ${d < 0 ? "more" : "less"} than the claims: confirm with the payer before posting.`,
+      r.reconciled ? null : Math.abs(d));
+  }
+  for (const c of r.claims.filter((c) => c.bucket === "DENIED"))
+    add("denied", c, `${denialCodes(c).join(", ") || "Denied"} · fix and resubmit or appeal`, c.billed);
+
+  // One next-payer item per patient (PIP is per person), dated by the EOB's follow-up deadline.
+  const byPatient = new Map();
+  for (const c of r.claims.filter((c) => c.bucket === "NEXT_PAYER")) byPatient.set(c.patient, [...(byPatient.get(c.patient) ?? []), c]);
+  for (const cs of byPatient.values())
+    add("next_payer", cs[0], `${r.pip ? "PIP exhausted" : "Benefit maximum reached"}: bill health insurance, attach this EOB` +
+      (r.followUp ? ` · file by ${mdy(r.followUp.due)}` : ""), sum(cs, (c) => c.nextPayerAmount),
+      { status: r.followUp?.status ?? null, due: r.followUp?.due ?? null });
+
+  for (const p of r.pairs.filter((p) => p.patientChange < 0))
+    add("refund", p.correction, `Patient balance down ${usd(-p.patientChange)} after reprocessing: adjust or refund if already billed`, -p.patientChange);
+  for (const c of r.claims.filter((c) => c.bucket === "REVERSED" && !c.pair))
+    add("unmatched", c, "Reversal without a correction in this EOB: watch for reprocessing", null);
+  for (const c of r.claims.filter((c) => c.bucket === "PARTIAL" && c.lines.some((l) => l.denied)))
+    add("denied_line", c, `Work denied line(s): ${denialCodes(c).join(", ")}`, sum(c.lines.filter((l) => l.denied), (l) => l.billed));
+  return items;
+}
+
+// Dashboard totals across documents (spec §10a). Reversal claims stay out of the money; their effect shows as items.
+export function summarize(list) {
+  const t = { documents: list.length, claims: 0, payerPaid: 0, billPatients: 0, denied: 0, nextPayer: 0, writeOff: 0, reviewed: 0, nearestDue: null, denialReasons: [] };
+  const reasons = new Map(); // code → { code, text, count }
+  for (const { r, stage } of list) {
+    if (stage === "reviewed") t.reviewed++;
+    else if (r.followUp && (!t.nearestDue || r.followUp.due < t.nearestDue.due)) t.nearestDue = r.followUp;
+    t.claims += r.claims.length;
+    for (const c of r.claims) {
+      if (c.bucket === "REVERSED") continue;
+      t.payerPaid += c.paid;
+      if (c.pr > 0) t.billPatients += c.pr;
+      t.nextPayer += c.nextPayerAmount;
+      if (c.bucket === "DENIED") t.denied += c.billed;
+      for (const l of c.lines) {
+        if (!l.denied) { t.writeOff += sum(l.adjs.filter((a) => a.code.startsWith("CO-")), (a) => a.amount); continue; }
+        if (c.bucket !== "DENIED") t.denied += l.billed; // denied line inside a partly paid claim
+        for (const a of l.adjs) {
+          const reason = a.code.slice(3);
+          if (!DENY_GROUPS.has(a.code.slice(0, 2)) || CONTRACTUAL.has(reason) || BENEFIT_MAX.has(reason)) continue;
+          const e = reasons.get(a.code) ?? reasons.set(a.code, { code: a.code, text: r.glossary[reason] ?? "", count: 0 }).get(a.code);
+          e.count++;
+        }
+      }
+    }
+  }
+  t.denialReasons = [...reasons.values()].sort((a, b) => b.count - a.count);
+  return t;
+}

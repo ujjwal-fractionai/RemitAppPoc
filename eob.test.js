@@ -2,7 +2,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { pathToFileURL } from "node:url";
-import { analyze, cents, deidentify, DEMO_FOOTER, DEMO_MARKER, isDemo, pageLines, parseEob, readPdf } from "./public/eob.js";
+import {
+  analyze, attentionItems, autoStage, cents, deidentify, DEMO_FOOTER, DEMO_MARKER, isDemo, mdy, pageLines, parseEob, readPdf, summarize,
+} from "./public/eob.js";
 
 const LINES = `
         TEST HEALTH PLAN                         PAYER CONTACT:     EDI SUPPORT
@@ -160,4 +162,66 @@ test("generated demo PDFs carry the stamp; plain PDFs don't", async () => {
 
   const noSubject = pdf(pages).replace(DEMO_MARKER, "X".repeat(DEMO_MARKER.length)); // same length keeps xref offsets valid
   assert.equal(isDemo(await readPdf(pdfjs, latin1Bytes(noSubject))), false);
+});
+
+// ---- v2: stages, needs-attention items, dashboard totals (spec §9, §10, §10a) ----
+const demo = (file) => analyze(parseEob(eobPages(DEMOS.find((d) => d.file === file)).flat()), BASE);
+
+test("autoStage places each document in its automatic column", () => {
+  assert.equal(autoStage(demo("pip-maximum-reached.pdf")), "action");
+  assert.equal(autoStage(demo("denials-paper-check.pdf")), "action");
+  assert.equal(autoStage(demo("deductible-season.pdf")), "ready");
+  assert.equal(autoStage(demo("reversals-reprocessed.pdf")), "action");
+  assert.equal(autoStage(demo("needs-review-mismatch.pdf")), "mismatch");
+  assert.equal(autoStage(analyze(parseEob(LINES))), "action");
+});
+
+test("attentionItems: PIP is one next-payer item per patient with its deadline", () => {
+  const items = attentionItems(demo("pip-maximum-reached.pdf"));
+  assert.equal(items.length, 1);
+  assert.equal(items[0].type, "next_payer");
+  assert.equal(items[0].amount, 28050);
+  assert.equal(items[0].status, "due soon");
+  assert.equal(mdy(items[0].due), "11/02/2026");
+});
+
+test("attentionItems: one item per denied claim, plus denied lines inside partial claims", () => {
+  const items = attentionItems(demo("denials-paper-check.pdf"));
+  assert.deepEqual(items.filter((i) => i.type === "denied").map((i) => i.claim), ["C1", "C2", "C3", "C5"]);
+  assert.ok(items.find((i) => i.type === "denied").text.includes("CO-50"));
+  const line = items.filter((i) => i.type === "denied_line");
+  assert.deepEqual(line.map((i) => [i.claim, i.amount]), [["C4", 6000]]);
+});
+
+test("attentionItems: refunds per reversal pair where the patient now owes less, plus unmatched reversals", () => {
+  const items = attentionItems(demo("reversals-reprocessed.pdf"));
+  assert.deepEqual(items.filter((i) => i.type === "refund").map((i) => [i.claim, i.amount]), [["C4", 4500], ["C5", 12000]]);
+  assert.deepEqual(items.filter((i) => i.type === "unmatched").map((i) => i.claim), ["C3"]);
+});
+
+test("attentionItems: a payment that doesn't add up is one mismatch item", () => {
+  const items = attentionItems(demo("needs-review-mismatch.pdf"));
+  assert.deepEqual(items.map((i) => [i.type, i.amount]), [["mismatch", 1000]]);
+});
+
+test("summarize: dashboard money definitions", () => {
+  const t = summarize([{ r: demo("denials-paper-check.pdf"), stage: "action" }]);
+  assert.equal(t.payerPaid, 4640);
+  assert.equal(t.billPatients, 2000);
+  assert.equal(t.denied, 32500);
+  assert.equal(t.writeOff, 8360);
+  assert.equal(t.nextPayer, 0);
+  assert.equal(t.denialReasons[0].count, 1);
+});
+
+test("summarize: counts reviewed documents and leaves reversal claims out of the money", () => {
+  const t = summarize([
+    { r: demo("reversals-reprocessed.pdf"), stage: "action" },
+    { r: demo("deductible-season.pdf"), stage: "reviewed" },
+  ]);
+  assert.equal(t.documents, 2);
+  assert.equal(t.reviewed, 1);
+  const rev = summarize([{ r: demo("reversals-reprocessed.pdf"), stage: "action" }]);
+  assert.equal(rev.payerPaid, 5344);
+  assert.equal(rev.billPatients, 3000);
 });
