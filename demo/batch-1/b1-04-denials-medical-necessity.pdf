@@ -1,0 +1,99 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
+endobj
+5 0 obj
+<< /Length 8073 >>
+stream
+BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST HEALTH PLAN OF DELAWARE                                  PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 759 Tm (        200 PLAN AVE                                                  FAX:              \(302\)555-0101) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 748 Tm (        NEWARK, DE 19711                                              PHONE:            \(302\)555-0100) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT901004) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/23/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        73.34) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/22/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:PARK, QUINN             MBR:MEM81031        ACNT:000081031       ICN:GRP81031) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 8000000015) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:4   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1003 100326  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-50      60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 605 Tm (                                                REM: N130) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 594 Tm (        PT RESP 0.00                          SUB TOTALS      60.00      0.00      0.00      0.00              60.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 583 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 572 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 561 Tm (        NAME:ROSS, RILEY             MBR:MEM81032        ACNT:000081032       ICN:GRP81032) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 550 Tm (                                                                                 8000000016) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (        CLM Status:4   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  1005 100526  11  1   98941             75.00      0.00      0.00      0.00   CO-50      75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 506 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 484 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 473 Tm (        NAME:STONE, SAWYER           MBR:MEM81033        ACNT:000081033       ICN:GRP81033) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 462 Tm (                                                                                 8000000017) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 451 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (        CLM Status:4   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (        1234567893  1007 100726  11  1   97012  GP         55.00      0.00      0.00      0.00   CO-197     55.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (        PT RESP 0.00                          SUB TOTALS      55.00      0.00      0.00      0.00              55.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (        NAME:TATE, TATUM             MBR:MEM81034        ACNT:000081034       ICN:GRP81034) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (                                                                                 8000000018) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 341 Tm (        1234567893  1009 100926  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 308 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 297 Tm (        NAME:VALE, UMA               MBR:MEM81035        ACNT:000081035       ICN:GRP81035) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 286 Tm (                                                                                 8000000019) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 275 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 264 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 253 Tm (        1234567893  1011 101126  11  1   98940             65.00     33.10      0.00      0.00   CO-45      31.90       33.10) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 242 Tm (        PT RESP 0.00                          SUB TOTALS      65.00     33.10      0.00      0.00              31.90     33.10) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 231 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 220 Tm (                                                                                                            NET 33.10) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 209 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 198 Tm (                            5      330.00       73.34        0.00        0.00      256.66       73.34        0.00       73.34) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 187 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 176 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 165 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 154 Tm (                 50 These are non-covered services because this is not deemed a 'medical necessity' by the) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 143 Tm (                    payer.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 132 Tm (                197 Precertification/authorization/notification/pre-treatment absent.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 121 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 110 Tm (        N130        Consult plan benefit documents/guidelines for information about restrictions for this) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 99 Tm (                    service.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 88 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 77 Tm (                                                            Page 1) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000183 00000 n 
+0000000269 00000 n 
+0000008394 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info 4 0 R >>
+startxref
+8520
+%%EOF

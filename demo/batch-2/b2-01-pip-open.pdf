@@ -1,0 +1,74 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
+endobj
+5 0 obj
+<< /Length 4925 >>
+stream
+BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST AUTO INSURANCE CO - PIP                                  PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 759 Tm (        PO BOX 1000                                                   FAX:              \(302\)555-0101) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 748 Tm (        WILMINGTON, DE 19801                                          PHONE:            \(302\)555-0100) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT902001) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/07/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/06/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:NOBLE, ORION            MBR:MEM82001        ACNT:000082001       ICN:GRP82001) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 8000000040) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:4   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  0907 092126  11  1   98941             75.00     75.00      0.00      0.00   OA-119     75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 605 Tm (                                                REM: N587) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 594 Tm (        1234567893  0907 092126  11  1   97012  GP         55.00     55.00      0.00      0.00   OA-119     55.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 583 Tm (                                                REM: N587) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 572 Tm (        PT RESP 0.00                          SUB TOTALS     130.00    130.00      0.00      0.00             130.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 561 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 550 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 539 Tm (        NAME:NOBLE, ORION            MBR:MEM82001        ACNT:000082001       ICN:GRP82001) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (                                                                                 8000000041) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 506 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (        1234567893  0923 100326  11  1   97110  GP         60.00     60.00      0.00      0.00   OA-119     60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 484 Tm (                                                REM: N587) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 473 Tm (        PT RESP 0.00                          SUB TOTALS      60.00     60.00      0.00      0.00              60.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 462 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 451 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (                            2      190.00      190.00        0.00        0.00      190.00        0.00        0.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (        OA-         Other Adjustments) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (                119 Benefit maximum for this time period or occurrence has been reached.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (        N587        Policy benefits have been exhausted.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (                                                            Page 1) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000183 00000 n 
+0000000269 00000 n 
+0000005246 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info 4 0 R >>
+startxref
+5372
+%%EOF

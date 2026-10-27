@@ -122,8 +122,20 @@ for (const d of DEMOS) {
     else assert.ok(r.difference !== 0);
     if (d.expect.pip) assert.ok(r.pip);
     if (d.expect.nextPayer) assert.equal(r.claims.reduce((t, c) => t + c.nextPayerAmount, 0), d.expect.nextPayer);
+    assert.equal(autoStage(r), d.expect.stage);
   });
 }
+
+test("20 batch demos: 10 + 5 + 5, unique file names, all stamped", async () => {
+  const batches = DEMOS.filter((d) => d.dir);
+  const count = (dir) => batches.filter((d) => d.dir === dir).length;
+  assert.deepEqual([count("batch-1"), count("batch-2"), count("batch-3")], [10, 5, 5]);
+  assert.equal(new Set(DEMOS.map((d) => d.file)).size, DEMOS.length);
+  for (const dir of ["batch-1", "batch-2", "batch-3"]) {
+    const d = batches.find((b) => b.dir === dir);
+    assert.ok(isDemo(await readPdf(pdfjs, latin1Bytes(pdf(eobPages(d))))), `${d.file} stamped`);
+  }
+});
 
 test("PIP follow-up deadline: 90 days from check date, status by today", () => {
   const pip = DEMOS.find((d) => d.expect.pip);
