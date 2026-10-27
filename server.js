@@ -8,6 +8,7 @@ import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
+import { ping } from "./store.js";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 for (const f of [".env", "../.env"]) try { process.loadEnvFile(join(here, f)); } catch {}
@@ -160,7 +161,7 @@ createServer(async (req, res) => {
   }
 
   if (req.method === "GET" && req.url === "/api/config")
-    return send(res, 200, JSON.stringify({ model: GEMINI_MODEL, aiEnabled: !!GEMINI_API_KEY, passcode: !!APP_PASSCODE, sessionHours: SESSION_HOURS, maxFails: MAX_FAILS, lockMinutes: LOCK_MINUTES }));
+    return send(res, 200, JSON.stringify({ model: GEMINI_MODEL, aiEnabled: !!GEMINI_API_KEY, passcode: !!APP_PASSCODE, sessionHours: SESSION_HOURS, maxFails: MAX_FAILS, lockMinutes: LOCK_MINUTES, supabase: await ping() }));
   if (req.method === "POST" && req.url === "/api/insights") {
     if (!GEMINI_API_KEY) return send(res, 500, JSON.stringify({ error: "GEMINI_API_KEY is not set in .env" }));
     let body = "";
