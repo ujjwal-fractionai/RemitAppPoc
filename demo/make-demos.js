@@ -1,8 +1,28 @@
 // Synthetic Waystar-style "View EOB" PDFs for demos and tests.
 // Fake people, IDs and money only — never put real PHI here.
-// Run: node demo/make-demos.js   (rewrites demo/*.pdf)
+// Run: node demo/make-demos.js   (rewrites demo/*.pdf, dated relative to today)
+// Used by eob.test.js (specs double as fixtures) and, in v2, as the only documents the app will store:
+// every PDF carries the demo stamp (Info /Subject + footer on every page), see eob.js DEMO_MARKER / DEMO_FOOTER.
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { DEMO_FOOTER, DEMO_MARKER } from "../public/eob.js";
+
+// Specs below are written as if today were 2026-10-21. demos(base) shifts every printed date by (base − REF),
+// so deadlines stay "open / due soon / overdue" whenever the demo is generated.
+const REF = Date.UTC(2026, 9, 21);
+const p2 = (n) => String(n).padStart(2, "0");
+const shiftCheck = (mdy, days) => {
+  const [m, d, y] = mdy.split("/").map(Number);
+  const t = new Date(Date.UTC(y, m - 1, d + days));
+  return `${p2(t.getUTCMonth() + 1)}/${p2(t.getUTCDate())}/${t.getUTCFullYear()}`;
+};
+// Service dates print as "MMDD MMDDYY" (from has no year: same year as `to`, or the year before if its month is later).
+const shiftService = (from, to, days) => {
+  const y = 2000 + Number(to.slice(4)), tm = Number(to.slice(0, 2)), fm = Number(from.slice(0, 2));
+  const f = new Date(Date.UTC(fm > tm ? y - 1 : y, fm - 1, Number(from.slice(2)) + days));
+  const t = new Date(Date.UTC(y, tm - 1, Number(to.slice(2, 4)) + days));
+  return `${p2(f.getUTCMonth() + 1)}${p2(f.getUTCDate())} ${p2(t.getUTCMonth() + 1)}${p2(t.getUTCDate())}${String(t.getUTCFullYear()).slice(2)}`;
+};
 
 const GROUPS = {
   CO: "Contractual Obligations. The patient may not be billed for this amount",
@@ -48,7 +68,7 @@ const line = (dates, proc, mods, billed, adjs = [], remarks = []) => {
 };
 const claim = (name, member, acnt, icn, claimNo, status, lines) => ({ name, member, acnt, icn, claimNo, status, lines });
 
-export function eobPages({ payer, payerAddr, payee, ref, checkDate, prodDate, claims, plb = [], checkDelta = 0 }) {
+export function eobPages({ payer, payerAddr, payee, ref, checkDate, prodDate, claims, plb = [], checkDelta = 0, shift = 0 }) {
   const paid = sum(claims, (c) => sum(c.lines, (l) => l.paid));
   const check = paid - sum(plb, ([, , a]) => a) + checkDelta;
   const header = [
@@ -58,9 +78,9 @@ export function eobPages({ payer, payerAddr, payee, ref, checkDate, prodDate, cl
     [payee, "EIN:", "999999999"],
     ["1 MAIN ST", "NPI:", "1234567893"],
     ["MIDDLETOWN, DE 19709", `${ref[0]}:`, ref[1]],
-    ["", "CHECK DATE:", checkDate],
+    ["", "CHECK DATE:", shiftCheck(checkDate, shift)],
     ["", "CHECK AMT:", money(check)],
-    ["", "PRODUCTION DATE:", prodDate],
+    ["", "PRODUCTION DATE:", shiftCheck(prodDate, shift)],
   ].map(([l, k, v]) => `${M}${l.padEnd(62)}${k.padEnd(18)}${v}`);
   header.push(`${M}PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD`);
 
@@ -72,7 +92,7 @@ export function eobPages({ payer, payerAddr, payee, ref, checkDate, prodDate, cl
     for (const l of c.lines) {
       const [first, ...rest] = l.other;
       const adj = first ? `${first[0].padEnd(8)}${money(first[1]).padStart(8)}` : " ".repeat(16);
-      body.push(`${M}1234567893  ${l.from} ${l.to}  11  1   ${l.proc.padEnd(6)} ${l.mods.padEnd(6)}` +
+      body.push(`${M}1234567893  ${shiftService(l.from, l.to, shift)}  11  1   ${l.proc.padEnd(6)} ${l.mods.padEnd(6)}` +
         [l.billed, l.allowed, l.deduct, l.coins].map((a) => money(a).padStart(10)).join("") + `   ${adj}${money(l.paid).padStart(12)}`);
       for (const [code, amt] of rest) body.push(`${M}${" ".repeat(87)}${code.padEnd(8)}${money(amt).padStart(8)}`);
       if (l.remarks.length) body.push(`${M}${" ".repeat(40)}REM: ${l.remarks.join(" ")}`);
@@ -118,15 +138,19 @@ export function eobPages({ payer, payerAddr, payee, ref, checkDate, prodDate, cl
   }
   for (const c of codesUsed) if (!c.includes("-")) body.push(...entry(c, CODES[c]));
 
-  // Paginate like Waystar: header repeated on every page, "Page N" footer
+  // Paginate like Waystar: header repeated on every page, demo stamp + "Page N" footer
   const pages = [];
-  for (let i = 0; i < body.length; i += 52) pages.push([...header, ...body.slice(i, i + 52), `${" ".repeat(60)}Page ${pages.length + 1}`]);
+  for (let i = 0; i < body.length; i += 52)
+    pages.push([...header, ...body.slice(i, i + 52), `${" ".repeat(40)}${DEMO_FOOTER}`, `${" ".repeat(60)}Page ${pages.length + 1}`]);
   return pages;
 }
 
-function pdf(pages) {
+export function pdf(pages) {
   const esc = (s) => s.replace(/[\\()]/g, (m) => "\\" + m);
-  const objs = ["<< /Type /Catalog /Pages 2 0 R >>", "", "<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>"];
+  const objs = [
+    "<< /Type /Catalog /Pages 2 0 R >>", "", "<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>",
+    `<< /Subject (${DEMO_MARKER}) /Producer (REMIT demo generator) >>`, // object 4 = Info dictionary
+  ];
   const kids = [];
   for (const lines of pages) {
     const stream = lines.map((l, i) => `BT /F1 7 Tf 1 0 0 1 20 ${770 - i * 11} Tm (${esc(l)}) Tj ET`).join("\n");
@@ -139,13 +163,13 @@ function pdf(pages) {
   const offsets = objs.map((o, i) => { const at = out.length; out += `${i + 1} 0 obj\n${o}\nendobj\n`; return at; });
   const xref = out.length;
   out += `xref\n0 ${objs.length + 1}\n0000000000 65535 f \n${offsets.map((o) => String(o).padStart(10, "0") + " 00000 n \n").join("")}`;
-  return out + `trailer\n<< /Size ${objs.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
+  return out + `trailer\n<< /Size ${objs.length + 1} /Root 1 0 R /Info 4 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
 }
 
 const DEMO_PAYEE = "TEST CHIROPRACTIC CLINIC";
 
 // `expect` is checked by eob.test.js, so the demos double as test fixtures.
-export const DEMOS = [
+const SPECS = [
   {
     file: "pip-maximum-reached.pdf",
     payer: "TEST AUTO INSURANCE CO - PIP", payerAddr: ["PO BOX 1000", "WILMINGTON, DE 19801"], payee: DEMO_PAYEE,
@@ -244,9 +268,15 @@ export const DEMOS = [
   },
 ];
 
+// All demo specs with their dates moved to `base` (a Date; tests pin it, the CLI uses today).
+export function demos(base) {
+  const shift = Math.round((Date.UTC(base.getFullYear(), base.getMonth(), base.getDate()) - REF) / 864e5);
+  return SPECS.map((s) => ({ ...s, shift }));
+}
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const dir = fileURLToPath(new URL(".", import.meta.url));
-  for (const d of DEMOS) {
+  for (const d of demos(new Date())) {
     writeFileSync(dir + d.file, pdf(eobPages(d)), "latin1");
     console.log("wrote demo/" + d.file);
   }

@@ -33,6 +33,9 @@ export const DE_PIP_MINIMUM = { perPerson: 1500000, perAccident: 3000000 }; // c
 export const NEXT_PAYER_FILING_DAYS = 90; // counted from the EOB check date
 export const DUE_SOON_DAYS = 14;
 export const FOLLOW_UP_AFTER_DAYS = 30;
+// Demo stamp (POC v2 stores demo documents only): our generator writes both; anything without them is refused.
+export const DEMO_MARKER = "REMIT-DEMO-SYNTHETIC"; // PDF Info /Subject
+export const DEMO_FOOTER = "SYNTHETIC DEMO DATA - NOT A REAL EOB"; // printed on every page
 
 export const cents = (s) => {
   const [i, f = "0"] = s.replace(/[^\d.]/g, "").split(".");
@@ -68,12 +71,27 @@ export function pageLines(items) {
     );
 }
 
+// PDF bytes → text rows per page + the Info /Subject. Takes pdf.js as a parameter so it runs the same in the
+// browser (app.js, stamp pre-check) and in Node (server.js, authoritative read). pdf.js may detach `bytes`
+// (it transfers the buffer to its worker): callers that still need the bytes pass a copy.
+export async function readPdf(pdfjs, bytes) {
+  const doc = await pdfjs.getDocument({ data: bytes, verbosity: 0 }).promise;
+  const pages = [];
+  for (let p = 1; p <= doc.numPages; p++) pages.push(pageLines((await (await doc.getPage(p)).getTextContent()).items));
+  const { info } = await doc.getMetadata();
+  return { pages, subject: info?.Subject ?? "" };
+}
+
+// A demo document has our marker AND the footer on every page (stops real EOBs dropped in by accident; spec §6).
+export const isDemo = ({ pages, subject }) =>
+  subject === DEMO_MARKER && pages.length > 0 && pages.every((p) => p.some((l) => l.trim() === DEMO_FOOTER));
+
 export function parseEob(lines) {
   const r = { payer: "", header: {}, claims: [], plb: [], totals: null, glossary: {} };
   let mode = "header", claim = null, line = null, gCol = 0, gKey = null, m;
 
   for (const raw of lines) {
-    if (!raw.trim() || /^\s*Page \d+\s*$/.test(raw)) continue;
+    if (!raw.trim() || /^\s*Page \d+\s*$/.test(raw) || raw.trim() === DEMO_FOOTER) continue;
 
     if (mode === "header") {
       if (R.colHeader.test(raw)) { mode = "claims"; continue; }

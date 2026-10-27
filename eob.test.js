@@ -1,7 +1,8 @@
 // Synthetic EOB text only — no real PHI. Run: npm test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { analyze, cents, deidentify, pageLines, parseEob } from "./public/eob.js";
+import { pathToFileURL } from "node:url";
+import { analyze, cents, deidentify, DEMO_FOOTER, DEMO_MARKER, isDemo, pageLines, parseEob, readPdf } from "./public/eob.js";
 
 const LINES = `
         TEST HEALTH PLAN                         PAYER CONTACT:     EDI SUPPORT
@@ -104,7 +105,10 @@ test("pageLines rebuilds rows by position", () => {
 });
 
 // Every demo PDF's text goes through the real parser; demos/make-demos.js declares what each should produce.
-import { DEMOS, eobPages } from "./demo/make-demos.js";
+// Demo dates are relative to a base day; tests pin it so deadlines (due soon / overdue) are stable.
+import { demos, eobPages, pdf } from "./demo/make-demos.js";
+const BASE = new Date(2026, 9, 21);
+const DEMOS = demos(BASE);
 
 for (const d of DEMOS) {
   test(`demo ${d.file} parses as expected`, () => {
@@ -131,4 +135,29 @@ test("PIP follow-up deadline: 90 days from check date, status by today", () => {
   assert.ok(!r.claims[2].lines.some((l) => l.denied), "benefit-max lines are not denials");
   const json = JSON.stringify(deidentify(r));
   assert.ok(!json.includes("PARKER") && !json.includes("11/02/2026") && !json.includes("PIP0000001"));
+});
+
+test("footer line is ignored by the parser", () => {
+  const r = analyze(parseEob([...LINES, "        " + DEMO_FOOTER]));
+  assert.ok(!Object.values(r.glossary).some((t) => t.includes("SYNTHETIC")));
+  assert.deepEqual(r.warnings, []);
+});
+
+// Same bundled pdf.js the browser uses, run in Node (the v2 server reads PDFs this way).
+const pdfjs = await import("./public/vendor/pdf.min.mjs");
+pdfjs.GlobalWorkerOptions.workerSrc = pathToFileURL("public/vendor/pdf.worker.min.mjs").href;
+const latin1Bytes = (s) => new Uint8Array(Buffer.from(s, "latin1"));
+
+test("generated demo PDFs carry the stamp; plain PDFs don't", async () => {
+  const pages = eobPages(DEMOS[0]);
+  const read = await readPdf(pdfjs, latin1Bytes(pdf(pages)));
+  assert.equal(read.subject, DEMO_MARKER);
+  assert.ok(read.pages.every((p) => p.some((l) => l.trim() === DEMO_FOOTER)));
+  assert.equal(isDemo(read), true);
+
+  const noFooter = pages.map((p, i) => (i === 0 ? p.filter((l) => !l.includes(DEMO_FOOTER)) : p));
+  assert.equal(isDemo(await readPdf(pdfjs, latin1Bytes(pdf(noFooter)))), false);
+
+  const noSubject = pdf(pages).replace(DEMO_MARKER, "X".repeat(DEMO_MARKER.length)); // same length keeps xref offsets valid
+  assert.equal(isDemo(await readPdf(pdfjs, latin1Bytes(noSubject))), false);
 });
