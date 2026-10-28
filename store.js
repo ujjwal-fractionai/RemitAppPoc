@@ -18,7 +18,19 @@ const auth = () => ({ apikey: KEY, ...(KEY.startsWith("eyJ") ? { authorization: 
 
 async function call(path, { method = "GET", body, headers = {}, raw = false } = {}) {
   if (!configured) throw new Error("Supabase is not configured");
-  const res = await fetch(BASE + path, { method, body, headers: { ...auth(), ...headers }, signal: AbortSignal.timeout(20_000) });
+  // Node's fetch reuses pooled connections; when Supabase has already closed one, a POST/DELETE fails with
+  // "fetch failed" (Node only auto-retries GETs). Retry once on that network-level error. Safe here: PDF uploads
+  // upsert, delete/patch repeat cleanly, and a repeated insert at worst reports "already uploaded".
+  let res;
+  for (let attempt = 1; ; attempt++) {
+    try {
+      res = await fetch(BASE + path, { method, body, headers: { ...auth(), ...headers }, signal: AbortSignal.timeout(20_000) });
+      break;
+    } catch (e) {
+      if (attempt > 1 || e.name !== "TypeError") throw e; // TypeError = network failure; timeouts/aborts are not retried
+      console.log(`supabase ${method} retry after: ${e.message}`);
+    }
+  }
   if (!res.ok) {
     const text = await res.text();
     let msg;
