@@ -252,7 +252,7 @@ test("denialPlaybook: the billing team's rows for an adjustment code", () => {
   assert.equal(DENIAL_PLAYBOOK.length, 18);
   assert.deepEqual(denialPlaybook("CO-27").map((p) => p.reason), ["Eligibility or inactive coverage"]);
   assert.equal(denialPlaybook("CO-16").length, 3); // three reasons share CO-16: the remark code says which
-  assert.deepEqual(denialPlaybook("OA-119").map((p) => p.reason), ["Maximum benefits reached"]); // same reason, other denial group
+  assert.deepEqual(denialPlaybook("OA-119").map((p) => p.reason), ["Maximum benefits reached"]); // same reason, other denial group (real payers vary it)
   assert.deepEqual(denialPlaybook("PR-2").map((p) => p.codes), [["PR-1", "PR-2", "PR-3"]]);
   assert.deepEqual(denialPlaybook("CO-1"), []); // PR reasons don't leak into denial groups
   assert.deepEqual(denialPlaybook("N130"), []);
@@ -297,4 +297,18 @@ test("every code in the playbook has a demo EOB that shows it (add a demo when b
     ...l.other.map(([code]) => code), ...(l.deduct ? ["PR-1"] : []), ...(l.coins ? ["PR-2"] : [])]))));
   const missing = DENIAL_PLAYBOOK.flatMap((p) => p.codes).filter((code) => ![...used].some((u) => denialPlaybook(u).some((p) => p.codes.includes(code))));
   assert.deepEqual(missing, []);
+});
+
+test("demos use only adjustment codes from denial-playbook.json", () => {
+  const known = new Set(DENIAL_PLAYBOOK.flatMap((p) => p.codes));
+  const used = new Set(DEMOS.flatMap((d) => d.claims.flatMap((c) => c.lines.flatMap((l) => l.other.map(([code]) => code)))));
+  assert.deepEqual([...used].filter((c) => !known.has(c)), []);
+});
+
+test("summarize: benefit-max (119) money is next payer, never contract write-off, in any group", () => {
+  const r = demo("pip-maximum-reached.pdf");
+  for (const c of r.claims) for (const l of c.lines) for (const a of l.adjs) if (a.code.endsWith("-119")) a.code = "CO-119";
+  const t = summarize([{ r, stage: "action" }]);
+  assert.equal(t.nextPayer, 28050);
+  assert.equal(t.writeOff, 0);
 });

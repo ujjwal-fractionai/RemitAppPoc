@@ -19,8 +19,10 @@ Billing team sent a table of 18 denial reasons (adjustment codes + resolution) a
 
 - 2026-10-28: owner sent the table as JSON and asked for a config file as source of truth → `public/denial-playbook.json` (D42), wording now exactly theirs. Tests: JSON is the source + every playbook code has a demo (all covered by batch-1…4). Server serves `.json` (checked with the real server, Supabase/Gemini off).
 
+- 2026-10-28: owner: remove codes not in their JSON from the demos and drop unneeded demo files → D43. Test "demos use only adjustment codes from the JSON" (RED on CO-253 / OA-119 / PR-242) and a write-off test that caught CO-119 being double-counted in `summarize` (fixed). v1 root PDFs deleted (specs kept as fixtures); e2e Part D now uploads `batch-4/b4-01…` instead of the deleted `deductible-season.pdf`.
+
 ## Verification
-- `npm test` → 51 pass.
+- `npm test` → 53 pass.
 - Stubbed-API screenshots (dashboard / doc / rules) — 0 page errors. `api.check.sh` / `npm run e2e` NOT run (they wipe the shared Supabase board); run them before the next demo setup.
 
 ## Follow-ups

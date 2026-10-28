@@ -373,7 +373,8 @@ export function summarize(list) {
       t.nextPayer += c.nextPayerAmount;
       if (c.bucket === "DENIED") t.denied += c.billed;
       for (const l of c.lines) {
-        if (!l.denied) { t.writeOff += sum(l.adjs.filter((a) => a.code.startsWith("CO-")), (a) => a.amount); continue; }
+        // CO-119 is next-payer money (counted above), not a write-off
+        if (!l.denied) { t.writeOff += sum(l.adjs.filter((a) => a.code.startsWith("CO-") && !BENEFIT_MAX.has(a.code.slice(3))), (a) => a.amount); continue; }
         if (c.bucket === "PARTIAL") t.denied += l.billed; // denied line inside a partly paid claim (spec §10a)
         for (const a of l.adjs) {
           const reason = a.code.slice(3);

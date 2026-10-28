@@ -12,7 +12,7 @@ endobj
 << /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
 endobj
 5 0 obj
-<< /Length 4925 >>
+<< /Length 4978 >>
 stream
 BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST AUTO INSURANCE CO - PIP                                  PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 759 Tm (        PO BOX 1000                                                   FAX:              \(302\)555-0101) Tj ET
@@ -28,9 +28,9 @@ BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:NOBLE, ORION            MBR:MEM82001
 BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 8000000040) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:4   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  0908 092226  11  1   98941             75.00     75.00      0.00      0.00   OA-119     75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  0908 092226  11  1   98941             75.00     75.00      0.00      0.00   CO-119     75.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 605 Tm (                                                REM: N587) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 594 Tm (        1234567893  0908 092226  11  1   97012  GP         55.00     55.00      0.00      0.00   OA-119     55.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 594 Tm (        1234567893  0908 092226  11  1   97012  GP         55.00     55.00      0.00      0.00   CO-119     55.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 583 Tm (                                                REM: N587) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 572 Tm (        PT RESP 0.00                          SUB TOTALS     130.00    130.00      0.00      0.00             130.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 561 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
@@ -39,7 +39,7 @@ BT /F1 7 Tf 1 0 0 1 20 539 Tm (        NAME:NOBLE, ORION            MBR:MEM82001
 BT /F1 7 Tf 1 0 0 1 20 528 Tm (                                                                                 8000000041) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 517 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 506 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 495 Tm (        1234567893  0924 100426  11  1   97110  GP         60.00     60.00      0.00      0.00   OA-119     60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (        1234567893  0924 100426  11  1   97110  GP         60.00     60.00      0.00      0.00   CO-119     60.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 484 Tm (                                                REM: N587) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 473 Tm (        PT RESP 0.00                          SUB TOTALS      60.00     60.00      0.00      0.00              60.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 462 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
@@ -48,7 +48,7 @@ BT /F1 7 Tf 1 0 0 1 20 440 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALL
 BT /F1 7 Tf 1 0 0 1 20 429 Tm (                            2      190.00      190.00        0.00        0.00      190.00        0.00        0.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 418 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 407 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 396 Tm (        OA-         Other Adjustments) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 385 Tm (                119 Benefit maximum for this time period or occurrence has been reached.) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 374 Tm (        N587        Policy benefits have been exhausted.) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 363 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
@@ -66,9 +66,9 @@ xref
 0000000115 00000 n 
 0000000183 00000 n 
 0000000269 00000 n 
-0000005246 00000 n 
+0000005299 00000 n 
 trailer
 << /Size 7 /Root 1 0 R /Info 4 0 R >>
 startxref
-5372
+5425
 %%EOF

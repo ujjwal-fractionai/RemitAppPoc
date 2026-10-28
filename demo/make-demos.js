@@ -1,6 +1,7 @@
 // Synthetic Waystar-style "View EOB" PDFs for demos and tests.
 // Fake people, IDs and money only — never put real PHI here.
-// Run: node demo/make-demos.js   (rewrites demo/*.pdf, dated relative to today)
+// Run: node demo/make-demos.js   (rewrites demo/batch-*/*.pdf, dated relative to today)
+// Adjustment codes: only those in public/denial-playbook.json (the billing team's list; a test enforces it).
 // Used by eob.test.js (specs double as fixtures) and, in v2, as the only documents the app will store:
 // every PDF carries the demo stamp (Info /Subject + footer on every page), see eob.js DEMO_MARKER / DEMO_FOOTER.
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -48,8 +49,6 @@ const CODES = {
   119: "Benefit maximum for this time period or occurrence has been reached.",
   170: "Payment is denied when performed/billed by this type of provider.",
   197: "Precertification/authorization/notification/pre-treatment absent.",
-  242: "Services not provided by network/primary care providers.",
-  253: "Sequestration - reduction in federal payment.",
   288: "Referral absent.",
   MA67: "Alert: Correction to a prior claim.",
   MA130: "Your claim contains incomplete and/or invalid information, and no appeal rights are afforded because the claim is unprocessable. Please submit a new claim with the complete/correct information.",
@@ -72,7 +71,7 @@ const line = (dates, proc, mods, billed, adjs = [], remarks = []) => {
   const coins = sum(adjs.filter(([c]) => c === "PR-2"), ([, a]) => a);
   const other = adjs.filter(([c]) => c !== "PR-1" && c !== "PR-2");
   const notAllowed = sum(adjs.filter(([c]) => !c.startsWith("PR-") || !["1", "2", "3"].includes(reason(c))), ([, a]) => a)
-    - sum(adjs.filter(([c]) => c.startsWith("OA-") && reason(c) === "119"), ([, a]) => a); // benefit max reduces payment, not allowed
+    - sum(adjs.filter(([c]) => reason(c) === "119"), ([, a]) => a); // benefit max reduces payment, not allowed
   return { from, to, proc, mods, billed, allowed: billed - notAllowed, deduct, coins, other, paid: billed - sum(adjs, ([, a]) => a), remarks };
 };
 const claim = (name, member, acnt, icn, claimNo, status, lines) => ({ name, member, acnt, icn, claimNo, status, lines });
@@ -178,6 +177,7 @@ export function pdf(pages) {
 const DEMO_PAYEE = "TEST CHIROPRACTIC CLINIC";
 
 // `expect` is checked by eob.test.js, so the demos double as test fixtures.
+// These first five (no `dir`) are test fixtures only: no PDF is written for them. The uploadable demos are the batches.
 const SPECS = [
   {
     file: "pip-maximum-reached.pdf",
@@ -189,13 +189,13 @@ const SPECS = [
       ]),
       claim("PARKER, SAM", "PIP0000001", "0000300001", "AUTO000001", "3000000002", "1", [
         line("0701 071526", "98941", "", 7500),
-        line("0701 071526", "97110", "GP", 6000, [["OA-119", 3550]], ["N587"]),
-        line("0701 071526", "97012", "GP", 5500, [["OA-119", 5500]], ["N587"]),
+        line("0701 071526", "97110", "GP", 6000, [["CO-119", 3550]], ["N587"]),
+        line("0701 071526", "97012", "GP", 5500, [["CO-119", 5500]], ["N587"]),
       ]),
       claim("PARKER, SAM", "PIP0000001", "0000300001", "AUTO000001", "3000000003", "4", [
-        line("0720 073126", "98941", "", 7500, [["OA-119", 7500]], ["N587"]),
-        line("0720 073126", "97110", "GP", 6000, [["OA-119", 6000]], ["N587"]),
-        line("0720 073126", "97012", "GP", 5500, [["OA-119", 5500]], ["N587"]),
+        line("0720 073126", "98941", "", 7500, [["CO-119", 7500]], ["N587"]),
+        line("0720 073126", "97110", "GP", 6000, [["CO-119", 6000]], ["N587"]),
+        line("0720 073126", "97012", "GP", 5500, [["CO-119", 5500]], ["N587"]),
       ]),
       claim("NGUYEN, LEE", "PIP0000002", "0000300002", "AUTO000002", "3000000004", "1", [
         line("0715 071526", "98940", "", 6500), line("0715 071526", "97110", "GP", 6000),
@@ -245,14 +245,14 @@ const SPECS = [
     ref: ["EFT", "EFT4000001"], checkDate: "10/09/2026", prodDate: "10/08/2026",
     claims: [
       claim("MORGAN, JESSE", "MEM300001", "0000400001", "GRP400001", "4000000101", "22", [
-        line("0910 092326", "98941", "", -7500, [["PR-1", -3831], ["PR-242", -3669]]),
+        line("0910 092326", "98941", "", -7500, [["PR-1", -3831], ["PR-2", -3669]]),
       ]),
       claim("MORGAN, JESSE", "MEM300001", "0000400001", "GRP400001", "4000000102", "22", [
-        line("0910 092326", "97110", "GP", -6000, [["PR-1", -2026], ["PR-242", -3974]]),
-        line("0910 092326", "97110", "GP", -6000, [["PR-1", -2026], ["PR-242", -3974]]),
+        line("0910 092326", "97110", "GP", -6000, [["PR-1", -2026], ["PR-2", -3974]]),
+        line("0910 092326", "97110", "GP", -6000, [["PR-1", -2026], ["PR-2", -3974]]),
       ]),
       claim("REED, ALI", "MEM300002", "0000400002", "GRP400002", "4000000103", "22", [
-        line("0914 092226", "98940", "", -6500, [["PR-1", -2663], ["PR-242", -3837]]),
+        line("0914 092226", "98940", "", -6500, [["PR-1", -2663], ["PR-2", -3837]]),
       ]),
       claim("MORGAN, JESSE", "MEM300001", "0000400001", "GRP400001", "4000000201", "1", [
         line("0910 092326", "98941", "", 7500, [["CO-45", 4180], ["PR-3", 3000]], ["MA67"]),
@@ -334,24 +334,24 @@ SPECS.push(
     cl("QUINN, VIOLET", "81041", "1", [line(svc(60, 46), "98941", "", 7500), line(svc(60, 46), "97110", "GP", 6000)]),
     cl("QUINN, VIOLET", "81041", "1", [
       line(svc(40, 26), "98941", "", 7500),
-      line(svc(40, 26), "97012", "GP", 5500, [["OA-119", 2500]], ["N587"]),
+      line(svc(40, 26), "97012", "GP", 5500, [["CO-119", 2500]], ["N587"]),
     ]),
     cl("QUINN, VIOLET", "81041", "4", [
-      line(svc(20, 6), "98941", "", 7500, [["OA-119", 7500]], ["N587"]),
-      line(svc(20, 6), "97110", "GP", 6000, [["OA-119", 6000]], ["N587"]),
+      line(svc(20, 6), "98941", "", 7500, [["CO-119", 7500]], ["N587"]),
+      line(svc(20, 6), "97110", "GP", 6000, [["CO-119", 6000]], ["N587"]),
     ]),
   ], { buckets: ["PAID", "NEXT_PAYER", "NEXT_PAYER"], reconciled: true, pairs: 0, pip: true, nextPayer: 16000, stage: "action" }),
   batch("batch-1", "b1-06-reversal-refund.pdf", "NAT", EFT(1006), 7, (svc) => [
-    cl("WOLFE, WREN", "81051", "22", [line(svc(30, 17), "98941", "", -7500, [["PR-1", -3831], ["PR-242", -3669]])]),
-    cl("WOLFE, WREN", "81051", "22", [line(svc(30, 17), "97110", "GP", -6000, [["PR-1", -2026], ["PR-242", -3974]])]),
+    cl("WOLFE, WREN", "81051", "22", [line(svc(30, 17), "98941", "", -7500, [["PR-1", -3831], ["PR-2", -3669]])]),
+    cl("WOLFE, WREN", "81051", "22", [line(svc(30, 17), "97110", "GP", -6000, [["PR-1", -2026], ["PR-2", -3974]])]),
     cl("WOLFE, WREN", "81051", "1", [line(svc(30, 17), "98941", "", 7500, [["CO-45", 4180], ["PR-3", 3000]], ["MA67"])]),
     cl("WOLFE, WREN", "81051", "1", [line(svc(30, 17), "97110", "GP", 6000, [["CO-45", 3488]], ["MA67"])]),
   ], { buckets: ["REVERSED", "REVERSED", "PARTIAL", "PAID"], reconciled: true, pairs: 2, stage: "action" }, { plb: [["AH", "EFT901006", 384]] }),
-  batch("batch-1", "b1-07-medicare-sequestration.pdf", "MCR", EFT(1007), 9, (svc) => [
-    cl("ADLER, BLAIR", "81061", "1", [line(svc(20), "98941", "", 7500, [["CO-45", 3476], ["PR-2", 805], ["CO-253", 64]])]),
-    cl("BRANDT, CASEY", "81062", "1", [line(svc(18), "98940", "", 6500, [["CO-45", 3190], ["PR-2", 662], ["CO-253", 53]])]),
-    cl("CRUZ, DALE", "81063", "1", [line(svc(16), "97110", "GP", 6000, [["CO-45", 3488], ["PR-2", 502], ["CO-253", 40]])]),
-    cl("DUNN, ELLIS", "81064", "1", [line(svc(14), "97012", "GP", 5500, [["CO-45", 3000], ["PR-2", 500], ["CO-253", 40]])]),
+  batch("batch-1", "b1-07-medicare-coinsurance.pdf", "MCR", EFT(1007), 9, (svc) => [
+    cl("ADLER, BLAIR", "81061", "1", [line(svc(20), "98941", "", 7500, [["CO-45", 3476], ["PR-2", 805]])]),
+    cl("BRANDT, CASEY", "81062", "1", [line(svc(18), "98940", "", 6500, [["CO-45", 3190], ["PR-2", 662]])]),
+    cl("CRUZ, DALE", "81063", "1", [line(svc(16), "97110", "GP", 6000, [["CO-45", 3488], ["PR-2", 502]])]),
+    cl("DUNN, ELLIS", "81064", "1", [line(svc(14), "97012", "GP", 5500, [["CO-45", 3000], ["PR-2", 500]])]),
   ], { buckets: Array(4).fill("PARTIAL"), reconciled: true, pairs: 0, stage: "ready" }),
   batch("batch-1", "b1-08-coinsurance.pdf", "BLUE", EFT(1008), 3, (svc) => [
     cl("EVANS, FARRAH", "81071", "1", [line(svc(15), "98941", "", 7500, [["CO-45", 3476], ["PR-2", 805]])]),
@@ -372,10 +372,10 @@ SPECS.push(
   // ---- batch-2: a second PIP, a big timely-filing denial, a two-page EOB, an unmatched reversal ----
   batch("batch-2", "b2-01-pip-open.pdf", "AUTO", EFT(2001), 20, (svc) => [
     cl("NOBLE, ORION", "82001", "4", [
-      line(svc(30, 16), "98941", "", 7500, [["OA-119", 7500]], ["N587"]),
-      line(svc(30, 16), "97012", "GP", 5500, [["OA-119", 5500]], ["N587"]),
+      line(svc(30, 16), "98941", "", 7500, [["CO-119", 7500]], ["N587"]),
+      line(svc(30, 16), "97012", "GP", 5500, [["CO-119", 5500]], ["N587"]),
     ]),
-    cl("NOBLE, ORION", "82001", "1", [line(svc(14, 4), "97110", "GP", 6000, [["OA-119", 6000]], ["N587"])]),
+    cl("NOBLE, ORION", "82001", "1", [line(svc(14, 4), "97110", "GP", 6000, [["CO-119", 6000]], ["N587"])]),
   ], { buckets: ["NEXT_PAYER", "NEXT_PAYER"], reconciled: true, pairs: 0, pip: true, nextPayer: 19000, stage: "action" }),
   batch("batch-2", "b2-02-timely-filing-denials.pdf", "UHC", EFT(2002), 6, (svc) => [
     cl("OLSEN, PAIGE", "82011", "4", [line(svc(220), "98941", "", 7500, [["CO-29", 7500]]), line(svc(220), "97110", "GP", 6000, [["CO-29", 6000]])]),
@@ -392,7 +392,7 @@ SPECS.push(
       .map((n, i) => cl(n, String(82021 + i), "1", [line(svc(20 - i), "98941", "", 7500, [["CO-45", 3476]])])),
   { buckets: PAID(12), reconciled: true, pairs: 0, stage: "ready" }),
   batch("batch-2", "b2-04-unmatched-reversal.pdf", "NAT", EFT(2004), 5, (svc) => [
-    cl("PIERCE, ROWAN", "82041", "22", [line(svc(40, 33), "98940", "", -6500, [["PR-1", -2663], ["PR-242", -3837]])]),
+    cl("PIERCE, ROWAN", "82041", "22", [line(svc(40, 33), "98940", "", -6500, [["PR-1", -2663], ["PR-2", -3837]])]),
     cl("QUINLAN, SAGE", "82042", "1", [line(svc(14), "98941", "", 7500, [["CO-45", 4180]])]),
     cl("RHODES, TAYLOR", "82043", "1", [line(svc(12), "97110", "GP", 6000, [["CO-45", 3488]])]),
   ], { buckets: ["REVERSED", "PAID", "PAID"], reconciled: true, pairs: 0, stage: "action" }),
@@ -405,7 +405,7 @@ SPECS.push(
   // ---- batch-3: an overdue PIP, missing-info denials, a reversal where the patient owes more ----
   batch("batch-3", "b3-01-pip-overdue.pdf", "AUTO", EFT(3001), 100, (svc) => [
     cl("VANCE, XAN", "83001", "1", [line(svc(40, 26), "98941", "", 7500)]),
-    cl("VANCE, XAN", "83001", "4", [line(svc(20, 6), "98941", "", 7500, [["OA-119", 7500]], ["N587"])]),
+    cl("VANCE, XAN", "83001", "4", [line(svc(20, 6), "98941", "", 7500, [["CO-119", 7500]], ["N587"])]),
   ], { buckets: ["PAID", "NEXT_PAYER"], reconciled: true, pairs: 0, pip: true, nextPayer: 7500, stage: "action" }),
   batch("batch-3", "b3-02-missing-info.pdf", "BLUE", EFT(3002), 5, (svc) => [
     cl("WARD, YALE", "83011", "1", [line(svc(15), "98941", "", 7500, [["CO-16", 7500]], ["MA130"])]),
@@ -413,9 +413,9 @@ SPECS.push(
     cl("ZANE, AMARI", "83013", "1", [line(svc(12), "97110", "GP", 6000, [["CO-45", 3488]])]),
   ], { buckets: ["DENIED", "DENIED", "PAID"], reconciled: true, pairs: 0, stage: "action" }),
   batch("batch-3", "b3-03-clean.pdf", "MCR", EFT(3003), 4, (svc) => [
-    cl("ARCHER, BEAU", "83021", "1", [line(svc(16), "98941", "", 7500, [["CO-45", 3476], ["CO-253", 80]])]),
-    cl("BOYD, CLEO", "83022", "1", [line(svc(14), "98940", "", 6500, [["CO-45", 3190], ["CO-253", 66]])]),
-    cl("CROSS, DEV", "83023", "1", [line(svc(12), "97012", "GP", 5500, [["CO-45", 3000], ["CO-253", 50]])]),
+    cl("ARCHER, BEAU", "83021", "1", [line(svc(16), "98941", "", 7500, [["CO-45", 3476]])]),
+    cl("BOYD, CLEO", "83022", "1", [line(svc(14), "98940", "", 6500, [["CO-45", 3190]])]),
+    cl("CROSS, DEV", "83023", "1", [line(svc(12), "97012", "GP", 5500, [["CO-45", 3000]])]),
   ], { buckets: PAID(3), reconciled: true, pairs: 0, stage: "ready" }),
   batch("batch-3", "b3-04-reversal-balance-up.pdf", "NAT", EFT(3004), 6, (svc) => [
     cl("BRIGGS, CORA", "83031", "22", [line(svc(25, 18), "98941", "", -7500, [["CO-45", -3476], ["PR-3", -1000]])]),
@@ -459,9 +459,9 @@ export function demos(base) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const dir = fileURLToPath(new URL(".", import.meta.url));
-  for (const d of demos(new Date())) {
-    const path = d.dir ? `${d.dir}/${d.file}` : d.file;
-    mkdirSync(dir + (d.dir ?? ""), { recursive: true });
+  for (const d of demos(new Date()).filter((d) => d.dir)) {
+    const path = `${d.dir}/${d.file}`;
+    mkdirSync(dir + d.dir, { recursive: true });
     writeFileSync(dir + path, pdf(eobPages(d)), "latin1");
     console.log("wrote demo/" + path);
   }

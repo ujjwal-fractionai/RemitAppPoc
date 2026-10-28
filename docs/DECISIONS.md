@@ -122,3 +122,9 @@ Why: owner wants the billing team's document to be the source of truth; one file
 Rejected: keeping the rows as a JS constant (copy drifts from billing's doc); a database table (no editor UI in the POC, and D34 keeps Supabase server-only).
 Trade-off: an edit to the JSON changes the app immediately: run `npm test` after editing (it checks the file loads and the demos still cover every code).
 
+### D43 — Demos use only the billing team's adjustment codes; uploadable demos = batches only · Decided · 2026-10-28
+Decision: every adjustment code in the demos must be in `public/denial-playbook.json` (test-enforced). Changed: OA-119 → CO-119 (PIP benefit max, as the JSON lists it), PR-242 → PR-2 in the reversal demos (same amounts, so the refund stories hold), CO-253 sequestration removed from the Medicare demos (b1-07 renamed `b1-07-medicare-coinsurance.pdf`). The five v1 demo PDFs in `demo/` root are no longer written; their specs stay as in-memory test fixtures. Remark codes (MA67, MA130, N130, N587) and PLB codes (AH, L6) stay: they're different code lists the JSON doesn't cover, and the reversal / fee / interest demos need them.
+Why: owner: the billing team's doc is the source of truth; a demo code they don't recognise would derail the review session.
+Also fixed: `summarize` counted CO-119 as contract write-off as well as next-payer money (hidden while demos used OA-119).
+Trade-off: real EOBs will still carry codes outside the JSON (e.g. CO-253 on Medicare); the app handles them by its rules and shows the payer's own glossary text, just without playbook steps.
+

@@ -24,8 +24,7 @@ POC/                           ← its own git repo (github: RemitAppPoc)
 │   ├── denial-playbook.json   ← billing team's denial playbook + terms (source of truth, D42)
 │   ├── eob.js                 ← PURE logic: parse, checks, buckets, pairing, stages, attention items, totals, de-identify
 │   └── vendor/                ← pdf.js (bundled; also used by the server in Node)
-├── demo/make-demos.js         ← generates stamped synthetic EOB PDFs (also the test fixtures)
-│   ├── *.pdf                  ← 5 v1 demos
+├── demo/make-demos.js         ← generates stamped synthetic EOB PDFs (also the test fixtures; codes only from denial-playbook.json)
 │   └── batch-1/ (10) · batch-2/ (5) · batch-3/ (5) · batch-4/ (4, denial playbook codes)
 ├── eob.test.js                ← node:test suite (npm test)
 ├── store.check.js · api.check.sh  ← integration checks against the real Supabase
