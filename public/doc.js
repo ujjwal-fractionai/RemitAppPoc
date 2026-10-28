@@ -202,7 +202,7 @@ function drawClaims(r) {
   const head = h("tr", {}, ["", "Claim", "Patient", "Account", "Payer claim #", "Status", "Billed", "Allowed", "Payer paid", "Patient owes", "Next step"].map(
     (t, i) => h("th", { class: i >= 6 && i <= 9 ? "num" : "" }, t)));
   const rows = cs.flatMap((c) => {
-    const detail = h("tr", { class: "detail", hidden: "" }, h("td", { colspan: 11 }, lineTable(r, c)));
+    const detail = h("tr", { class: "detail", hidden: "" }, h("td", { colspan: 11 }, lineTable(r, c), playbookBox(c)));
     const row = h("tr", { class: "claim", title: "Show service lines", "data-claim": c.label },
       h("td", { class: "chev" }, "▸"), h("td", {}, h("b", {}, c.label), c.pair && c.bucket !== "REVERSED" ? h("div", { class: "muted small" }, `corrects ${c.pair.label}`) : null),
       h("td", {}, h("span", { class: "name" }, c.name), h("div", { class: "muted small" }, c.patient)), h("td", {}, c.acnt), h("td", {}, c.claimNo),
@@ -240,6 +240,15 @@ function lineTable(r, c) {
     ))),
   );
 }
+
+// The billing team's fix steps for this claim's denial codes (eob.js DENIAL_PLAYBOOK, matched in analyze()).
+// Several rows for one code (e.g. CO-16) means the remark code decides which applies, so all are shown.
+const playbookBox = (c) => c.playbook.length > 0 &&
+  h("div", { class: "playbook" },
+    h("h4", {}, "How to fix (billing team playbook)"),
+    c.playbook.length > 1 && h("p", { class: "muted small" }, "More than one reason fits these codes: the remark code (REM) on the line says which."),
+    h("dl", {}, c.playbook.flatMap((p) => [
+      h("dt", {}, p.reason, " ", h("span", { class: "muted small" }, p.codes.join(", "))), h("dd", {}, p.resolution)])));
 
 const PRI = { High: "denied", Medium: "partial", Low: "reversed" };
 // AI box from the stored row: the server writes ai / ai_status / ai_error after upload (background queue).

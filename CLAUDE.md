@@ -23,7 +23,7 @@ Update `docs/HANDOVER.md`; add `docs/DECISIONS.md` entries (Why / Rejected / Tra
 - **Money in integer cents**; the AI never computes money, buckets, stages or deadlines.
 - **Always use Ponytail** (`ponytail:ponytail`) for coding: shortest working change, stdlib before dependencies, zero npm deps in the server, no CDN scripts.
 - **Explicit comments:** every file starts with a header (job, who calls it, what it must never do); comment the flow of non-obvious logic.
-- **Rules are named constants** at the top of `public/eob.js`, shown on the Rules tab.
+- **Rules are named constants** at the top of `public/eob.js`, shown on the Rules tab. The billing team's denial playbook + terms are config: `public/denial-playbook.json` (D42).
 - **Test first** for logic: `npm test`; demos double as fixtures.
 - **Verify before claiming done:** `npm test`; for API changes `bash api.check.sh`; for UI changes the workspace `npm run e2e` and look at the screenshots. ⚠ `store.check.js`, `api.check.sh` and `npm run e2e` delete every document on the shared Supabase board: ask the owner first if a demo board might be set up.
 - **Never commit or push** — the owner does all git.

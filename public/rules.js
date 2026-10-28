@@ -2,8 +2,8 @@
 // and the one write action of the demo: "Clear demo data" (DELETE /api/docs after an in-page confirmation).
 // Called by app.js render() each time #rules opens (so the document count is current).
 import {
-  BENEFIT_MAX, CONTRACTUAL, DE_PIP_MINIMUM, DEMO_FOOTER, DEMO_MARKER, DENY_GROUPS, DUE_SOON_DAYS, FOLLOW_UP_AFTER_DAYS,
-  NEXT_PAYER_FILING_DAYS, PIP_PAYER_WORDS, STAGES, usd,
+  BENEFIT_MAX, CONTRACTUAL, DE_PIP_MINIMUM, DEMO_FOOTER, DEMO_MARKER, DENIAL_PLAYBOOK, DENY_GROUPS, DUE_SOON_DAYS, FOLLOW_UP_AFTER_DAYS,
+  NEXT_PAYER_FILING_DAYS, PIP_PAYER_WORDS, STAGES, TERMS, usd,
 } from "./eob.js";
 import { api, banner, refresh, state } from "./app.js";
 import { $, badge, card, h, pill, STAGE_TONES } from "./ui.js";
@@ -69,6 +69,18 @@ export function renderRules() {
       ]),
     ),
 
+    card("Denial playbook (billing team)",
+      h("p", { class: "muted small" }, "Shown under each denied claim and given to the AI. A CO code here also covers the same reason under OA or PI. CO-45 and PR rows aren't denials: they explain write-offs and patient bills."),
+      h("div", { class: "playbook-rules" }, table(DENIAL_PLAYBOOK.map((p) => [h("b", {}, p.reason), [chips(p.codes), p.notes.length > 0 && h("div", { class: "muted small" }, p.notes.join(" · "))], p.resolution]),
+        ["Denial reason", "Codes", "Resolution"])),
+      h("p", { class: "muted small" }, where("denial_resolution_guide", "public/denial-playbook.json")),
+    ),
+
+    card("Terms",
+      table(TERMS.map(([k, v]) => [h("b", {}, k), v]), ["Term", "Meaning"]),
+      h("p", { class: "muted small" }, where("terms", "public/denial-playbook.json")),
+    ),
+
     card("PIP (auto insurance)",
       table([
         ["Payer names treated as auto / PIP", [chips(PIP_PAYER_WORDS), h("div", { class: "muted small" }, "If the payer's name contains one of these words, benefit-max claims are labelled PIP.")], where("PIP_PAYER_WORDS")],
@@ -111,7 +123,7 @@ export function renderRules() {
       ]),
       h("div", { class: "two", style: "margin-top:16px" },
         h("div", {}, h("h4", {}, "Sent to Gemini"), h("ul", {},
-          ["Claim labels (C1, C2…) and patient labels (Patient 1…)", "Claim status, bucket and dollar amounts", "Procedure, adjustment and remark codes and their meanings", "Payer name, reversal pairs, filing status (open / due soon / overdue)"].map((t) => h("li", {}, t)))),
+          ["Claim labels (C1, C2…) and patient labels (Patient 1…)", "Claim status, bucket and dollar amounts", "Procedure, adjustment and remark codes and their meanings", "The billing team's playbook steps for those codes","Payer name, reversal pairs, filing status (open / due soon / overdue)"].map((t) => h("li", {}, t)))),
         h("div", {}, h("h4", {}, "Never sent"), h("ul", {},
           ["Patient names", "Member IDs, account numbers, claim numbers / ICNs", "Provider NPIs", "Any dates (service, check, deadlines)", "The PDF itself"].map((t) => h("li", {}, t)))),
       ),
