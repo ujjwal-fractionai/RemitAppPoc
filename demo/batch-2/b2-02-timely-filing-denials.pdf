@@ -20,16 +20,16 @@ BT /F1 7 Tf 1 0 0 1 20 748 Tm (        SALT LAKE CITY, UT 84130                 
 BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT902002) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/21/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/22/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        40.24) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/20/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/21/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:OLSEN, PAIGE            MBR:MEM82011        ACNT:000082011       ICN:GRP82011) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 8000000042) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:4   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  0315 031526  11  1   98941             75.00      0.00      0.00      0.00   CO-29      75.00        0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 605 Tm (        1234567893  0315 031526  11  1   97110  GP         60.00      0.00      0.00      0.00   CO-29      60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  0316 031626  11  1   98941             75.00      0.00      0.00      0.00   CO-29      75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 605 Tm (        1234567893  0316 031626  11  1   97110  GP         60.00      0.00      0.00      0.00   CO-29      60.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 594 Tm (        PT RESP 0.00                          SUB TOTALS     135.00      0.00      0.00      0.00             135.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 583 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 572 Tm (                                                                                                            NET 0.00) Tj ET
@@ -37,9 +37,9 @@ BT /F1 7 Tf 1 0 0 1 20 561 Tm (        NAME:PACE, REESE             MBR:MEM82012
 BT /F1 7 Tf 1 0 0 1 20 550 Tm (                                                                                 8000000043) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 528 Tm (        CLM Status:4   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  0325 032526  11  1   98940             65.00      0.00      0.00      0.00   CO-29      65.00        0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 506 Tm (        1234567893  0325 032526  11  1   97012  GP         55.00      0.00      0.00      0.00   CO-29      55.00        0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 495 Tm (        1234567893  0325 032526  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-29      60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  0326 032626  11  1   98940             65.00      0.00      0.00      0.00   CO-29      65.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 506 Tm (        1234567893  0326 032626  11  1   97012  GP         55.00      0.00      0.00      0.00   CO-29      55.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (        1234567893  0326 032626  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-29      60.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 484 Tm (        PT RESP 0.00                          SUB TOTALS     180.00      0.00      0.00      0.00             180.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 473 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 462 Tm (                                                                                                            NET 0.00) Tj ET
@@ -47,7 +47,7 @@ BT /F1 7 Tf 1 0 0 1 20 451 Tm (        NAME:RAMOS, SKYE             MBR:MEM82013
 BT /F1 7 Tf 1 0 0 1 20 440 Tm (                                                                                 8000000044) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 429 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 418 Tm (        CLM Status:4   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 407 Tm (        1234567893  0404 040426  11  1   98941             75.00      0.00      0.00      0.00   CO-29      75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (        1234567893  0405 040526  11  1   98941             75.00      0.00      0.00      0.00   CO-29      75.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 396 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 385 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 374 Tm (                                                                                                            NET 0.00) Tj ET
@@ -55,7 +55,7 @@ BT /F1 7 Tf 1 0 0 1 20 363 Tm (        NAME:SALAS, TROY             MBR:MEM82014
 BT /F1 7 Tf 1 0 0 1 20 352 Tm (                                                                                 8000000045) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 341 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 330 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 319 Tm (        1234567893  1009 100926  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (        1234567893  1010 101026  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 308 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 297 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 286 Tm (                                                                                                            NET 40.24) Tj ET

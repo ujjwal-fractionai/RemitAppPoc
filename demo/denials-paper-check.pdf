@@ -20,15 +20,15 @@ BT /F1 7 Tf 1 0 0 1 20 748 Tm (        NEWARK, DE 19711                         
 BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          CHECK #:          0004417) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/22/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/23/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        47.65) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/21/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/22/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:BROWN, ALEX             MBR:MEM100001       ACNT:0000500001      ICN:GRP500001) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 5000000001) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:4   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  0908 090826  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-50      60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  0909 090926  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-50      60.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 605 Tm (                                                REM: N130) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 594 Tm (        PT RESP 0.00                          SUB TOTALS      60.00      0.00      0.00      0.00              60.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 583 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
@@ -37,7 +37,7 @@ BT /F1 7 Tf 1 0 0 1 20 561 Tm (        NAME:GARCIA, MIA             MBR:MEM10000
 BT /F1 7 Tf 1 0 0 1 20 550 Tm (                                                                                 5000000002) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 528 Tm (        CLM Status:4   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  0316 031626  11  1   98941             75.00      0.00      0.00      0.00   CO-29      75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  0317 031726  11  1   98941             75.00      0.00      0.00      0.00   CO-29      75.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 506 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 495 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 484 Tm (                                                                                                            NET 0.00) Tj ET
@@ -45,7 +45,7 @@ BT /F1 7 Tf 1 0 0 1 20 473 Tm (        NAME:KIM, JORDAN             MBR:MEM10000
 BT /F1 7 Tf 1 0 0 1 20 462 Tm (                                                                                 5000000003) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 451 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 440 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 429 Tm (        1234567893  0921 092126  11  1   98941             75.00      0.00      0.00      0.00   CO-16      75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (        1234567893  0922 092226  11  1   98941             75.00      0.00      0.00      0.00   CO-16      75.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 418 Tm (                                                REM: MA130) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 407 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 396 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
@@ -54,8 +54,8 @@ BT /F1 7 Tf 1 0 0 1 20 374 Tm (        NAME:PATEL, RIYA             MBR:MEM10000
 BT /F1 7 Tf 1 0 0 1 20 363 Tm (                                                                                 5000000004) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 352 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 341 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 330 Tm (        1234567893  0924 092426  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80       33.20) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 319 Tm (        1234567893  0924 092426  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-97      60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (        1234567893  0925 092526  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80       33.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (        1234567893  0925 092526  11  1   97140  GP         60.00      0.00      0.00      0.00   CO-97      60.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 308 Tm (        PT RESP 0.00                          SUB TOTALS     135.00     33.20      0.00      0.00             101.80     33.20) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 297 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 286 Tm (                                                                                                            NET 33.20) Tj ET
@@ -63,7 +63,7 @@ BT /F1 7 Tf 1 0 0 1 20 275 Tm (        NAME:SMITH, CHRIS            MBR:MEM10000
 BT /F1 7 Tf 1 0 0 1 20 264 Tm (                                                                                 5000000005) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 253 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 242 Tm (        CLM Status:4   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 231 Tm (        1234567893  0928 092826  11  1   97012  GP         55.00      0.00      0.00      0.00   CO-197     55.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 231 Tm (        1234567893  0929 092926  11  1   97012  GP         55.00      0.00      0.00      0.00   CO-197     55.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 220 Tm (        PT RESP 0.00                          SUB TOTALS      55.00      0.00      0.00      0.00              55.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 209 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 198 Tm (                                                                                                            NET 0.00) Tj ET
@@ -71,7 +71,7 @@ BT /F1 7 Tf 1 0 0 1 20 187 Tm (        NAME:BROWN, ALEX             MBR:MEM10000
 BT /F1 7 Tf 1 0 0 1 20 176 Tm (                                                                                 5000000006) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 165 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 154 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 143 Tm (        1234567893  1005 100526  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80       13.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 143 Tm (        1234567893  1006 100626  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80       13.20) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 132 Tm (                                                                                               PR-3       20.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 121 Tm (        PT RESP 20.00                         SUB TOTALS      75.00     33.20      0.00      0.00              61.80     13.20) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 110 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
@@ -92,9 +92,9 @@ BT /F1 7 Tf 1 0 0 1 20 748 Tm (        NEWARK, DE 19711                         
 BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          CHECK #:          0004417) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/22/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/23/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        47.65) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/21/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/22/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 660 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 649 Tm (                            6      475.00       66.40        0.00        0.00      428.60       46.40       -1.25       47.65) Tj ET

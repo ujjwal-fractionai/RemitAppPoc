@@ -20,15 +20,15 @@ BT /F1 7 Tf 1 0 0 1 20 748 Tm (        DOVER, DE 19901                          
 BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT901002) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/19/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/20/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        38.34) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/18/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/19/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:HAYES, FINLEY           MBR:MEM81011        ACNT:000081011       ICN:GRP81011) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 8000000005) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1003 100326  11  1   98941             75.00     40.24     40.24      0.00   CO-45      34.76        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1004 100426  11  1   98941             75.00     40.24     40.24      0.00   CO-45      34.76        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 605 Tm (        PT RESP 40.24                         SUB TOTALS      75.00     40.24     40.24      0.00              34.76      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 594 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 583 Tm (                                                                                                            NET 0.00) Tj ET
@@ -36,7 +36,7 @@ BT /F1 7 Tf 1 0 0 1 20 572 Tm (        NAME:REID, GRAY              MBR:MEM81012
 BT /F1 7 Tf 1 0 0 1 20 561 Tm (                                                                                 8000000006) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 550 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 528 Tm (        1234567893  1004 100426  11  1   98940             65.00     33.10     33.10      0.00   CO-45      31.90        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (        1234567893  1005 100526  11  1   98940             65.00     33.10     33.10      0.00   CO-45      31.90        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 517 Tm (        PT RESP 33.10                         SUB TOTALS      65.00     33.10     33.10      0.00              31.90      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 506 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 495 Tm (                                                                                                            NET 0.00) Tj ET
@@ -44,7 +44,7 @@ BT /F1 7 Tf 1 0 0 1 20 484 Tm (        NAME:SHAW, HARPER            MBR:MEM81013
 BT /F1 7 Tf 1 0 0 1 20 473 Tm (                                                                                 8000000007) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 462 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 451 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 440 Tm (        1234567893  1005 100526  11  1   97110  GP         60.00     25.12     25.12      0.00   CO-45      34.88        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (        1234567893  1006 100626  11  1   97110  GP         60.00     25.12     25.12      0.00   CO-45      34.88        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 429 Tm (        PT RESP 25.12                         SUB TOTALS      60.00     25.12     25.12      0.00              34.88      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 418 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 407 Tm (                                                                                                            NET 0.00) Tj ET
@@ -52,7 +52,7 @@ BT /F1 7 Tf 1 0 0 1 20 396 Tm (        NAME:WEST, INDIGO            MBR:MEM81014
 BT /F1 7 Tf 1 0 0 1 20 385 Tm (                                                                                 8000000008) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 374 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 363 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 352 Tm (        1234567893  1007 100726  11  1   98941             75.00     40.24     20.00      0.00   CO-45      34.76       20.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (        1234567893  1008 100826  11  1   98941             75.00     40.24     20.00      0.00   CO-45      34.76       20.24) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 341 Tm (        PT RESP 20.00                         SUB TOTALS      75.00     40.24     20.00      0.00              34.76     20.24) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 330 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 319 Tm (                                                                                                            NET 20.24) Tj ET
@@ -60,7 +60,7 @@ BT /F1 7 Tf 1 0 0 1 20 308 Tm (        NAME:FORD, JALEN             MBR:MEM81015
 BT /F1 7 Tf 1 0 0 1 20 297 Tm (                                                                                 8000000009) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 286 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 275 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 264 Tm (        1234567893  1009 100926  11  1   98940             65.00     33.10     15.00      0.00   CO-45      31.90       18.10) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 264 Tm (        1234567893  1010 101026  11  1   98940             65.00     33.10     15.00      0.00   CO-45      31.90       18.10) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 253 Tm (        PT RESP 15.00                         SUB TOTALS      65.00     33.10     15.00      0.00              31.90     18.10) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 242 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 231 Tm (                                                                                                            NET 18.10) Tj ET

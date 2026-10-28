@@ -20,15 +20,15 @@ BT /F1 7 Tf 1 0 0 1 20 748 Tm (        DOVER, DE 19901                          
 BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT903002) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/22/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/23/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        25.12) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/21/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/22/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:WARD, YALE              MBR:MEM83011        ACNT:000083011       ICN:GRP83011) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 8000000066) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1007 100726  11  1   98941             75.00      0.00      0.00      0.00   CO-16      75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1008 100826  11  1   98941             75.00      0.00      0.00      0.00   CO-16      75.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 605 Tm (                                                REM: MA130) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 594 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 583 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
@@ -37,7 +37,7 @@ BT /F1 7 Tf 1 0 0 1 20 561 Tm (        NAME:YATES, ZION             MBR:MEM83012
 BT /F1 7 Tf 1 0 0 1 20 550 Tm (                                                                                 8000000067) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 528 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  1008 100826  11  1   98940             65.00      0.00      0.00      0.00   CO-16      65.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  1009 100926  11  1   98940             65.00      0.00      0.00      0.00   CO-16      65.00        0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 506 Tm (                                                REM: MA130) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 495 Tm (        PT RESP 0.00                          SUB TOTALS      65.00      0.00      0.00      0.00              65.00      0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 484 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
@@ -46,7 +46,7 @@ BT /F1 7 Tf 1 0 0 1 20 462 Tm (        NAME:ZANE, AMARI             MBR:MEM83013
 BT /F1 7 Tf 1 0 0 1 20 451 Tm (                                                                                 8000000068) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 440 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 429 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 418 Tm (        1234567893  1010 101026  11  1   97110  GP         60.00     25.12      0.00      0.00   CO-45      34.88       25.12) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (        1234567893  1011 101126  11  1   97110  GP         60.00     25.12      0.00      0.00   CO-45      34.88       25.12) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 407 Tm (        PT RESP 0.00                          SUB TOTALS      60.00     25.12      0.00      0.00              34.88     25.12) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 396 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 385 Tm (                                                                                                            NET 25.12) Tj ET
