@@ -9,7 +9,7 @@ _Last updated: 2026-10-28_
 ## Right now
 
 - **v2 tracking board** (FEAT-007) is merged to `main`.
-- **Billing team's denial playbook** (FEAT-008, D41) is on branch `billing-denial-playbook`, **uncommitted**: fix steps under each denied claim, reason names in next steps / Needs attention / top reasons, playbook + terms on the Rules tab, `billingPlaybook` to the AI, `demo/batch-4` (4 EOBs, one per uncovered denial code). The playbook + terms are a config file, `public/denial-playbook.json` (D42): edit it, then `npm test`. Demos use only its adjustment codes; `demo/` now holds only the 4 upload batches (D43).
+- **Billing team's denial playbook** (FEAT-008, D41) is on branch `billing-denial-playbook`, **uncommitted**: fix steps under each denied claim, reason names in next steps / Needs attention / top reasons, playbook + terms on the Rules tab, `billingPlaybook` to the AI, `demo/batch-4` (4 EOBs, one per uncovered denial code). The playbook + terms are a config file, `public/denial-playbook.json` (D42): edit it, then `npm test`. Demos use only its codes (no other adjustment, remark or fee codes, D44); `demo/` now holds only the 4 upload batches (D43).
 - **Waiting on owner:** review + commit FEAT-008; ask billing about CO-119 on non-PIP plans, CARC 109 for "wrong payer", and which remark codes pick between CO-16 / CO-4 / CO-11 rows; confirm money definitions (workspace D39) and the 90-day filing estimate (D21).
 
 ## Done
@@ -35,7 +35,7 @@ _Last updated: 2026-10-28_
 # one-time: POC/.env needs GEMINI_API_KEY, APP_PASSCODE, SUPABASE_URL, SUPABASE_SECRET_KEY (service role)
 #           and supabase/schema.sql run once in the Supabase SQL Editor
 npm start                         # http://127.0.0.1:3000
-npm test                          # 53 unit tests, must stay green (offline, safe)
+npm test                          # 54 unit tests, must stay green (offline, safe)
 # ⚠ The next three checks DELETE every document in the shared Supabase board. Never run them on a demo day after
 #   you've prepared the board — run them first, then upload your demo batches.
 node store.check.js               # STORE OK  (real Supabase)

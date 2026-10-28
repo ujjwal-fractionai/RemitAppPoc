@@ -12,7 +12,7 @@ endobj
 << /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
 endobj
 5 0 obj
-<< /Length 6136 >>
+<< /Length 5574 >>
 stream
 BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST BLUE PLAN                                                PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 759 Tm (        300 BLUE WAY                                                  FAX:              \(302\)555-0101) Tj ET
@@ -29,39 +29,34 @@ BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                 
 BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:1   MRN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1008 100826  11  1   98941             75.00      0.00      0.00      0.00   CO-16      75.00        0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 605 Tm (                                                REM: MA130) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 594 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 583 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 572 Tm (                                                                                                            NET 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 561 Tm (        NAME:YATES, ZION             MBR:MEM83012        ACNT:000083012       ICN:GRP83012) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 550 Tm (                                                                                 8000000067) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CORRECTED: NA  HICN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 528 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  1009 100926  11  1   98940             65.00      0.00      0.00      0.00   CO-16      65.00        0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 506 Tm (                                                REM: MA130) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 495 Tm (        PT RESP 0.00                          SUB TOTALS      65.00      0.00      0.00      0.00              65.00      0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 484 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 473 Tm (                                                                                                            NET 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 462 Tm (        NAME:ZANE, AMARI             MBR:MEM83013        ACNT:000083013       ICN:GRP83013) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 451 Tm (                                                                                 8000000068) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 440 Tm (        CORRECTED: NA  HICN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 429 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 418 Tm (        1234567893  1011 101126  11  1   97110  GP         60.00     25.12      0.00      0.00   CO-45      34.88       25.12) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 407 Tm (        PT RESP 0.00                          SUB TOTALS      60.00     25.12      0.00      0.00              34.88     25.12) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 396 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 385 Tm (                                                                                                            NET 25.12) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 374 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 363 Tm (                            3      200.00       25.12        0.00        0.00      174.88       25.12        0.00       25.12) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 352 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 341 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 330 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 319 Tm (                 16 Claim/service lacks information or has submission/billing error\(s\).) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 308 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 297 Tm (        MA130       Your claim contains incomplete and/or invalid information, and no appeal rights are afforded) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 286 Tm (                    because the claim is unprocessable. Please submit a new claim with the complete/correct) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 275 Tm (                    information.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 264 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 253 Tm (                                                            Page 1) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 605 Tm (        PT RESP 0.00                          SUB TOTALS      75.00      0.00      0.00      0.00              75.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 594 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 583 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 572 Tm (        NAME:YATES, ZION             MBR:MEM83012        ACNT:000083012       ICN:GRP83012) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 561 Tm (                                                                                 8000000067) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 550 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (        1234567893  1009 100926  11  1   98940             65.00      0.00      0.00      0.00   CO-16      65.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (        PT RESP 0.00                          SUB TOTALS      65.00      0.00      0.00      0.00              65.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 506 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 484 Tm (        NAME:ZANE, AMARI             MBR:MEM83013        ACNT:000083013       ICN:GRP83013) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 473 Tm (                                                                                 8000000068) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 462 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 451 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (        1234567893  1011 101126  11  1   97110  GP         60.00     25.12      0.00      0.00   CO-45      34.88       25.12) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (        PT RESP 0.00                          SUB TOTALS      60.00     25.12      0.00      0.00              34.88     25.12) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (                                                                                                            NET 25.12) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (                            3      200.00       25.12        0.00        0.00      174.88       25.12        0.00       25.12) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 341 Tm (                 16 Claim/service lacks information or has submission/billing error\(s\).) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 308 Tm (                                                            Page 1) Tj ET
 endstream
 endobj
 6 0 obj
@@ -75,9 +70,9 @@ xref
 0000000115 00000 n 
 0000000183 00000 n 
 0000000269 00000 n 
-0000006457 00000 n 
+0000005895 00000 n 
 trailer
 << /Size 7 /Root 1 0 R /Info 4 0 R >>
 startxref
-6583
+6021
 %%EOF

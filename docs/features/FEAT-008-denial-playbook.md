@@ -21,8 +21,10 @@ Billing team sent a table of 18 denial reasons (adjustment codes + resolution) a
 
 - 2026-10-28: owner: remove codes not in their JSON from the demos and drop unneeded demo files → D43. Test "demos use only adjustment codes from the JSON" (RED on CO-253 / OA-119 / PR-242) and a write-off test that caught CO-119 being double-counted in `summarize` (fixed). v1 root PDFs deleted (specs kept as fixtures); e2e Part D now uploads `batch-4/b4-01…` instead of the deleted `deductible-season.pdf`.
 
+- 2026-10-28: owner: only codes from their list, and questions to billing must use only those codes → D44: remark and provider-level codes removed from demos; test widened. PDF scan found BUG-007 (page header read as glossary), fixed.
+
 ## Verification
-- `npm test` → 53 pass.
+- `npm test` → 54 pass. Scan of all 24 generated PDFs: no code outside the JSON.
 - Stubbed-API screenshots (dashboard / doc / rules) — 0 page errors. `api.check.sh` / `npm run e2e` NOT run (they wipe the shared Supabase board); run them before the next demo setup.
 
 ## Follow-ups

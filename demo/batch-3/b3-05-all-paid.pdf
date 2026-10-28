@@ -12,7 +12,7 @@ endobj
 << /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
 endobj
 5 0 obj
-<< /Length 5685 >>
+<< /Length 5448 >>
 stream
 BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST UNITED HEALTH PLAN                                       PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 759 Tm (        PO BOX 30555                                                  FAX:              \(302\)555-0101) Tj ET
@@ -21,7 +21,7 @@ BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                 
 BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT903005) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/25/2026) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        84.15) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        87.99) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/24/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:DUKE, EZRA              MBR:MEM83041        ACNT:000083041       ICN:GRP83041) Tj ET
@@ -49,15 +49,13 @@ BT /F1 7 Tf 1 0 0 1 20 429 Tm (        PT RESP 0.00                          SUB
 BT /F1 7 Tf 1 0 0 1 20 418 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 407 Tm (                                                                                                            NET 14.65) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 396 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 385 Tm (                            3      195.00       87.99        0.00        0.00      107.01       87.99        3.84       84.15) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (                            3      195.00       87.99        0.00        0.00      107.01       87.99        0.00       87.99) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 374 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 363 Tm (                                                AH                     EFT903005                    3.84) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 352 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 341 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 330 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 319 Tm (        AH          This is the claim transmission fee.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 308 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 297 Tm (                                                            Page 1) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 341 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (                                                            Page 1) Tj ET
 endstream
 endobj
 6 0 obj
@@ -71,9 +69,9 @@ xref
 0000000115 00000 n 
 0000000183 00000 n 
 0000000269 00000 n 
-0000006006 00000 n 
+0000005769 00000 n 
 trailer
 << /Size 7 /Root 1 0 R /Info 4 0 R >>
 startxref
-6132
+5895
 %%EOF

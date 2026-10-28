@@ -50,12 +50,6 @@ const CODES = {
   170: "Payment is denied when performed/billed by this type of provider.",
   197: "Precertification/authorization/notification/pre-treatment absent.",
   288: "Referral absent.",
-  MA67: "Alert: Correction to a prior claim.",
-  MA130: "Your claim contains incomplete and/or invalid information, and no appeal rights are afforded because the claim is unprocessable. Please submit a new claim with the complete/correct information.",
-  N130: "Consult plan benefit documents/guidelines for information about restrictions for this service.",
-  N587: "Policy benefits have been exhausted.",
-  AH: "This is the claim transmission fee.",
-  L6: "Interest owed.",
 };
 
 const M = "        "; // left margin
@@ -189,13 +183,13 @@ const SPECS = [
       ]),
       claim("PARKER, SAM", "PIP0000001", "0000300001", "AUTO000001", "3000000002", "1", [
         line("0701 071526", "98941", "", 7500),
-        line("0701 071526", "97110", "GP", 6000, [["CO-119", 3550]], ["N587"]),
-        line("0701 071526", "97012", "GP", 5500, [["CO-119", 5500]], ["N587"]),
+        line("0701 071526", "97110", "GP", 6000, [["CO-119", 3550]]),
+        line("0701 071526", "97012", "GP", 5500, [["CO-119", 5500]]),
       ]),
       claim("PARKER, SAM", "PIP0000001", "0000300001", "AUTO000001", "3000000003", "4", [
-        line("0720 073126", "98941", "", 7500, [["CO-119", 7500]], ["N587"]),
-        line("0720 073126", "97110", "GP", 6000, [["CO-119", 6000]], ["N587"]),
-        line("0720 073126", "97012", "GP", 5500, [["CO-119", 5500]], ["N587"]),
+        line("0720 073126", "98941", "", 7500, [["CO-119", 7500]]),
+        line("0720 073126", "97110", "GP", 6000, [["CO-119", 6000]]),
+        line("0720 073126", "97012", "GP", 5500, [["CO-119", 5500]]),
       ]),
       claim("NGUYEN, LEE", "PIP0000002", "0000300002", "AUTO000002", "3000000004", "1", [
         line("0715 071526", "98940", "", 6500), line("0715 071526", "97110", "GP", 6000),
@@ -208,9 +202,9 @@ const SPECS = [
     payer: "TEST HEALTH PLAN OF DELAWARE", payerAddr: ["200 PLAN AVE", "NEWARK, DE 19711"], payee: DEMO_PAYEE,
     ref: ["CHECK #", "0004417"], checkDate: "10/16/2026", prodDate: "10/15/2026",
     claims: [
-      claim("BROWN, ALEX", "MEM100001", "0000500001", "GRP500001", "5000000001", "4", [line("0902 090226", "97140", "GP", 6000, [["CO-50", 6000]], ["N130"])]),
+      claim("BROWN, ALEX", "MEM100001", "0000500001", "GRP500001", "5000000001", "4", [line("0902 090226", "97140", "GP", 6000, [["CO-50", 6000]])]),
       claim("GARCIA, MIA", "MEM100002", "0000500002", "GRP500002", "5000000002", "4", [line("0310 031026", "98941", "", 7500, [["CO-29", 7500]])]),
-      claim("KIM, JORDAN", "MEM100003", "0000500003", "GRP500003", "5000000003", "1", [line("0915 091526", "98941", "", 7500, [["CO-16", 7500]], ["MA130"])]),
+      claim("KIM, JORDAN", "MEM100003", "0000500003", "GRP500003", "5000000003", "1", [line("0915 091526", "98941", "", 7500, [["CO-16", 7500]])]),
       claim("PATEL, RIYA", "MEM100004", "0000500004", "GRP500004", "5000000004", "1", [
         line("0918 091826", "98941", "", 7500, [["CO-45", 4180]]),
         line("0918 091826", "97140", "GP", 6000, [["CO-97", 6000]]),
@@ -218,7 +212,6 @@ const SPECS = [
       claim("SMITH, CHRIS", "MEM100005", "0000500005", "GRP500005", "5000000005", "4", [line("0922 092226", "97012", "GP", 5500, [["CO-197", 5500]])]),
       claim("BROWN, ALEX", "MEM100001", "0000500001", "GRP500001", "5000000006", "1", [line("0929 092926", "98941", "", 7500, [["CO-45", 4180], ["PR-3", 2000]])]),
     ],
-    plb: [["L6", "0004417", -125]],
     expect: { buckets: ["DENIED", "DENIED", "DENIED", "PARTIAL", "DENIED", "PARTIAL"], reconciled: true, pairs: 0, stage: "action" },
   },
   {
@@ -236,7 +229,6 @@ const SPECS = [
       claim("WRIGHT, TAYLOR", "MEM200001", "0000600005", "GRP600001", "6000000005", "1", [line("0114 011426", "97110", "GP", 6000, [["CO-45", 3488], ["PR-1", 2512]])]),
       claim("LOPEZ, RAY", "MEM200005", "0000600006", "GRP600005", "6000000006", "1", [line("0115 011526", "98941", "", 7500, [["CO-45", 3476]])]),
     ],
-    plb: [["AH", "EFT3000001", 384]],
     expect: { buckets: ["PATIENT_RESP", "PARTIAL", "PARTIAL", "PATIENT_RESP", "PATIENT_RESP", "PAID"], reconciled: true, pairs: 0, stage: "ready" },
   },
   {
@@ -255,14 +247,13 @@ const SPECS = [
         line("0914 092226", "98940", "", -6500, [["PR-1", -2663], ["PR-2", -3837]]),
       ]),
       claim("MORGAN, JESSE", "MEM300001", "0000400001", "GRP400001", "4000000201", "1", [
-        line("0910 092326", "98941", "", 7500, [["CO-45", 4180], ["PR-3", 3000]], ["MA67"]),
+        line("0910 092326", "98941", "", 7500, [["CO-45", 4180], ["PR-3", 3000]]),
       ]),
       claim("MORGAN, JESSE", "MEM300001", "0000400001", "GRP400001", "4000000202", "1", [
-        line("0910 092326", "97110", "GP", 6000, [["CO-45", 3488]], ["MA67"]),
-        line("0910 092326", "97110", "GP", 6000, [["CO-45", 3488]], ["MA67"]),
+        line("0910 092326", "97110", "GP", 6000, [["CO-45", 3488]]),
+        line("0910 092326", "97110", "GP", 6000, [["CO-45", 3488]]),
       ]),
     ],
-    plb: [["AH", "EFT4000001", 384]],
     expect: { buckets: ["REVERSED", "REVERSED", "REVERSED", "PARTIAL", "PAID"], reconciled: true, pairs: 2, stage: "action" },
   },
   {
@@ -324,7 +315,7 @@ SPECS.push(
     cl("OWEN, OAKLEY", "81025", "1", [line(svc(9), "97012", "GP", 5500, [["CO-45", 3000], ["PR-3", 1500]])]),
   ], { buckets: Array(5).fill("PARTIAL"), reconciled: true, pairs: 0, stage: "ready" }),
   batch("batch-1", "b1-04-denials-medical-necessity.pdf", "HPD", EFT(1004), 4, (svc) => [
-    cl("PARK, QUINN", "81031", "4", [line(svc(20), "97140", "GP", 6000, [["CO-50", 6000]], ["N130"])]),
+    cl("PARK, QUINN", "81031", "4", [line(svc(20), "97140", "GP", 6000, [["CO-50", 6000]])]),
     cl("ROSS, RILEY", "81032", "4", [line(svc(18), "98941", "", 7500, [["CO-50", 7500]])]),
     cl("STONE, SAWYER", "81033", "4", [line(svc(16), "97012", "GP", 5500, [["CO-197", 5500]])]),
     cl("TATE, TATUM", "81034", "1", [line(svc(14), "98941", "", 7500, [["CO-45", 3476]])]),
@@ -334,19 +325,19 @@ SPECS.push(
     cl("QUINN, VIOLET", "81041", "1", [line(svc(60, 46), "98941", "", 7500), line(svc(60, 46), "97110", "GP", 6000)]),
     cl("QUINN, VIOLET", "81041", "1", [
       line(svc(40, 26), "98941", "", 7500),
-      line(svc(40, 26), "97012", "GP", 5500, [["CO-119", 2500]], ["N587"]),
+      line(svc(40, 26), "97012", "GP", 5500, [["CO-119", 2500]]),
     ]),
     cl("QUINN, VIOLET", "81041", "4", [
-      line(svc(20, 6), "98941", "", 7500, [["CO-119", 7500]], ["N587"]),
-      line(svc(20, 6), "97110", "GP", 6000, [["CO-119", 6000]], ["N587"]),
+      line(svc(20, 6), "98941", "", 7500, [["CO-119", 7500]]),
+      line(svc(20, 6), "97110", "GP", 6000, [["CO-119", 6000]]),
     ]),
   ], { buckets: ["PAID", "NEXT_PAYER", "NEXT_PAYER"], reconciled: true, pairs: 0, pip: true, nextPayer: 16000, stage: "action" }),
   batch("batch-1", "b1-06-reversal-refund.pdf", "NAT", EFT(1006), 7, (svc) => [
     cl("WOLFE, WREN", "81051", "22", [line(svc(30, 17), "98941", "", -7500, [["PR-1", -3831], ["PR-2", -3669]])]),
     cl("WOLFE, WREN", "81051", "22", [line(svc(30, 17), "97110", "GP", -6000, [["PR-1", -2026], ["PR-2", -3974]])]),
-    cl("WOLFE, WREN", "81051", "1", [line(svc(30, 17), "98941", "", 7500, [["CO-45", 4180], ["PR-3", 3000]], ["MA67"])]),
-    cl("WOLFE, WREN", "81051", "1", [line(svc(30, 17), "97110", "GP", 6000, [["CO-45", 3488]], ["MA67"])]),
-  ], { buckets: ["REVERSED", "REVERSED", "PARTIAL", "PAID"], reconciled: true, pairs: 2, stage: "action" }, { plb: [["AH", "EFT901006", 384]] }),
+    cl("WOLFE, WREN", "81051", "1", [line(svc(30, 17), "98941", "", 7500, [["CO-45", 4180], ["PR-3", 3000]])]),
+    cl("WOLFE, WREN", "81051", "1", [line(svc(30, 17), "97110", "GP", 6000, [["CO-45", 3488]])]),
+  ], { buckets: ["REVERSED", "REVERSED", "PARTIAL", "PAID"], reconciled: true, pairs: 2, stage: "action" }),
   batch("batch-1", "b1-07-medicare-coinsurance.pdf", "MCR", EFT(1007), 9, (svc) => [
     cl("ADLER, BLAIR", "81061", "1", [line(svc(20), "98941", "", 7500, [["CO-45", 3476], ["PR-2", 805]])]),
     cl("BRANDT, CASEY", "81062", "1", [line(svc(18), "98940", "", 6500, [["CO-45", 3190], ["PR-2", 662]])]),
@@ -367,15 +358,15 @@ SPECS.push(
     cl("KERR, LANE", "81091", "1", [line(svc(20), "98941", "", 7500, [["CO-45", 3476]]), line(svc(20), "97140", "GP", 6000, [["CO-97", 6000]])]),
     cl("LOWE, MAX", "81092", "1", [line(svc(18), "98940", "", 6500, [["CO-45", 3190]])]),
     cl("MARSH, NIA", "81093", "1", [line(svc(15), "97110", "GP", 6000, [["CO-45", 3488], ["PR-3", 2000]])]),
-  ], { buckets: ["PARTIAL", "PAID", "PARTIAL"], reconciled: true, pairs: 0, stage: "action" }, { plb: [["L6", "0007788", -125]] }),
+  ], { buckets: ["PARTIAL", "PAID", "PARTIAL"], reconciled: true, pairs: 0, stage: "action" }),
 
   // ---- batch-2: a second PIP, a big timely-filing denial, a two-page EOB, an unmatched reversal ----
   batch("batch-2", "b2-01-pip-open.pdf", "AUTO", EFT(2001), 20, (svc) => [
     cl("NOBLE, ORION", "82001", "4", [
-      line(svc(30, 16), "98941", "", 7500, [["CO-119", 7500]], ["N587"]),
-      line(svc(30, 16), "97012", "GP", 5500, [["CO-119", 5500]], ["N587"]),
+      line(svc(30, 16), "98941", "", 7500, [["CO-119", 7500]]),
+      line(svc(30, 16), "97012", "GP", 5500, [["CO-119", 5500]]),
     ]),
-    cl("NOBLE, ORION", "82001", "1", [line(svc(14, 4), "97110", "GP", 6000, [["CO-119", 6000]], ["N587"])]),
+    cl("NOBLE, ORION", "82001", "1", [line(svc(14, 4), "97110", "GP", 6000, [["CO-119", 6000]])]),
   ], { buckets: ["NEXT_PAYER", "NEXT_PAYER"], reconciled: true, pairs: 0, pip: true, nextPayer: 19000, stage: "action" }),
   batch("batch-2", "b2-02-timely-filing-denials.pdf", "UHC", EFT(2002), 6, (svc) => [
     cl("OLSEN, PAIGE", "82011", "4", [line(svc(220), "98941", "", 7500, [["CO-29", 7500]]), line(svc(220), "97110", "GP", 6000, [["CO-29", 6000]])]),
@@ -405,11 +396,11 @@ SPECS.push(
   // ---- batch-3: an overdue PIP, missing-info denials, a reversal where the patient owes more ----
   batch("batch-3", "b3-01-pip-overdue.pdf", "AUTO", EFT(3001), 100, (svc) => [
     cl("VANCE, XAN", "83001", "1", [line(svc(40, 26), "98941", "", 7500)]),
-    cl("VANCE, XAN", "83001", "4", [line(svc(20, 6), "98941", "", 7500, [["CO-119", 7500]], ["N587"])]),
+    cl("VANCE, XAN", "83001", "4", [line(svc(20, 6), "98941", "", 7500, [["CO-119", 7500]])]),
   ], { buckets: ["PAID", "NEXT_PAYER"], reconciled: true, pairs: 0, pip: true, nextPayer: 7500, stage: "action" }),
   batch("batch-3", "b3-02-missing-info.pdf", "BLUE", EFT(3002), 5, (svc) => [
-    cl("WARD, YALE", "83011", "1", [line(svc(15), "98941", "", 7500, [["CO-16", 7500]], ["MA130"])]),
-    cl("YATES, ZION", "83012", "1", [line(svc(14), "98940", "", 6500, [["CO-16", 6500]], ["MA130"])]),
+    cl("WARD, YALE", "83011", "1", [line(svc(15), "98941", "", 7500, [["CO-16", 7500]])]),
+    cl("YATES, ZION", "83012", "1", [line(svc(14), "98940", "", 6500, [["CO-16", 6500]])]),
     cl("ZANE, AMARI", "83013", "1", [line(svc(12), "97110", "GP", 6000, [["CO-45", 3488]])]),
   ], { buckets: ["DENIED", "DENIED", "PAID"], reconciled: true, pairs: 0, stage: "action" }),
   batch("batch-3", "b3-03-clean.pdf", "MCR", EFT(3003), 4, (svc) => [
@@ -419,14 +410,14 @@ SPECS.push(
   ], { buckets: PAID(3), reconciled: true, pairs: 0, stage: "ready" }),
   batch("batch-3", "b3-04-reversal-balance-up.pdf", "NAT", EFT(3004), 6, (svc) => [
     cl("BRIGGS, CORA", "83031", "22", [line(svc(25, 18), "98941", "", -7500, [["CO-45", -3476], ["PR-3", -1000]])]),
-    cl("BRIGGS, CORA", "83031", "1", [line(svc(25, 18), "98941", "", 7500, [["CO-45", 3476], ["PR-1", 2000], ["PR-3", 1000]], ["MA67"])]),
+    cl("BRIGGS, CORA", "83031", "1", [line(svc(25, 18), "98941", "", 7500, [["CO-45", 3476], ["PR-1", 2000], ["PR-3", 1000]])]),
     cl("CHASE, DREW", "83032", "1", [line(svc(12), "98940", "", 6500, [["CO-45", 3190]])]),
   ], { buckets: ["REVERSED", "PARTIAL", "PAID"], reconciled: true, pairs: 1, stage: "ready" }),
-  batch("batch-3", "b3-05-fees-and-paid.pdf", "UHC", EFT(3005), 3, (svc) => [
+  batch("batch-3", "b3-05-all-paid.pdf", "UHC", EFT(3005), 3, (svc) => [
     cl("DUKE, EZRA", "83041", "1", [line(svc(14), "98941", "", 7500, [["CO-45", 3476]])]),
     cl("ESTES, FAYE", "83042", "1", [line(svc(12), "98940", "", 6500, [["CO-45", 3190]])]),
     cl("FROST, GIO", "83043", "1", [line(svc(10), "97012", "GP", 5500, [["CO-45", 4035]])]),
-  ], { buckets: PAID(3), reconciled: true, pairs: 0, stage: "ready" }, { plb: [["AH", "EFT903005", 384]] }),
+  ], { buckets: PAID(3), reconciled: true, pairs: 0, stage: "ready" }),
 
   // ---- batch-4: one denial of each playbook reason not shown elsewhere ----
   batch("batch-4", "b4-01-eligibility-and-cob.pdf", "HPD", EFT(4001), 4, (svc) => [
@@ -445,7 +436,7 @@ SPECS.push(
     cl("JAY, JUNO", "84023", "1", [line(svc(12), "98940", "", 6500, [["CO-45", 3190]])]),
   ], { buckets: ["PARTIAL", "DENIED", "PAID"], reconciled: true, pairs: 0, stage: "action" }),
   batch("batch-4", "b4-04-noncovered-out-of-network.pdf", "NAT", EFT(4004), 6, (svc) => [
-    cl("KANE, KIRBY", "84031", "4", [line(svc(15), "97012", "GP", 5500, [["CO-96", 5500]], ["N130"])]),
+    cl("KANE, KIRBY", "84031", "4", [line(svc(15), "97012", "GP", 5500, [["CO-96", 5500]])]),
     cl("LARK, LENNON", "84032", "4", [line(svc(13), "98941", "", 7500, [["CO-170", 7500]])]),
     cl("MAYS, MILO", "84033", "1", [line(svc(11), "98940", "", 6500, [["CO-45", 3190]])]),
   ], { buckets: ["DENIED", "DENIED", "PAID"], reconciled: true, pairs: 0, stage: "action" }),

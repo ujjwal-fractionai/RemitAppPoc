@@ -12,7 +12,7 @@ endobj
 << /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
 endobj
 5 0 obj
-<< /Length 7423 >>
+<< /Length 6900 >>
 stream
 BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST NATIONAL HEALTH INSURANCE CO                             PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 759 Tm (        400 NATIONAL BLVD                                             FAX:              \(302\)555-0101) Tj ET
@@ -21,7 +21,7 @@ BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                 
 BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT901006) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/21/2026) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        24.48) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        28.32) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/20/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:WOLFE, WREN             MBR:MEM81051        ACNT:000081051       ICN:GRP81051) Tj ET
@@ -46,34 +46,29 @@ BT /F1 7 Tf 1 0 0 1 20 462 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 451 Tm (        CLM Status:1   MRN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 440 Tm (        1234567893  0921 100426  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80        3.20) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 429 Tm (                                                                                               PR-3       30.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 418 Tm (                                                REM: MA67) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 407 Tm (        PT RESP 30.00                         SUB TOTALS      75.00     33.20      0.00      0.00              71.80      3.20) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 396 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 385 Tm (                                                                                                            NET 3.20) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 374 Tm (        NAME:WOLFE, WREN             MBR:MEM81051        ACNT:000081051       ICN:GRP81051) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 363 Tm (                                                                                 8000000026) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 352 Tm (        CORRECTED: NA  HICN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 341 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 330 Tm (        1234567893  0921 100426  11  1   97110  GP         60.00     25.12      0.00      0.00   CO-45      34.88       25.12) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 319 Tm (                                                REM: MA67) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 308 Tm (        PT RESP 0.00                          SUB TOTALS      60.00     25.12      0.00      0.00              34.88     25.12) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 297 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 286 Tm (                                                                                                            NET 25.12) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 275 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 264 Tm (                            4        0.00      -76.68      -58.57      -76.43      106.68       28.32        3.84       24.48) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 253 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 242 Tm (                                                AH                     EFT901006                    3.84) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 231 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 220 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 209 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 198 Tm (        PR-         Patient Responsibility) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 187 Tm (                  1 Deductible Amount) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 176 Tm (                  2 Coinsurance Amount) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 165 Tm (                  3 Co-payment Amount) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 154 Tm (        MA67        Alert: Correction to a prior claim.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 143 Tm (        AH          This is the claim transmission fee.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 132 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 121 Tm (                                                            Page 1) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (        PT RESP 30.00                         SUB TOTALS      75.00     33.20      0.00      0.00              71.80      3.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (                                                                                                            NET 3.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (        NAME:WOLFE, WREN             MBR:MEM81051        ACNT:000081051       ICN:GRP81051) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (                                                                                 8000000026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 341 Tm (        1234567893  0921 100426  11  1   97110  GP         60.00     25.12      0.00      0.00   CO-45      34.88       25.12) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (        PT RESP 0.00                          SUB TOTALS      60.00     25.12      0.00      0.00              34.88     25.12) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 308 Tm (                                                                                                            NET 25.12) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 297 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 286 Tm (                            4        0.00      -76.68      -58.57      -76.43      106.68       28.32        0.00       28.32) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 275 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 264 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 253 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 242 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 231 Tm (        PR-         Patient Responsibility) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 220 Tm (                  1 Deductible Amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 209 Tm (                  2 Coinsurance Amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 198 Tm (                  3 Co-payment Amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 187 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 176 Tm (                                                            Page 1) Tj ET
 endstream
 endobj
 6 0 obj
@@ -87,9 +82,9 @@ xref
 0000000115 00000 n 
 0000000183 00000 n 
 0000000269 00000 n 
-0000007744 00000 n 
+0000007221 00000 n 
 trailer
 << /Size 7 /Root 1 0 R /Info 4 0 R >>
 startxref
-7870
+7347
 %%EOF

@@ -137,7 +137,7 @@ export const followUpPill = (f) =>
   : f.status === "due soon" ? pill("partial", `Due soon: ${f.daysLeft} day${f.daysLeft === 1 ? "" : "s"} left`)
   : pill("owes", `Open: ${f.daysLeft} days left`);
 
-// Benefit maximum reached (CARC 119 / N587), e.g. Delaware auto PIP exhausted → the patient's health insurance pays next.
+// Benefit maximum reached (code 119), e.g. Delaware auto PIP exhausted → the patient's health insurance pays next.
 function pipCard(r) {
   const cs = r.claims.filter((c) => c.bucket === "NEXT_PAYER");
   if (!cs.length) return null;
@@ -150,7 +150,7 @@ function pipCard(r) {
       followUpPill(f),
     ),
     h("p", { class: "lead" }, r.pip
-      ? `This auto insurer's Personal Injury Protection (PIP) benefits are used up (code 119, remark N587). It will not pay any more on this accident, so ${usd(total)} must be billed to the patient's own health insurance instead.`
+      ? `This auto insurer's Personal Injury Protection (PIP) benefits are used up (code 119). It will not pay any more on this accident, so ${usd(total)} must be billed to the patient's own health insurance instead.`
       : `The payer says the benefit maximum is reached (code 119). ${usd(total)} must be billed to the patient's next coverage instead.`),
     r.pip && h("p", { class: "muted small" }, `Delaware PIP covers at least ${usd(DE_PIP_MINIMUM.perPerson)} per person and ${usd(DE_PIP_MINIMUM.perAccident)} per accident (21 Del. C. § 2118). Policies can carry higher limits, so confirm the limit with the adjuster.`),
     h("div", { class: "table-wrap" }, h("table", { class: "plain" },
@@ -246,7 +246,7 @@ function lineTable(r, c) {
 const playbookBox = (c) => c.playbook.length > 0 &&
   h("div", { class: "playbook" },
     h("h4", {}, "How to fix (billing team playbook)"),
-    c.playbook.length > 1 && h("p", { class: "muted small" }, "More than one reason fits these codes: the remark code (REM) on the line says which."),
+    c.playbook.length > 1 && h("p", { class: "muted small" }, "More than one reason in the playbook fits this code: check the EOB and payer notes to see which applies."),
     h("dl", {}, c.playbook.flatMap((p) => [
       h("dt", {}, p.reason, " ", h("span", { class: "muted small" }, p.codes.join(", "))), h("dd", {}, p.resolution)])));
 

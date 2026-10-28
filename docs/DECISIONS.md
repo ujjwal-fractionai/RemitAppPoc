@@ -128,3 +128,7 @@ Why: owner: the billing team's doc is the source of truth; a demo code they don'
 Also fixed: `summarize` counted CO-119 as contract write-off as well as next-payer money (hidden while demos used OA-119).
 Trade-off: real EOBs will still carry codes outside the JSON (e.g. CO-253 on Medicare); the app handles them by its rules and shows the payer's own glossary text, just without playbook steps.
 
+### D44 — Demos carry no codes outside the billing team's list · Decided · 2026-10-28 · amends D43
+Owner: "the list i gave are the only codes we need". Remark codes (MA67, MA130, N130, N587) and provider-level codes (AH fee, L6 interest) are removed from every demo too; `b3-05-fees-and-paid.pdf` is now `b3-05-all-paid.pdf`. The test covers adjustment, remark and provider-level codes. On-screen and AI-prompt text no longer names N587 or "the remark code decides"; a code with several playbook rows says to check the EOB and payer notes.
+Trade-off: the parser still reads REM lines and provider adjustments, because real EOBs have them; the demos just don't show any. Reconciliation demos now prove check = claim payments only (the fee/interest case is covered by the unit-test fixture).
+

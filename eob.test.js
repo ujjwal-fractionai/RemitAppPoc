@@ -299,9 +299,11 @@ test("every code in the playbook has a demo EOB that shows it (add a demo when b
   assert.deepEqual(missing, []);
 });
 
-test("demos use only adjustment codes from denial-playbook.json", () => {
+test("demos use only codes from denial-playbook.json: no other adjustment, remark or provider-level codes", () => {
   const known = new Set(DENIAL_PLAYBOOK.flatMap((p) => p.codes));
-  const used = new Set(DEMOS.flatMap((d) => d.claims.flatMap((c) => c.lines.flatMap((l) => l.other.map(([code]) => code)))));
+  const used = new Set(DEMOS.flatMap((d) => [
+    ...d.claims.flatMap((c) => c.lines.flatMap((l) => [...l.other.map(([code]) => code), ...l.remarks])),
+    ...(d.plb ?? []).map(([code]) => code)]));
   assert.deepEqual([...used].filter((c) => !known.has(c)), []);
 });
 
@@ -311,4 +313,11 @@ test("summarize: benefit-max (119) money is next payer, never contract write-off
   const t = summarize([{ r, stage: "action" }]);
   assert.equal(t.nextPayer, 28050);
   assert.equal(t.writeOff, 0);
+});
+
+test("glossary that runs onto a new page ignores the repeated page header (BUG-007)", () => {
+  for (const d of DEMOS) {
+    const keys = Object.keys(parseEob(eobPages(d).flat()).glossary);
+    assert.deepEqual(keys.filter((k) => !/^([A-Z]{2}-|\d+)$/.test(k)), [], d.file);
+  }
 });

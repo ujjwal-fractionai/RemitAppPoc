@@ -12,7 +12,7 @@ endobj
 << /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
 endobj
 5 0 obj
-<< /Length 6306 >>
+<< /Length 5923 >>
 stream
 BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST AUTO INSURANCE CO - PIP                                  PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 759 Tm (        PO BOX 1000                                                   FAX:              \(302\)555-0101) Tj ET
@@ -39,30 +39,26 @@ BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 528 Tm (        CLM Status:1   MRN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 517 Tm (        1234567893  0630 071426  11  1   98941             75.00     75.00      0.00      0.00                          75.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 506 Tm (        1234567893  0630 071426  11  1   97012  GP         55.00     55.00      0.00      0.00   CO-119     25.00       30.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 495 Tm (                                                REM: N587) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 484 Tm (        PT RESP 0.00                          SUB TOTALS     130.00    130.00      0.00      0.00              25.00    105.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 473 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 462 Tm (                                                                                                            NET 105.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 451 Tm (        NAME:QUINN, VIOLET           MBR:MEM81041        ACNT:000081041       ICN:GRP81041) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 440 Tm (                                                                                 8000000022) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 429 Tm (        CORRECTED: NA  HICN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 418 Tm (        CLM Status:4   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 407 Tm (        1234567893  0720 080326  11  1   98941             75.00     75.00      0.00      0.00   CO-119     75.00        0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 396 Tm (                                                REM: N587) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 385 Tm (        1234567893  0720 080326  11  1   97110  GP         60.00     60.00      0.00      0.00   CO-119     60.00        0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 374 Tm (                                                REM: N587) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 363 Tm (        PT RESP 0.00                          SUB TOTALS     135.00    135.00      0.00      0.00             135.00      0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 352 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 341 Tm (                                                                                                            NET 0.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 330 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 319 Tm (                            3      400.00      400.00        0.00        0.00      160.00      240.00        0.00      240.00) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 308 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 297 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 286 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 275 Tm (                119 Benefit maximum for this time period or occurrence has been reached.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 264 Tm (        N587        Policy benefits have been exhausted.) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 253 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 242 Tm (                                                            Page 1) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (        PT RESP 0.00                          SUB TOTALS     130.00    130.00      0.00      0.00              25.00    105.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 484 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 473 Tm (                                                                                                            NET 105.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 462 Tm (        NAME:QUINN, VIOLET           MBR:MEM81041        ACNT:000081041       ICN:GRP81041) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 451 Tm (                                                                                 8000000022) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (        CLM Status:4   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (        1234567893  0720 080326  11  1   98941             75.00     75.00      0.00      0.00   CO-119     75.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (        1234567893  0720 080326  11  1   97110  GP         60.00     60.00      0.00      0.00   CO-119     60.00        0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (        PT RESP 0.00                          SUB TOTALS     135.00    135.00      0.00      0.00             135.00      0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (                                                                                                            NET 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (                            3      400.00      400.00        0.00        0.00      160.00      240.00        0.00      240.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 341 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 308 Tm (                119 Benefit maximum for this time period or occurrence has been reached.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 297 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 286 Tm (                                                            Page 1) Tj ET
 endstream
 endobj
 6 0 obj
@@ -76,9 +72,9 @@ xref
 0000000115 00000 n 
 0000000183 00000 n 
 0000000269 00000 n 
-0000006627 00000 n 
+0000006244 00000 n 
 trailer
 << /Size 7 /Root 1 0 R /Info 4 0 R >>
 startxref
-6753
+6370
 %%EOF

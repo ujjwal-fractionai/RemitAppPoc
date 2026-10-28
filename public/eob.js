@@ -121,6 +121,9 @@ export function parseEob(lines) {
       continue;
     }
     if (mode === "glossary") {
+      // A glossary that runs onto a new page: skip that page's repeated payer header (BUG-007).
+      // ponytail: header = "LABEL:  value" row or the column header; refine if a payer's glossary text ever looks like that.
+      if (R.header.test(raw) || R.colHeader.test(raw)) continue;
       const prefix = raw.slice(0, gCol).trim(), text = raw.slice(gCol).trim();
       if (prefix) r.glossary[(gKey = prefix)] = text;
       else if (gKey) r.glossary[gKey] += " " + text;
