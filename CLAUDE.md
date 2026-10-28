@@ -17,7 +17,7 @@ Update `docs/HANDOVER.md`; add `docs/DECISIONS.md` entries (Why / Rejected / Tra
 
 ## Rules (short form — full list in the workspace CLAUDE.md)
 
-- **No real PHI** in code, tests, fixtures, docs, logs or commits. Demo data only (`demo/`).
+- **No real PHI** in code, tests, fixtures, docs, logs, commits or Supabase. Demo data only (`demo/`); never weaken the demo-stamp guard (`eob.js:isDemo`, server re-check).
 - **No PHI to AI.** Gemini gets only `public/eob.js:deidentify()` output.
 - **No secrets in git.** `.env` stays local; commit `.env.example` only; never zip a folder that contains `.env`.
 - **Money in integer cents**; the AI never computes money, buckets, stages or deadlines.
@@ -25,5 +25,7 @@ Update `docs/HANDOVER.md`; add `docs/DECISIONS.md` entries (Why / Rejected / Tra
 - **Explicit comments:** every file starts with a header (job, who calls it, what it must never do); comment the flow of non-obvious logic.
 - **Rules are named constants** at the top of `public/eob.js`, shown on the Rules tab.
 - **Test first** for logic: `npm test`; demos double as fixtures.
-- **Verify before claiming done:** run the tests; for UI changes, load the page and look.
+- **Verify before claiming done:** `npm test`; for API changes `bash api.check.sh`; for UI changes the workspace `npm run e2e` and look at the screenshots. ⚠ `store.check.js`, `api.check.sh` and `npm run e2e` delete every document on the shared Supabase board: ask the owner first if a demo board might be set up.
+- **Never commit or push** — the owner does all git.
+- The browser never talks to Supabase or Gemini; only `server.js` (via `store.js`) does.
 - Specs, plans and mockups for POC work go in `docs/superpowers/`.
