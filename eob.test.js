@@ -237,3 +237,10 @@ test("summarize: counts reviewed documents and leaves reversal claims out of the
   assert.equal(rev.payerPaid, 5344);
   assert.equal(rev.billPatients, 3000);
 });
+
+test("summarize: Denied counts denied lines only inside PARTIAL claims (spec §10a)", () => {
+  const r = demo("deductible-season.pdf");
+  const c = r.claims.find((x) => x.bucket === "PATIENT_RESP");
+  c.lines[0].denied = true; // a denied line on a claim that isn't PARTIAL must not count as Denied money
+  assert.equal(summarize([{ r, stage: "ready" }]).denied, 0);
+});

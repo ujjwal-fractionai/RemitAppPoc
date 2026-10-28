@@ -36,6 +36,7 @@ export const FOLLOW_UP_AFTER_DAYS = 30;
 // Demo stamp (POC v2 stores demo documents only): our generator writes both; anything without them is refused.
 export const DEMO_MARKER = "REMIT-DEMO-SYNTHETIC"; // PDF Info /Subject
 export const DEMO_FOOTER = "SYNTHETIC DEMO DATA - NOT A REAL EOB"; // printed on every page
+export const NOT_DEMO = "This looks like a real EOB. The demo only stores synthetic demo files."; // shown by browser and server
 
 export const cents = (s) => {
   const [i, f = "0"] = s.replace(/[^\d.]/g, "").split(".");
@@ -284,7 +285,7 @@ export function deidentify(r) {
 // ---- v2 tracking board: automatic column, "Needs attention" items, dashboard totals ----
 // Pure, like everything above. Called by the browser (board, dashboard) on documents re-analysed from stored lines.
 
-export const STAGES = { mismatch: "Doesn't add up", action: "Action needed", ready: "Ready to post", reviewed: "✓ Reviewed" };
+export const STAGES = { mismatch: "Doesn't add up", action: "Action needed", ready: "Ready to Review", reviewed: "✓ Reviewed" };
 
 // Where a document lands until someone clicks "Mark reviewed" (spec §9, first match wins).
 export function autoStage(r) {
@@ -346,7 +347,7 @@ export function summarize(list) {
       if (c.bucket === "DENIED") t.denied += c.billed;
       for (const l of c.lines) {
         if (!l.denied) { t.writeOff += sum(l.adjs.filter((a) => a.code.startsWith("CO-")), (a) => a.amount); continue; }
-        if (c.bucket !== "DENIED") t.denied += l.billed; // denied line inside a partly paid claim
+        if (c.bucket === "PARTIAL") t.denied += l.billed; // denied line inside a partly paid claim (spec §10a)
         for (const a of l.adjs) {
           const reason = a.code.slice(3);
           if (!DENY_GROUPS.has(a.code.slice(0, 2)) || CONTRACTUAL.has(reason) || BENEFIT_MAX.has(reason)) continue;
