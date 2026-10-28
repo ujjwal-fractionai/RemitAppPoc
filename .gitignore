@@ -5,7 +5,7 @@
 
 # Real EOBs / PHI never go in git (only the synthetic demo is allowed)
 *.pdf
-!demo/*.pdf
+!demo/**/*.pdf
 *.835
 
 # Node / OS / logs
@@ -13,3 +13,6 @@ node_modules/
 npm-debug.log*
 *.log
 .DS_Store
+
+# brainstorming session scratch
+.superpowers/

@@ -3,13 +3,16 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [5 0 R] /Count 1 >>
+<< /Type /Pages /Kids [6 0 R] /Count 1 >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier >>
 endobj
 4 0 obj
-<< /Length 4648 >>
+<< /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
+endobj
+5 0 obj
+<< /Length 4763 >>
 stream
 BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST HEALTH PLAN OF DELAWARE                                  PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 759 Tm (        200 PLAN AVE                                                  FAX:              \(302\)555-0101) Tj ET
@@ -17,15 +20,15 @@ BT /F1 7 Tf 1 0 0 1 20 748 Tm (        NEWARK, DE 19711                         
 BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT5000001) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/20/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/27/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        56.30) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/19/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/26/2026) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:DIAZ, ROBIN             MBR:MEM400001       ACNT:0000700001      ICN:GRP700001) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 7000000001) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1005 100526  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80       33.20) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1012 101226  11  1   98941             75.00     33.20      0.00      0.00   CO-45      41.80       33.20) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 605 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     33.20      0.00      0.00              41.80     33.20) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 594 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 583 Tm (                                                                                                            NET 33.20) Tj ET
@@ -33,7 +36,7 @@ BT /F1 7 Tf 1 0 0 1 20 572 Tm (        NAME:FOX, SAGE               MBR:MEM40000
 BT /F1 7 Tf 1 0 0 1 20 561 Tm (                                                                                 7000000002) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 550 Tm (        CORRECTED: NA  HICN:) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CLM Status:1   MRN:) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 528 Tm (        1234567893  1006 100626  11  1   98940             65.00     33.10      0.00      0.00   CO-45      31.90       13.10) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (        1234567893  1013 101326  11  1   98940             65.00     33.10      0.00      0.00   CO-45      31.90       13.10) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 517 Tm (                                                                                               PR-3       20.00) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 506 Tm (        PT RESP 20.00                         SUB TOTALS      65.00     33.10      0.00      0.00              51.90     13.10) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 495 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
@@ -46,22 +49,24 @@ BT /F1 7 Tf 1 0 0 1 20 429 Tm (        CO-         Contractual Obligations. The 
 BT /F1 7 Tf 1 0 0 1 20 418 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 407 Tm (        PR-         Patient Responsibility) Tj ET
 BT /F1 7 Tf 1 0 0 1 20 396 Tm (                  3 Co-payment Amount) Tj ET
-BT /F1 7 Tf 1 0 0 1 20 385 Tm (                                                            Page 1) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (                                                            Page 1) Tj ET
 endstream
 endobj
-5 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 xref
-0 6
+0 7
 0000000000 65535 f 
 0000000009 00000 n 
 0000000058 00000 n 
 0000000115 00000 n 
 0000000183 00000 n 
-0000004883 00000 n 
+0000000269 00000 n 
+0000005084 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 7 /Root 1 0 R /Info 4 0 R >>
 startxref
-5009
+5210
 %%EOF

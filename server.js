@@ -1,10 +1,16 @@
-// POC server: serves the page and forwards DE-IDENTIFIED claim data to Gemini.
-// The PDF is parsed in the browser and never reaches this server. Zero npm dependencies.
+// server.js — POC server: passcode gate, static files from public/, the v2 document API (demo EOBs stored in
+// Supabase via store.js) and a background queue that sends DE-IDENTIFIED claim data (eob.js:deidentify) to Gemini.
+// Started by `npm start`. Routes: /login, /logout, /api/config, /api/docs…, everything else = static.
+// Stores demo documents only: every upload is re-read here with the bundled pdf.js and refused without the demo
+// stamp (eob.js:isDemo). Never logs request bodies, PDFs, row contents or the passcode. Zero npm dependencies.
+// Flow: docs/FLOW.md §1 (login), §4 (AI queue), §7 (document routes).
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { analyze, deidentify, isDemo, NOT_DEMO, parseEob, readPdf } from "./public/eob.js";
+import { configured, deleteAllDocs, findBySha, getDoc, getPdf, insertDoc, listDocs, ping, putPdf, updateDoc } from "./store.js";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 for (const f of [".env", "../.env"]) try { process.loadEnvFile(join(here, f)); } catch {}
@@ -67,6 +73,116 @@ async function insights(payload) {
   const parts = j.candidates?.[0]?.content?.parts;
   if (!parts) throw new Error("Gemini returned no answer");
   return JSON.parse(parts.map((p) => p.text).join(""));
+}
+
+// Same pdf.js the browser uses, run in Node so the server reads every upload itself (spec §6).
+const pdfjs = await import("./public/vendor/pdf.min.mjs");
+pdfjs.GlobalWorkerOptions.workerSrc = pathToFileURL(join(here, "public/vendor/pdf.worker.min.mjs")).href;
+
+// ---- Background AI: one Gemini call per document, result stored on its row (ai / ai_status / ai_error) ----
+// ponytail: in-memory queue, 2 at a time. A row can't stay "pending" forever: startup and every GET /api/docs re-queue
+// pending rows that aren't queued or running (covers restarts and Supabase blips during an update or insert).
+const queue = [];
+const inflight = new Set(); // queued or running ids: also stops a double-clicked "Try again" from calling Gemini twice
+let running = 0;
+const enqueue = (id) => { if (inflight.has(id)) return; inflight.add(id); queue.push(id); pump(); };
+function pump() {
+  while (running < 2 && queue.length) {
+    running++;
+    const id = queue.shift();
+    runAi(id).finally(() => { running--; inflight.delete(id); pump(); });
+  }
+}
+async function runAi(id) {
+  const t = Date.now();
+  try {
+    if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY is not set in .env");
+    const row = await getDoc(id);
+    if (!row) return;
+    const ai = await insights(deidentify(analyze(parseEob(row.lines.flat()))));
+    await updateDoc(id, { ai: { ...ai, model: GEMINI_MODEL, ms: Date.now() - t }, ai_status: "done", ai_error: null });
+    console.log(`ai ${id} done in ${Date.now() - t} ms`);
+  } catch (e) {
+    const msg = e.name === "TimeoutError" ? "Gemini didn't answer within 45 seconds" : e.message;
+    console.log(`ai ${id} failed in ${Date.now() - t} ms: ${msg}`);
+    await updateDoc(id, { ai_status: "error", ai_error: msg }).catch(() => {});
+  }
+}
+if (configured) listDocs().then((rows) => rows.filter((r) => r.ai_status === "pending").forEach((r) => enqueue(r.id)))
+  .catch((e) => console.log(`startup re-queue skipped: ${e.message}`));
+
+// ---- Document API (behind the passcode gate) ----
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+const json = (res, status, body) => send(res, status, JSON.stringify(body));
+async function readBody(req, limit) {
+  const chunks = [];
+  let size = 0;
+  for await (const c of req) {
+    if ((size += c.length) > limit) return null;
+    chunks.push(c);
+  }
+  return Buffer.concat(chunks);
+}
+
+async function docsApi(req, res, path) {
+  if (!configured) return json(res, 503, { error: "Supabase is not configured: see supabase/schema.sql and .env" });
+  const [, , , id, sub] = path.split("/"); // /api/docs/<id>/<sub>
+  if (id && !UUID.test(id)) return json(res, 404, { error: "No such document" });
+  const m = req.method;
+
+  if (!id && m === "GET") {
+    const rows = await listDocs();
+    rows.filter((r) => r.ai_status === "pending").forEach((r) => enqueue(r.id)); // no-op for ids already in flight
+    return json(res, 200, rows);
+  }
+  if (!id && m === "DELETE") return json(res, 200, { deleted: await deleteAllDocs() });
+  if (!id && m === "POST") {
+    const bytes = await readBody(req, 5 * 1024 * 1024);
+    if (!bytes) return json(res, 413, { error: "File too large (5 MB max)" });
+    const sha256 = createHash("sha256").update(bytes).digest("hex");
+    const dup = await findBySha(sha256);
+    if (dup) return json(res, 409, { error: "Already uploaded", id: dup.id });
+    let read;
+    try { read = await readPdf(pdfjs, new Uint8Array(bytes)); } catch { return json(res, 422, { error: "Not a readable PDF" }); } // copy: pdf.js may detach it
+    if (!isDemo(read)) return json(res, 422, { error: NOT_DEMO });
+    const file_name = decodeURIComponent(req.headers["x-file-name"] ?? "upload.pdf").replace(/[\/ -]/g, "_").slice(0, 200);
+    await putPdf(`${sha256}.pdf`, bytes);
+    let row;
+    try {
+      row = await insertDoc({ file_name, sha256, pdf_path: `${sha256}.pdf`, lines: read.pages });
+    } catch (e) {
+      // Same file uploaded twice at once, or our own insert retried after a dropped connection (it may have landed).
+      if (e.message.startsWith("Supabase 409")) return json(res, 409, { error: "Already uploaded", id: (await findBySha(sha256))?.id });
+      throw e;
+    }
+    console.log(`doc ${row.id} stored (${read.pages.length} pages)`);
+    enqueue(row.id);
+    return json(res, 201, row);
+  }
+  if (id && !sub && m === "PATCH") {
+    const body = await readBody(req, 10_000);
+    let stage;
+    try { ({ stage } = JSON.parse(body)); } catch { return json(res, 400, { error: "Bad JSON" }); }
+    if (stage !== "reviewed" && stage !== null) return json(res, 400, { error: 'stage must be "reviewed" or null' });
+    const row = await updateDoc(id, { stage, stage_at: stage ? new Date().toISOString() : null });
+    return row ? json(res, 200, row) : json(res, 404, { error: "No such document" });
+  }
+  if (id && sub === "ai" && m === "POST") {
+    const row = await updateDoc(id, { ai_status: "pending", ai_error: null });
+    if (!row) return json(res, 404, { error: "No such document" });
+    enqueue(id);
+    return json(res, 202, row);
+  }
+  if (id && sub === "pdf" && m === "GET") {
+    const row = await getDoc(id);
+    if (!row) return json(res, 404, { error: "No such document" });
+    const pdf = await getPdf(row.pdf_path);
+    // No CSP here: Chrome's built-in PDF viewer breaks under object-src 'none'. A PDF can't run our page's scripts anyway.
+    res.writeHead(200, { "content-type": "application/pdf", "content-disposition": `inline; filename="${row.file_name.replace(/[^\w.-]/g, "_")}"`,
+      "x-content-type-options": "nosniff", "cache-control": "no-store" });
+    return res.end(pdf);
+  }
+  return json(res, 405, { error: "Not allowed" });
 }
 
 // PHI is on screen in the browser: the page may only load code from and talk to this server,
@@ -157,27 +273,18 @@ createServer(async (req, res) => {
   }
 
   if (req.method === "GET" && req.url === "/api/config")
-    return send(res, 200, JSON.stringify({ model: GEMINI_MODEL, aiEnabled: !!GEMINI_API_KEY, passcode: !!APP_PASSCODE, sessionHours: SESSION_HOURS, maxFails: MAX_FAILS, lockMinutes: LOCK_MINUTES }));
-  if (req.method === "POST" && req.url === "/api/insights") {
-    if (!GEMINI_API_KEY) return send(res, 500, JSON.stringify({ error: "GEMINI_API_KEY is not set in .env" }));
-    let body = "";
-    for await (const chunk of req) {
-      body += chunk;
-      if (body.length > 1_000_000) return send(res, 413, JSON.stringify({ error: "Payload too large" }));
-    }
-    const t = Date.now();
+    return send(res, 200, JSON.stringify({ model: GEMINI_MODEL, aiEnabled: !!GEMINI_API_KEY, passcode: !!APP_PASSCODE, sessionHours: SESSION_HOURS, maxFails: MAX_FAILS, lockMinutes: LOCK_MINUTES, supabase: await ping() }));
+  if (url.pathname === "/api/docs" || url.pathname.startsWith("/api/docs/")) {
     try {
-      const out = await insights(JSON.parse(body));
-      console.log(`insights ok in ${Date.now() - t} ms`); // never log payloads
-      return send(res, 200, JSON.stringify({ ...out, model: GEMINI_MODEL, ms: Date.now() - t }));
+      return await docsApi(req, res, url.pathname);
     } catch (e) {
-      const msg = e.name === "TimeoutError" ? "Gemini didn't answer within 45 seconds" : e.message;
-      console.log(`insights failed in ${Date.now() - t} ms: ${msg}`);
-      return send(res, 502, JSON.stringify({ error: msg }));
+      console.log(`${req.method} ${url.pathname} failed: ${e.message}`);
+      return json(res, 502, { error: e.message });
     }
   }
 
-  let path = normalize(join(PUBLIC, decodeURIComponent(new URL(req.url, "http://x").pathname)));
+  let path;
+  try { path = normalize(join(PUBLIC, decodeURIComponent(url.pathname))); } catch { return send(res, 400, "Bad request", "text/plain"); } // e.g. /%E0
   if (!path.startsWith(PUBLIC)) return send(res, 404, "Not found", "text/plain");
   if (path.endsWith("/")) path += "index.html";
   try {

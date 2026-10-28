@@ -1,6 +1,9 @@
-// Waystar "View EOB" PDF text → claims, buckets, reversal pairs, checks.
-// Pure functions: run in the browser (PHI stays there) and in Node tests.
+// eob.js — the POC's brain. Waystar "View EOB" PDF text → claims, checks, buckets, reversal pairs,
+// next-payer follow-up, and the de-identified payload for the AI.
+// Called by app.js (browser, so PHI stays on the user's machine), eob.test.js and demo tooling (Node).
+// Pure: no DOM, no network. Order inside analyze() matters — see docs/FLOW.md §3.
 // Money is integer cents everywhere — never float math on amounts.
+// The rule constants below are shown read-only on the Rules tab (app.js:renderRules); change them here only.
 
 const AMT = String.raw`-?[\d,]*\.\d\d`;
 const R = {
@@ -30,6 +33,10 @@ export const DE_PIP_MINIMUM = { perPerson: 1500000, perAccident: 3000000 }; // c
 export const NEXT_PAYER_FILING_DAYS = 90; // counted from the EOB check date
 export const DUE_SOON_DAYS = 14;
 export const FOLLOW_UP_AFTER_DAYS = 30;
+// Demo stamp (POC v2 stores demo documents only): our generator writes both; anything without them is refused.
+export const DEMO_MARKER = "REMIT-DEMO-SYNTHETIC"; // PDF Info /Subject
+export const DEMO_FOOTER = "SYNTHETIC DEMO DATA - NOT A REAL EOB"; // printed on every page
+export const NOT_DEMO = "This looks like a real EOB. The demo only stores synthetic demo files."; // shown by browser and server
 
 export const cents = (s) => {
   const [i, f = "0"] = s.replace(/[^\d.]/g, "").split(".");
@@ -65,12 +72,27 @@ export function pageLines(items) {
     );
 }
 
+// PDF bytes → text rows per page + the Info /Subject. Takes pdf.js as a parameter so it runs the same in the
+// browser (app.js, stamp pre-check) and in Node (server.js, authoritative read). pdf.js may detach `bytes`
+// (it transfers the buffer to its worker): callers that still need the bytes pass a copy.
+export async function readPdf(pdfjs, bytes) {
+  const doc = await pdfjs.getDocument({ data: bytes, verbosity: 0 }).promise;
+  const pages = [];
+  for (let p = 1; p <= doc.numPages; p++) pages.push(pageLines((await (await doc.getPage(p)).getTextContent()).items));
+  const { info } = await doc.getMetadata();
+  return { pages, subject: info?.Subject ?? "" };
+}
+
+// A demo document has our marker AND the footer on every page (stops real EOBs dropped in by accident; spec §6).
+export const isDemo = ({ pages, subject }) =>
+  subject === DEMO_MARKER && pages.length > 0 && pages.every((p) => p.some((l) => l.trim() === DEMO_FOOTER));
+
 export function parseEob(lines) {
   const r = { payer: "", header: {}, claims: [], plb: [], totals: null, glossary: {} };
   let mode = "header", claim = null, line = null, gCol = 0, gKey = null, m;
 
   for (const raw of lines) {
-    if (!raw.trim() || /^\s*Page \d+\s*$/.test(raw)) continue;
+    if (!raw.trim() || /^\s*Page \d+\s*$/.test(raw) || raw.trim() === DEMO_FOOTER) continue;
 
     if (mode === "header") {
       if (R.colHeader.test(raw)) { mode = "claims"; continue; }
@@ -258,4 +280,83 @@ export function deidentify(r) {
     })),
     codeMeanings: r.glossary,
   };
+}
+
+// ---- v2 tracking board: automatic column, "Needs attention" items, dashboard totals ----
+// Pure, like everything above. Called by the browser (board, dashboard) on documents re-analysed from stored lines.
+
+export const STAGES = { mismatch: "Doesn't add up", action: "Action needed", ready: "Ready to Review", reviewed: "✓ Reviewed" };
+
+// Where a document lands until someone clicks "Mark reviewed" (spec §9, first match wins).
+export function autoStage(r) {
+  if (!r.reconciled || r.warnings.length) return "mismatch";
+  const needsWork = r.claims.some((c) =>
+    c.bucket === "DENIED" || c.bucket === "NEXT_PAYER" || (c.bucket === "REVERSED" && !c.pair) ||
+    (c.bucket === "PARTIAL" && c.lines.some((l) => l.denied)));
+  return needsWork || r.pairs.some((p) => p.patientChange < 0) ? "action" : "ready";
+}
+
+// Dashboard sorts items by deadline first, then by this order (spec §10).
+export const ATTENTION_ORDER = ["mismatch", "denied", "next_payer", "refund", "unmatched", "denied_line"];
+
+// Everything in one document that a person has to act on, one row each (spec §10 table). Built in ATTENTION_ORDER.
+export function attentionItems(r) {
+  const items = [];
+  const add = (type, c, text, amount, extra) =>
+    items.push({ type, claim: c?.label ?? null, patient: c?.patient ?? null, name: c?.name ?? null, text, amount, status: null, due: null, ...extra });
+
+  if (!r.reconciled || r.warnings.length) {
+    const d = r.difference;
+    add("mismatch", null, r.reconciled ? "The EOB's own numbers don't balance: check before posting."
+      : `Check is ${usd(Math.abs(d))} ${d < 0 ? "more" : "less"} than the claims: confirm with the payer before posting.`,
+      r.reconciled ? null : Math.abs(d));
+  }
+  for (const c of r.claims.filter((c) => c.bucket === "DENIED"))
+    add("denied", c, `${denialCodes(c).join(", ") || "Denied"} · fix and resubmit or appeal`, c.billed);
+
+  // One next-payer item per patient (PIP is per person), dated by the EOB's follow-up deadline.
+  const byPatient = new Map();
+  for (const c of r.claims.filter((c) => c.bucket === "NEXT_PAYER")) byPatient.set(c.patient, [...(byPatient.get(c.patient) ?? []), c]);
+  for (const cs of byPatient.values())
+    add("next_payer", cs[0], `${r.pip ? "PIP exhausted" : "Benefit maximum reached"}: bill health insurance, attach this EOB` +
+      (r.followUp ? ` · file by ${mdy(r.followUp.due)}` : ""), sum(cs, (c) => c.nextPayerAmount),
+      { status: r.followUp?.status ?? null, due: r.followUp?.due ?? null });
+
+  for (const p of r.pairs.filter((p) => p.patientChange < 0))
+    add("refund", p.correction, `Patient balance down ${usd(-p.patientChange)} after reprocessing: adjust or refund if already billed`, -p.patientChange);
+  for (const c of r.claims.filter((c) => c.bucket === "REVERSED" && !c.pair))
+    add("unmatched", c, "Reversal without a correction in this EOB: watch for reprocessing", null);
+  for (const c of r.claims.filter((c) => c.bucket === "PARTIAL" && c.lines.some((l) => l.denied)))
+    add("denied_line", c, `Work denied line(s): ${denialCodes(c).join(", ")}`, sum(c.lines.filter((l) => l.denied), (l) => l.billed));
+  return items;
+}
+
+// Dashboard totals across documents (spec §10a). Reversal claims stay out of the money; their effect shows as items.
+export function summarize(list) {
+  const t = { documents: list.length, claims: 0, payerPaid: 0, billPatients: 0, denied: 0, nextPayer: 0, writeOff: 0, reviewed: 0, nearestDue: null, denialReasons: [] };
+  const reasons = new Map(); // code → { code, text, count }
+  for (const { r, stage } of list) {
+    if (stage === "reviewed") t.reviewed++;
+    else if (r.followUp && (!t.nearestDue || r.followUp.due < t.nearestDue.due)) t.nearestDue = r.followUp;
+    t.claims += r.claims.length;
+    for (const c of r.claims) {
+      if (c.bucket === "REVERSED") continue;
+      t.payerPaid += c.paid;
+      if (c.pr > 0) t.billPatients += c.pr;
+      t.nextPayer += c.nextPayerAmount;
+      if (c.bucket === "DENIED") t.denied += c.billed;
+      for (const l of c.lines) {
+        if (!l.denied) { t.writeOff += sum(l.adjs.filter((a) => a.code.startsWith("CO-")), (a) => a.amount); continue; }
+        if (c.bucket === "PARTIAL") t.denied += l.billed; // denied line inside a partly paid claim (spec §10a)
+        for (const a of l.adjs) {
+          const reason = a.code.slice(3);
+          if (!DENY_GROUPS.has(a.code.slice(0, 2)) || CONTRACTUAL.has(reason) || BENEFIT_MAX.has(reason)) continue;
+          const e = reasons.get(a.code) ?? reasons.set(a.code, { code: a.code, text: r.glossary[reason] ?? "", count: 0 }).get(a.code);
+          e.count++;
+        }
+      }
+    }
+  }
+  t.denialReasons = [...reasons.values()].sort((a, b) => b.count - a.count);
+  return t;
 }

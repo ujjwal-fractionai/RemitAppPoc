@@ -1,0 +1,171 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R 8 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Subject (REMIT-DEMO-SYNTHETIC) /Producer (REMIT demo generator) >>
+endobj
+5 0 obj
+<< /Length 7978 >>
+stream
+BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST BLUE PLAN                                                PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 759 Tm (        300 BLUE WAY                                                  FAX:              \(302\)555-0101) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 748 Tm (        DOVER, DE 19901                                               PHONE:            \(302\)555-0100) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT902003) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/24/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        482.88) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/23/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 660 Tm (        NAME:ABBOTT, ARI             MBR:MEM82021        ACNT:000082021       ICN:GRP82021) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 649 Tm (                                                                                 8000000046) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 638 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 627 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        1234567893  1004 100426  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 605 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 594 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 583 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 572 Tm (        NAME:BAKER, BLAKE            MBR:MEM82022        ACNT:000082022       ICN:GRP82022) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 561 Tm (                                                                                 8000000047) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 550 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 539 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (        1234567893  1005 100526  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 506 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 484 Tm (        NAME:CARTER, CRUZ            MBR:MEM82023        ACNT:000082023       ICN:GRP82023) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 473 Tm (                                                                                 8000000048) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 462 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 451 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (        1234567893  1006 100626  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (        NAME:DIXON, DANA             MBR:MEM82024        ACNT:000082024       ICN:GRP82024) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (                                                                                 8000000049) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (        1234567893  1007 100726  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 341 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 308 Tm (        NAME:ELLIS, EDEN             MBR:MEM82025        ACNT:000082025       ICN:GRP82025) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 297 Tm (                                                                                 8000000050) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 286 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 275 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 264 Tm (        1234567893  1008 100826  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 253 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 242 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 231 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 220 Tm (        NAME:FOSTER, FLYNN           MBR:MEM82026        ACNT:000082026       ICN:GRP82026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 209 Tm (                                                                                 8000000051) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 198 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 187 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 176 Tm (        1234567893  1009 100926  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 165 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 154 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 143 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 132 Tm (        NAME:GIBBS, GRAY             MBR:MEM82027        ACNT:000082027       ICN:GRP82027) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 121 Tm (                                                                                 8000000052) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 110 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 99 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 88 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 77 Tm (                                                            Page 1) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 8041 >>
+stream
+BT /F1 7 Tf 1 0 0 1 20 770 Tm (        TEST BLUE PLAN                                                PAYER CONTACT:    CLAIMS SUPPORT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 759 Tm (        300 BLUE WAY                                                  FAX:              \(302\)555-0101) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 748 Tm (        DOVER, DE 19901                                               PHONE:            \(302\)555-0100) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 737 Tm (        TEST CHIROPRACTIC CLINIC                                      EIN:              999999999) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 726 Tm (        1 MAIN ST                                                     NPI:              1234567893) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 715 Tm (        MIDDLETOWN, DE 19709                                          EFT:              EFT902003) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 704 Tm (                                                                      CHECK DATE:       10/24/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 693 Tm (                                                                      CHECK AMT:        482.88) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 682 Tm (                                                                      PRODUCTION DATE:  10/23/2026) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 671 Tm (        PROV        SERV DATE    POS NOS  PROC   MODS      BILLED   ALLOWED    DEDUCT     COINS   GRP/RC-AMT     PROV PD) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 660 Tm (        1234567893  1010 101026  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 649 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 638 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 627 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 616 Tm (        NAME:HOLT, HAYDEN            MBR:MEM82028        ACNT:000082028       ICN:GRP82028) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 605 Tm (                                                                                 8000000053) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 594 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 583 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 572 Tm (        1234567893  1011 101126  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 561 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 550 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 539 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 528 Tm (        NAME:IVES, ISLA              MBR:MEM82029        ACNT:000082029       ICN:GRP82029) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 517 Tm (                                                                                 8000000054) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 506 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 495 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 484 Tm (        1234567893  1012 101226  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 473 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 462 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 451 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 440 Tm (        NAME:JAMES, JORDAN           MBR:MEM82030        ACNT:000082030       ICN:GRP82030) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 429 Tm (                                                                                 8000000055) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 418 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 407 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 396 Tm (        1234567893  1013 101326  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 385 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 374 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 363 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 352 Tm (        NAME:KNOX, KENDALL           MBR:MEM82031        ACNT:000082031       ICN:GRP82031) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 341 Tm (                                                                                 8000000056) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 330 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 319 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 308 Tm (        1234567893  1014 101426  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 297 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 286 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 275 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 264 Tm (        NAME:LYONS, LEE              MBR:MEM82032        ACNT:000082032       ICN:GRP82032) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 253 Tm (                                                                                 8000000057) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 242 Tm (        CORRECTED: NA  HICN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 231 Tm (        CLM Status:1   MRN:) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 220 Tm (        1234567893  1015 101526  11  1   98941             75.00     40.24      0.00      0.00   CO-45      34.76       40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 209 Tm (        PT RESP 0.00                          SUB TOTALS      75.00     40.24      0.00      0.00              34.76     40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 198 Tm (        ADJ TO TOTALS:   PREV PD 0.00   INTEREST 0.00   LATE FILING CHARGE 0.00) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 187 Tm (                                                                                                            NET 40.24) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 176 Tm (           TOTALS:   # OF CLAIMS  BILLED AMT  ALLOWED AMT  DEDUCT AMT  COINS AMT    RC-AMT  PROV PAID  PROV ADJ  CHECK AMT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 165 Tm (                           12      900.00      482.88        0.00        0.00      417.12      482.88        0.00      482.88) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 154 Tm (        PROVIDER ADJ DETAILS:            PLB REASON CODE        FCN / Other Identifier       AMOUNT) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 143 Tm (        GLOSSARY:   Adjustment, Group, Reason, MOA, and Remark codes) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 132 Tm (        CO-         Contractual Obligations. The patient may not be billed for this amount) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 121 Tm (                 45 Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 110 Tm (                                        SYNTHETIC DEMO DATA - NOT A REAL EOB) Tj ET
+BT /F1 7 Tf 1 0 0 1 20 99 Tm (                                                            Page 2) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000189 00000 n 
+0000000275 00000 n 
+0000008305 00000 n 
+0000008431 00000 n 
+0000016524 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R /Info 4 0 R >>
+startxref
+16650
+%%EOF
