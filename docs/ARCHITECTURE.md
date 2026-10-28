@@ -21,11 +21,12 @@ POC/                           ← its own git repo (github: RemitAppPoc)
 │   ├── doc.js                 ← one stored document: breakdown, PIP card, AI box, claims, Open PDF
 │   ├── rules.js               ← Rules & settings (read-only) + Storage / Clear demo data
 │   ├── ui.js                  ← h() DOM builder (text only), pills, bucket/stage vocabulary
+│   ├── denial-playbook.json   ← billing team's denial playbook + terms (source of truth, D42)
 │   ├── eob.js                 ← PURE logic: parse, checks, buckets, pairing, stages, attention items, totals, de-identify
 │   └── vendor/                ← pdf.js (bundled; also used by the server in Node)
 ├── demo/make-demos.js         ← generates stamped synthetic EOB PDFs (also the test fixtures)
 │   ├── *.pdf                  ← 5 v1 demos
-│   └── batch-1/ (10) · batch-2/ (5) · batch-3/ (5)
+│   └── batch-1/ (10) · batch-2/ (5) · batch-3/ (5) · batch-4/ (4, denial playbook codes)
 ├── eob.test.js                ← node:test suite (npm test)
 ├── store.check.js · api.check.sh  ← integration checks against the real Supabase
 └── docs/                      ← HANDOVER, ARCHITECTURE, FLOW, DECISIONS, features/, bugs/, superpowers/
@@ -51,7 +52,7 @@ End-to-end browser checks live in the workspace: `RemitApp/tools/e2e-board.mjs` 
 
 | Piece | Responsibility | Never does |
 |---|---|---|
-| `eob.js` | Parse text, check math, buckets, pairing, follow-up, stages, attention items, totals, de-identify | Touch DOM, network or storage |
+| `eob.js` | Parse text, check math, buckets, pairing, follow-up, stages, attention items, totals, de-identify, billing team denial playbook | Touch DOM, network or storage |
 | `app.js` + views | Show documents, upload, Mark reviewed, poll for AI | Compute money; call Supabase or Gemini directly |
 | `server.js` | Passcode, demo-stamp guard, document API, AI queue | Store a PDF without the demo stamp; log bodies, PDFs or keys |
 | `store.js` | Supabase REST calls (one retry on network failure) | Run outside the server |
@@ -71,4 +72,5 @@ End-to-end browser checks live in the workspace: `RemitApp/tools/e2e-board.mjs` 
 | `POC/.env` | `GEMINI_API_KEY`, `GEMINI_MODEL`, `APP_PASSCODE`, `PORT`, `HOST`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (service role) |
 | `public/eob.js` (top) | All business rules as named constants (shown read-only on the Rules tab), demo stamp, shared messages |
 | `server.js` | `SESSION_HOURS`, `MAX_FAILS`, `LOCK_MINUTES`, Gemini prompt + schema, AI concurrency (2), upload limit (5 MB) |
+| `public/denial-playbook.json` | Billing team's denial playbook + terms (edit, then `npm test`) |
 | `supabase/schema.sql` | Table + bucket definition |

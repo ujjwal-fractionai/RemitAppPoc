@@ -3,7 +3,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { pathToFileURL } from "node:url";
 import {
-  analyze, attentionItems, autoStage, cents, deidentify, DEMO_FOOTER, DEMO_MARKER, isDemo, mdy, pageLines, parseEob, readPdf, summarize,
+  analyze, attentionItems, autoStage, cents, deidentify, DEMO_FOOTER, DEMO_MARKER, DENIAL_PLAYBOOK, denialPlaybook, isDemo, mdy, pageLines, TERMS,
+  parseEob, readPdf, summarize,
 } from "./public/eob.js";
 
 const LINES = `
@@ -126,12 +127,12 @@ for (const d of DEMOS) {
   });
 }
 
-test("20 batch demos: 10 + 5 + 5, unique file names, all stamped", async () => {
+test("24 batch demos: 10 + 5 + 5 + 4, unique file names, all stamped", async () => {
   const batches = DEMOS.filter((d) => d.dir);
   const count = (dir) => batches.filter((d) => d.dir === dir).length;
-  assert.deepEqual([count("batch-1"), count("batch-2"), count("batch-3")], [10, 5, 5]);
+  assert.deepEqual([count("batch-1"), count("batch-2"), count("batch-3"), count("batch-4")], [10, 5, 5, 4]);
   assert.equal(new Set(DEMOS.map((d) => d.file)).size, DEMOS.length);
-  for (const dir of ["batch-1", "batch-2", "batch-3"]) {
+  for (const dir of ["batch-1", "batch-2", "batch-3", "batch-4"]) {
     const d = batches.find((b) => b.dir === dir);
     assert.ok(isDemo(await readPdf(pdfjs, latin1Bytes(pdf(eobPages(d))))), `${d.file} stamped`);
   }
@@ -243,4 +244,57 @@ test("summarize: Denied counts denied lines only inside PARTIAL claims (spec §1
   const c = r.claims.find((x) => x.bucket === "PATIENT_RESP");
   c.lines[0].denied = true; // a denied line on a claim that isn't PARTIAL must not count as Denied money
   assert.equal(summarize([{ r, stage: "ready" }]).denied, 0);
+});
+
+// ---- Billing team's denial playbook (FEAT-008) ----
+
+test("denialPlaybook: the billing team's rows for an adjustment code", () => {
+  assert.equal(DENIAL_PLAYBOOK.length, 18);
+  assert.deepEqual(denialPlaybook("CO-27").map((p) => p.reason), ["Eligibility or inactive coverage"]);
+  assert.equal(denialPlaybook("CO-16").length, 3); // three reasons share CO-16: the remark code says which
+  assert.deepEqual(denialPlaybook("OA-119").map((p) => p.reason), ["Maximum benefits reached"]); // same reason, other denial group
+  assert.deepEqual(denialPlaybook("PR-2").map((p) => p.codes), [["PR-1", "PR-2", "PR-3"]]);
+  assert.deepEqual(denialPlaybook("CO-1"), []); // PR reasons don't leak into denial groups
+  assert.deepEqual(denialPlaybook("N130"), []);
+  assert.deepEqual(denialPlaybook("CO-999"), []);
+});
+
+test("denied claims carry the playbook rows and name the reason in their next step", () => {
+  const r = demo("denials-paper-check.pdf");
+  const c1 = r.claims[0]; // CO-50
+  assert.deepEqual(c1.playbook.map((p) => p.reason), ["Medical necessity not established"]);
+  assert.ok(c1.action.includes("Medical necessity not established"), c1.action);
+  const partial = r.claims.find((c) => c.bucket === "PARTIAL" && c.lines.some((l) => l.denied)); // CO-97 line
+  assert.ok(partial.action.includes("Bundled service/incidental procedure"), partial.action);
+  assert.deepEqual(r.claims.find((c) => c.bucket === "PAID")?.playbook ?? [], []);
+});
+
+test("attentionItems and summarize use the playbook reason names", () => {
+  const r = demo("denials-paper-check.pdf");
+  assert.ok(attentionItems(r).find((i) => i.claim === "C1").text.includes("Medical necessity not established"));
+  const t = summarize([{ r, stage: "action" }]);
+  assert.equal(t.denialReasons.find((d) => d.code === "CO-50").text, "Medical necessity not established");
+});
+
+test("AI payload carries only the playbook rows for codes in this EOB", () => {
+  const reasons = deidentify(demo("denials-paper-check.pdf")).billingPlaybook.map((p) => p.reason);
+  assert.ok(reasons.includes("Medical necessity not established"));
+  assert.ok(reasons.includes("Timely filing exceeded"));
+  assert.ok(!reasons.includes("Duplicate claim"));
+});
+
+test("playbook is read from public/denial-playbook.json (the billing team's source of truth)", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const json = JSON.parse(await readFile(new URL("./public/denial-playbook.json", import.meta.url), "utf8"));
+  assert.deepEqual(DENIAL_PLAYBOOK.map((p) => p.reason), json.denial_resolution_guide.map((g) => g.denial_reason));
+  const bundled = DENIAL_PLAYBOOK.find((p) => p.reason === "Bundled or mutually exclusive");
+  assert.deepEqual([bundled.codes, bundled.notes], [["CO-4", "CO-11"], ["Or payer-specific edits"]]); // free text isn't a code
+  assert.equal(TERMS.length, Object.keys(json.terms).length);
+});
+
+test("every code in the playbook has a demo EOB that shows it (add a demo when billing adds a code)", () => {
+  const used = new Set(DEMOS.flatMap((d) => d.claims.flatMap((c) => c.lines.flatMap((l) => [
+    ...l.other.map(([code]) => code), ...(l.deduct ? ["PR-1"] : []), ...(l.coins ? ["PR-2"] : [])]))));
+  const missing = DENIAL_PLAYBOOK.flatMap((p) => p.codes).filter((code) => ![...used].some((u) => denialPlaybook(u).some((p) => p.codes.includes(code))));
+  assert.deepEqual(missing, []);
 });

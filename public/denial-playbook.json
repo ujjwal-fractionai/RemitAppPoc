@@ -1,0 +1,114 @@
+{
+    "denial_resolution_guide": [
+        {
+            "denial_reason": "Eligibility or inactive coverage",
+            "adjustment_codes": ["CO-27"],
+            "resolution": "Verify the patient's eligibility and coverage dates for the date of service. Confirm the correct insurance plan and resubmit to the appropriate payer if needed."
+        },
+        {
+            "denial_reason": "Incorrect patient or subscriber information",
+            "adjustment_codes": ["CO-16"],
+            "resolution": "Verify the patient's name, DOB, Member ID, Group Number and subscriber relationship. Correct the claim and resubmit."
+        },
+        {
+            "denial_reason": "Prior authorization missing",
+            "adjustment_codes": ["CO-197"],
+            "resolution": "Check the authorization requirements and whether authorization was obtained. If valid authorization exists, request reconsideration or appeal with the valid authorization, and submit the reference number and supporting records. If not, request a retro-authorization or appeal if an exception applies."
+        },
+        {
+            "denial_reason": "Referral missing, absent or invalid",
+            "adjustment_codes": ["CO-288"],
+            "resolution": "Verify the referral, referring provider, dates and specialist requirements. Obtain a valid referral or appeal if an exception applies."
+        },
+        {
+            "denial_reason": "Duplicate claim",
+            "adjustment_codes": ["CO-18"],
+            "resolution": "Check the claim history and original claim status. If already processed, do not resubmit. If the original claim was rejected or the new claim is distinct, follow the payer's corrected claim or claim reconsideration process."
+        },
+        {
+            "denial_reason": "Coding error or invalid procedure/diagnosis code",
+            "adjustment_codes": ["CO-4", "CO-11", "CO-16"],
+            "resolution": "Review the CPT/HCPCS code, ICD-10 diagnosis code, modifiers, and code-set validity for the date of service. Correct the claim based on the medical record and coding rules if applicable. Contact the provider if necessary to confirm or update codes."
+        },
+        {
+            "denial_reason": "Bundled service/incidental procedure",
+            "adjustment_codes": ["CO-97"],
+            "resolution": "Review the NCCI edits, payer bundling policies and modifier rules. Appeal with documentation when a separately payable service is appropriately supported. Payer bundling rules may apply. Adjustment for CO-97 may apply based on payer."
+        },
+        {
+            "denial_reason": "Medical necessity not established",
+            "adjustment_codes": ["CO-50"],
+            "resolution": "Compare the diagnosis, procedure, documentation and applicable payer medical policy. Submit clinical notes, test results and a medical-necessity appeal when justified."
+        },
+        {
+            "denial_reason": "Noncovered service or benefit exclusion",
+            "adjustment_codes": ["CO-96"],
+            "resolution": "Check the patient's benefit plan and the EOB. Determine whether the service is excluded, subject to limitation, or incorrectly adjudicated. Appeal or follow applicable patient-notice or billing rules."
+        },
+        {
+            "denial_reason": "Timely filing exceeded",
+            "adjustment_codes": ["CO-29"],
+            "resolution": "Check the original submission date, clearinghouse acceptance, payer receipt records (payer portal) and filing limit. Appeal with proof of timely filing submission or an applicable exception."
+        },
+        {
+            "denial_reason": "Coordination of benefits (COB) issue",
+            "adjustment_codes": ["CO-22"],
+            "resolution": "Verify primary and secondary insurance, update other-insurance information, and submit the primary payer's EOB with the secondary claim. Contact the practice to have the patient coordinate benefits if COB is not established."
+        },
+        {
+            "denial_reason": "Provider not credentialed or out of network",
+            "adjustment_codes": ["CO-170"],
+            "resolution": "Verify provider enrollment, network status, rendering and billing NPIs, taxonomy and service locations."
+        },
+        {
+            "denial_reason": "Missing or incomplete information",
+            "adjustment_codes": ["CO-16"],
+            "resolution": "Review the remittance advice, remark codes, and payer instructions. Supply/submit the missing records, identifiers or claim details through the payer provider portal or required channel (mailing)."
+        },
+        {
+            "denial_reason": "Maximum benefits reached",
+            "adjustment_codes": ["CO-119"],
+            "resolution": "Verify benefit limits, prior utilization and plan rules. Appeal incorrect utilization counts or explain benefits and patient responsibility according to the plan."
+        },
+        {
+            "denial_reason": "Bundled or mutually exclusive",
+            "adjustment_codes": ["CO-4", "CO-11", "Or payer-specific edits"],
+            "resolution": "Review coding guidelines and the exact edit. Correct unsupported combinations or appeal when the documented services meet an applicable exception."
+        },
+        {
+            "denial_reason": "Claim submitted to the wrong payer",
+            "adjustment_codes": ["Payer-specific rejection/denial"],
+            "resolution": "Verify the member's coverage and Payer ID. Route the claim to the correct payer. Confirm the correct Payer ID in ChiroTouch. Review the timely filing deadline."
+        },
+        {
+            "denial_reason": "Provider write-off or contractual adjustment",
+            "adjustment_codes": ["CO-45"],
+            "resolution": "Confirm whether the adjustment is a contractual reduction rather than a true denial. Apply the appropriate contract adjustment. Investigate any amount exceeding the contracted rate."
+        },
+        {
+            "denial_reason": "Patient responsibility (PR): deductible, copay, or coinsurance",
+            "adjustment_codes": ["PR-1", "PR-2", "PR-3"],
+            "resolution": "Verify the EOB and benefits. Post the correct patient responsibility and bill the patient according to applicable law, payer contracts and financial policies."
+        }
+    ],
+    "terms": {
+        "CARC": "Claim Adjustment Reason Code",
+        "RARC": "Remittance Advice Remark Codes",
+        "CO": "Contractual Obligation",
+        "PR": "Patient Responsibility",
+        "ded / copay / coins": "Deductible / copay / coinsurance",
+        "EOB": "Explanation of Benefits",
+        "ERA": "Electronic Remittance Advice",
+        "RA": "Remittance Advice",
+        "COB": "Coordination of Benefits",
+        "PLB": "Provider Level Balance",
+        "WO": "Overpayment recovery: write-off / withholding recoupment",
+        "NCCI": "National Correct Coding Initiative",
+        "NPI": "National Provider Identifier",
+        "CPT": "Current Procedural Terminology",
+        "HCPCS": "Healthcare Common Procedure Coding System (CPT codes)",
+        "ICD-10": "International Classification of Diseases, 10th edition (diagnosis codes)",
+        "DX": "Diagnosis",
+        "DME": "Durable Medical Equipment"
+    }
+}

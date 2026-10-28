@@ -21,7 +21,7 @@ if (!APP_PASSCODE && !["127.0.0.1", "localhost", "::1"].includes(HOST)) {
   process.exit(1);
 }
 const PUBLIC = join(here, "public");
-const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".mjs": "text/javascript", ".css": "text/css" };
+const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".mjs": "text/javascript", ".css": "text/css", ".json": "application/json" }; // .json: denial-playbook.json (JSON module)
 
 const PROMPT = `You explain one insurance payment (ERA / EOB) to the billing staff of a chiropractic practice, in plain English.
 Input: de-identified JSON. Claims are labelled C1, C2…; patients Patient 1, Patient 2…; amounts are USD.
@@ -29,12 +29,13 @@ Input: de-identified JSON. Claims are labelled C1, C2…; patients Patient 1, Pa
 Rules:
 - Use only the numbers given. Never invent amounts; only simple sums of given amounts.
 - Refer to claims and patients only by their labels.
-- Explain a code only with its text in codeMeanings. If a code has no meaning there, just name the code; never guess what it means.
+- Explain a code only with its text in codeMeanings or billingPlaybook. If a code has no meaning there, just name the code; never guess what it means.
 - PATIENT_RESP is NOT a denial: the action is to bill the patient, never to appeal.
 - A reversal paired with a correction is the payer reprocessing the claim. Explain the net effect, especially patientResponsibilityChange (negative = patient now owes less, so any amount already billed to them should be adjusted or refunded).
 - Group CO = contractual write-off (do not bill the patient). Group PR = patient responsibility.
 - NEXT_PAYER = benefit maximum reached (code 119 / remark N587). When autoPipPayer is true it means the patient's auto PIP (Personal Injury Protection) is exhausted; Delaware PIP covers at least $15,000 per person / $30,000 per accident. The action is to bill amountToBillNextPayer to the patient's health insurance with this EOB attached as proof of exhaustion. Never suggest appealing to this payer. nextPayerFilingStatus ("open", "due soon", "overdue") is how close the filing deadline is: "due soon" or "overdue" makes it the first High action.
 - DENIED claims are never "write off" or "no appeal needed": the action is to review the denial reason codes, then correct and resubmit or appeal.
+- billingPlaybook is the practice's own denial playbook for the codes on this EOB. For a denied claim or line, base the action on its resolution and name its reason. If several rows share a code (e.g. CO-16), say the remark code decides which applies.
 - Priorities: High = next-payer deadlines due soon/overdue, denials, unreconciled payments/parserWarnings, patient refunds/adjustments from reversals. Medium = bill the patient. Low = routine posting of PAID claims (combine these into one action).
 - If reconciled is false or there are parserWarnings, make checking that the first action.
 - Be concise and practical. No legal or coding-compliance advice.`;

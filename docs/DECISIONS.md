@@ -109,3 +109,16 @@ Demo specs are written as if today were 2026-10-21; `demos(base)` shifts every p
 
 ### D40 — "Ready to post" renamed "Ready to Review" · Decided · 2026-10-28 · amends D37
 Owner: "it aligns more" with the review workflow (every document ends with Mark reviewed). Label only: the stage key stays `ready`, rules unchanged.
+
+### D41 — Billing team's denial playbook as a rule constant · Decided · 2026-10-28
+Decision: the billing team's 18-row denial table (reason, adjustment codes, resolution) lives in `eob.js` as `DENIAL_PLAYBOOK` (wording kept, typos fixed), with their terms list as `TERMS`. `denialPlaybook(code)` matches the exact code, or the same reason number when both groups are denial groups (CO-27 also covers OA-27 / PI-27); PR rows never match CO/OA/PI. Shown: under each denied claim ("How to fix"), in the claim's next step and Needs attention text (reason names), as the dashboard's top-denial-reason names, on the Rules tab, and to Gemini as `billingPlaybook` (only rows for codes on the EOB; static text, no PHI).
+Why: staff follow the practice's own steps instead of a generic "fix and resubmit or appeal"; one constant keeps the UI, AI and Rules tab in step (D23).
+Rejected: picking one row when a code maps to several (CO-16 → 3, CO-4 / CO-11 → 2) — the remark code decides, and RARC→row mapping wasn't given; so all matching rows are shown with a note. Mapping "wrong payer" to CARC 109 — the team listed it as payer-specific; left with no code until they confirm.
+Trade-off: bucket rules unchanged. CO-119 still routes to Bill next payer (D9/D20); the playbook's 119 guidance (verify limits / explain patient responsibility) is shown alongside — to confirm with billing for non-PIP payers.
+
+### D42 — Denial playbook lives in a JSON config file · Decided · 2026-10-28 · amends D41, D23
+Decision: the billing team's table is `public/denial-playbook.json` (`denial_resolution_guide`, their JSON as sent, plus `terms`). `eob.js` imports it as a JSON module (`import … with { type: "json" }`, works in Node 24 and current browsers); entries in `adjustment_codes` that aren't `XX-nn` codes become `notes`. The server serves `.json` as `application/json`. A test fails if any playbook code has no demo EOB showing it.
+Why: owner wants the billing team's document to be the source of truth; one file they can read and edit, no second copy in code.
+Rejected: keeping the rows as a JS constant (copy drifts from billing's doc); a database table (no editor UI in the POC, and D34 keeps Supabase server-only).
+Trade-off: an edit to the JSON changes the app immediately: run `npm test` after editing (it checks the file loads and the demos still cover every code).
+

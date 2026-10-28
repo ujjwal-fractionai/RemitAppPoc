@@ -4,6 +4,8 @@
 // Pure: no DOM, no network. Order inside analyze() matters — see docs/FLOW.md §3.
 // Money is integer cents everywhere — never float math on amounts.
 // The rule constants below are shown read-only on the Rules tab (app.js:renderRules); change them here only.
+// Exception: the billing team's denial playbook + terms come from denial-playbook.json (their source of truth).
+import guide from "./denial-playbook.json" with { type: "json" };
 
 const AMT = String.raw`-?[\d,]*\.\d\d`;
 const R = {
@@ -33,6 +35,22 @@ export const DE_PIP_MINIMUM = { perPerson: 1500000, perAccident: 3000000 }; // c
 export const NEXT_PAYER_FILING_DAYS = 90; // counted from the EOB check date
 export const DUE_SOON_DAYS = 14;
 export const FOLLOW_UP_AFTER_DAYS = 30;
+
+// The billing team's denial playbook (FEAT-008, D41/D42): their table, kept as they wrote it in denial-playbook.json
+// (the source of truth: edit the JSON, not this file). Shown on the Rules tab, under each denied claim, and sent to the
+// AI (static text, no PHI) so its actions follow the practice's own steps. Entries in adjustment_codes that aren't codes
+// ("Or payer-specific edits") become notes. One code can map to several rows (CO-16, CO-4, CO-11): the remark code
+// on the EOB says which. The CO-45 and PR rows explain non-denials; claims only show rows for their denial codes.
+const IS_CODE = /^[A-Z]{2}-\w+$/;
+export const DENIAL_PLAYBOOK = guide.denial_resolution_guide.map((g) => ({
+  reason: g.denial_reason, resolution: g.resolution,
+  codes: g.adjustment_codes.filter((c) => IS_CODE.test(c)), notes: g.adjustment_codes.filter((c) => !IS_CODE.test(c)),
+}));
+// The playbook rows for one adjustment code. A CO row also covers the same reason under OA / PI (payers vary the group).
+export const denialPlaybook = (code) => DENIAL_PLAYBOOK.filter((p) => p.codes.some((k) => k === code ||
+  (DENY_GROUPS.has(k.slice(0, 2)) && DENY_GROUPS.has(code.slice(0, 2)) && k.slice(3) === code.slice(3))));
+// Billing team's terms list (same JSON), shown on the Rules tab.
+export const TERMS = Object.entries(guide.terms);
 // Demo stamp (POC v2 stores demo documents only): our generator writes both; anything without them is refused.
 export const DEMO_MARKER = "REMIT-DEMO-SYNTHETIC"; // PDF Info /Subject
 export const DEMO_FOOTER = "SYNTHETIC DEMO DATA - NOT A REAL EOB"; // printed on every page
@@ -162,6 +180,12 @@ function bucket(c) {
 const denialCodes = (c) => [
   ...new Set(c.lines.flatMap((l) => [...l.adjs.filter((a) => !a.code.startsWith("PR-") && a.code !== "CO-45").map((a) => a.code), ...l.remarks])),
 ];
+const claimPlaybook = (c) => [...new Set(denialCodes(c).flatMap(denialPlaybook))];
+// "CO-50 (Medical necessity not established)": the codes plus the billing team's names for them.
+const denialLabel = (c) => {
+  const codes = denialCodes(c).join(", "), names = c.playbook.map((p) => p.reason).join(" / ");
+  return names ? `${codes} (${names})` : codes;
+};
 
 function nextAction(c, r) {
   const p = usd(c.pr);
@@ -172,11 +196,13 @@ function nextAction(c, r) {
     case "PAID": return c.billed === c.paid ? "No action. Paid in full." : "No action. Paid; only contractual write-off.";
     case "PARTIAL": {
       const d = c.lines.filter((l) => l.denied).length;
-      return [c.pr > 0 && `Bill patient ${p}`, d && `Work ${d} denied line(s): ${denialCodes(c).join(", ")}`].filter(Boolean).join(". ") + ".";
+      return [c.pr > 0 && `Bill patient ${p}`, d && `Work ${d} denied line(s): ${denialLabel(c)}`].filter(Boolean).join(". ") + ".";
     }
     case "PATIENT_RESP":
       return `Bill patient ${p}${sum(c.lines, (l) => l.deduct) > 0 ? " (deductible)" : ""}. Not a denial: don't appeal.`;
-    case "DENIED": return `Check ${denialCodes(c).join(", ") || "denial reason"}, then fix and resubmit or appeal.`;
+    case "DENIED":
+      return c.playbook.length ? `${denialLabel(c)}. Follow the billing playbook steps under this claim.`
+        : `Check ${denialLabel(c) || "denial reason"}, then fix and resubmit or appeal.`;
     case "REVERSED":
       return c.pair ? `Reversal, replaced by ${c.pair.label}. Act on the net.` : "Reversal with no correction in this EOB. Watch for reprocessing.";
   }
@@ -229,7 +255,7 @@ export function analyze(r, today = new Date()) {
     const daysLeft = Math.round((due - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())) / 864e5);
     r.followUp = { due, daysLeft, status: daysLeft < 0 ? "overdue" : daysLeft <= DUE_SOON_DAYS ? "due soon" : "open" };
   }
-  r.claims.forEach((c) => (c.action = nextAction(c, r)));
+  r.claims.forEach((c) => { c.playbook = claimPlaybook(c); c.action = nextAction(c, r); });
 
   const paid = sum(r.claims, (c) => c.paid), plb = sum(r.plb, (p) => p.amount);
   r.checkAmount = cents(r.header["CHECK AMT"] ?? "0");
@@ -279,6 +305,7 @@ export function deidentify(r) {
       payerNet: dollars(p.payerNet), patientResponsibilityChange: dollars(p.patientChange),
     })),
     codeMeanings: r.glossary,
+    billingPlaybook: [...new Set(r.claims.flatMap((c) => c.playbook))], // static practice text, no PHI
   };
 }
 
@@ -312,7 +339,7 @@ export function attentionItems(r) {
       r.reconciled ? null : Math.abs(d));
   }
   for (const c of r.claims.filter((c) => c.bucket === "DENIED"))
-    add("denied", c, `${denialCodes(c).join(", ") || "Denied"} · fix and resubmit or appeal`, c.billed);
+    add("denied", c, `${denialLabel(c) || "Denied"} · ${c.playbook.length ? "see the playbook steps" : "fix and resubmit or appeal"}`, c.billed);
 
   // One next-payer item per patient (PIP is per person), dated by the EOB's follow-up deadline.
   const byPatient = new Map();
@@ -327,7 +354,7 @@ export function attentionItems(r) {
   for (const c of r.claims.filter((c) => c.bucket === "REVERSED" && !c.pair))
     add("unmatched", c, "Reversal without a correction in this EOB: watch for reprocessing", null);
   for (const c of r.claims.filter((c) => c.bucket === "PARTIAL" && c.lines.some((l) => l.denied)))
-    add("denied_line", c, `Work denied line(s): ${denialCodes(c).join(", ")}`, sum(c.lines.filter((l) => l.denied), (l) => l.billed));
+    add("denied_line", c, `Work denied line(s): ${denialLabel(c)}`,sum(c.lines.filter((l) => l.denied), (l) => l.billed));
   return items;
 }
 
@@ -351,7 +378,8 @@ export function summarize(list) {
         for (const a of l.adjs) {
           const reason = a.code.slice(3);
           if (!DENY_GROUPS.has(a.code.slice(0, 2)) || CONTRACTUAL.has(reason) || BENEFIT_MAX.has(reason)) continue;
-          const e = reasons.get(a.code) ?? reasons.set(a.code, { code: a.code, text: r.glossary[reason] ?? "", count: 0 }).get(a.code);
+          const named = denialPlaybook(a.code).map((p) => p.reason).join(" / "); // billing team's name, else the EOB's own text
+          const e = reasons.get(a.code) ?? reasons.set(a.code, { code: a.code, text: named || (r.glossary[reason] ?? ""), count: 0 }).get(a.code);
           e.count++;
         }
       }

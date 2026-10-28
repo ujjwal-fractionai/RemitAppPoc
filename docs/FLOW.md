@@ -69,7 +69,8 @@ pairing: each status-22 claim → first free non-22 claim with same ACNT and
          (opposite charge + same procKey) else (same dateKey)  → r.pairs[], c.pair both ways
 follow-up: if any NEXT_PAYER and CHECK DATE parsed → due = check date + NEXT_PAYER_FILING_DAYS,
            status open / due soon (≤ DUE_SOON_DAYS) / overdue
-c.action = nextAction(c, r)     needs bucket, pair and followUp → must run last
+c.playbook = DENIAL_PLAYBOOK rows for the claim's denial codes (denialPlaybook; CO row also matches OA/PI)
+c.action = nextAction(c, r)     needs bucket, pair, followUp and playbook → must run last
 payment checks: Σ paid − Σ PLB == CHECK AMT (r.reconciled); TOTALS row count + paid
 ```
 

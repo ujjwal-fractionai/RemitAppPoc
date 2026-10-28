@@ -34,15 +34,23 @@ const CODES = {
   1: "Deductible Amount",
   2: "Coinsurance Amount",
   3: "Co-payment Amount",
+  4: "The procedure code is inconsistent with the modifier used.",
+  11: "The diagnosis is inconsistent with the procedure.",
   16: "Claim/service lacks information or has submission/billing error(s).",
+  18: "Exact duplicate claim/service.",
+  22: "This care may be covered by another payer per coordination of benefits.",
+  27: "Expenses incurred after coverage terminated.",
   29: "The time limit for filing has expired.",
   45: "Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.",
   50: "These are non-covered services because this is not deemed a 'medical necessity' by the payer.",
+  96: "Non-covered charge(s).",
   97: "The benefit for this service is included in the payment/allowance for another service/procedure that has already been adjudicated.",
   119: "Benefit maximum for this time period or occurrence has been reached.",
+  170: "Payment is denied when performed/billed by this type of provider.",
   197: "Precertification/authorization/notification/pre-treatment absent.",
   242: "Services not provided by network/primary care providers.",
   253: "Sequestration - reduction in federal payment.",
+  288: "Referral absent.",
   MA67: "Alert: Correction to a prior claim.",
   MA130: "Your claim contains incomplete and/or invalid information, and no appeal rights are afforded because the claim is unprocessable. Please submit a new claim with the complete/correct information.",
   N130: "Consult plan benefit documents/guidelines for information about restrictions for this service.",
@@ -269,7 +277,8 @@ const SPECS = [
   },
 ];
 
-// ---- 20 demo EOBs for the tracking-board demo: upload batch-1 (10), then batch-2 (5), then batch-3 (5) ----
+// ---- 24 demo EOBs for the tracking-board demo: upload batch-1 (10), then batch-2 (5), then batch-3 (5);
+//      batch-4 (4) covers the billing team's denial playbook codes the other demos don't use (FEAT-008) ----
 const PAYERS = {
   UHC: ["TEST UNITED HEALTH PLAN", ["PO BOX 30555", "SALT LAKE CITY, UT 84130"]],
   BLUE: ["TEST BLUE PLAN", ["300 BLUE WAY", "DOVER, DE 19901"]],
@@ -418,6 +427,28 @@ SPECS.push(
     cl("ESTES, FAYE", "83042", "1", [line(svc(12), "98940", "", 6500, [["CO-45", 3190]])]),
     cl("FROST, GIO", "83043", "1", [line(svc(10), "97012", "GP", 5500, [["CO-45", 4035]])]),
   ], { buckets: PAID(3), reconciled: true, pairs: 0, stage: "ready" }, { plb: [["AH", "EFT903005", 384]] }),
+
+  // ---- batch-4: one denial of each playbook reason not shown elsewhere ----
+  batch("batch-4", "b4-01-eligibility-and-cob.pdf", "HPD", EFT(4001), 4, (svc) => [
+    cl("ABEL, ANSEL", "84001", "4", [line(svc(15), "98941", "", 7500, [["CO-27", 7500]])]),
+    cl("BIRCH, BELLAMY", "84002", "4", [line(svc(12), "98940", "", 6500, [["CO-22", 6500]])]),
+    cl("CAIN, CORIN", "84003", "1", [line(svc(10), "97110", "GP", 6000, [["CO-45", 3488]])]),
+  ], { buckets: ["DENIED", "DENIED", "PAID"], reconciled: true, pairs: 0, stage: "action" }),
+  batch("batch-4", "b4-02-duplicate-and-referral.pdf", "BLUE", EFT(4002), 5, (svc) => [
+    cl("DALE, DORIAN", "84011", "4", [line(svc(14), "98941", "", 7500, [["CO-18", 7500]])]),
+    cl("EAMES, ELLERY", "84012", "4", [line(svc(13), "97012", "GP", 5500, [["CO-288", 5500]])]),
+    cl("FAIR, FINN", "84013", "1", [line(svc(11), "98940", "", 6500, [["CO-45", 3190], ["PR-3", 2000]])]),
+  ], { buckets: ["DENIED", "DENIED", "PARTIAL"], reconciled: true, pairs: 0, stage: "action" }),
+  batch("batch-4", "b4-03-coding-errors.pdf", "UHC", EFT(4003), 3, (svc) => [
+    cl("GALE, GRIER", "84021", "1", [line(svc(16), "98941", "", 7500, [["CO-45", 3476]]), line(svc(16), "97140", "GP", 6000, [["CO-4", 6000]])]),
+    cl("HUNT, HALE", "84022", "4", [line(svc(14), "98941", "", 7500, [["CO-11", 7500]])]),
+    cl("JAY, JUNO", "84023", "1", [line(svc(12), "98940", "", 6500, [["CO-45", 3190]])]),
+  ], { buckets: ["PARTIAL", "DENIED", "PAID"], reconciled: true, pairs: 0, stage: "action" }),
+  batch("batch-4", "b4-04-noncovered-out-of-network.pdf", "NAT", EFT(4004), 6, (svc) => [
+    cl("KANE, KIRBY", "84031", "4", [line(svc(15), "97012", "GP", 5500, [["CO-96", 5500]], ["N130"])]),
+    cl("LARK, LENNON", "84032", "4", [line(svc(13), "98941", "", 7500, [["CO-170", 7500]])]),
+    cl("MAYS, MILO", "84033", "1", [line(svc(11), "98940", "", 6500, [["CO-45", 3190]])]),
+  ], { buckets: ["DENIED", "DENIED", "PAID"], reconciled: true, pairs: 0, stage: "action" }),
 );
 
 // All demo specs with their dates moved to `base` (a Date; tests pin it, the CLI uses today).
