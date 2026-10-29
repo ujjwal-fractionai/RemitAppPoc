@@ -4,7 +4,7 @@
 // Stores demo documents only: every upload is re-read here with the bundled pdf.js and refused without the demo
 // stamp (eob.js:isDemo). Never logs request bodies, PDFs, row contents or the passcode. Zero npm dependencies.
 // Flow: docs/FLOW.md §1 (login), §4 (AI queue), §7 (document routes).
-import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
@@ -203,21 +203,24 @@ const send = (res, status, body, type = "application/json") => {
 };
 
 // ---- Passcode gate (APP_PASSCODE in .env): keeps crawlers and strangers off the app and the Gemini budget ----
-// ponytail: sessions live in memory (a restart asks for the passcode again); per-IP lockout trusts X-Forwarded-For
+// Sessions are stateless: the cookie is "<expiry ms>.<HMAC of expiry>", so any server instance can check it. Needed on
+// Vercel, where each request may hit a different (or freshly started) instance with empty memory (BUG-008, D45).
+// The key comes from SESSION_SECRET, else APP_PASSCODE: changing either signs everyone out.
+// ponytail: Lock only clears this browser's cookie (no server-side revoke list); a copied cookie works until it expires.
+// ponytail: the per-IP lockout lives in memory, so on Vercel it is per instance; move it to Supabase if guessing shows up.
 const SESSION_HOURS = 12; // automatic logoff
 const MAX_FAILS = 5, LOCK_MINUTES = 15;
-const sessions = new Map(); // token → expiry ms
 const fails = new Map(); // ip → { count, until }
 const sha = (s) => createHash("sha256").update(s).digest();
 const passcodeOk = (given) => timingSafeEqual(sha(given), sha(APP_PASSCODE));
+const SESSION_KEY = sha(`remit-session|${process.env.SESSION_SECRET || APP_PASSCODE}`);
+const sign = (exp) => createHmac("sha256", SESSION_KEY).update(exp).digest("hex");
 const ipOf = (req) => (req.headers["x-forwarded-for"] ?? "").split(",")[0].trim() || req.socket.remoteAddress;
-const cookieToken = (req) => /(?:^|;\s*)remit_session=([a-f0-9]{64})/.exec(req.headers.cookie ?? "")?.[1];
+const cookieToken = (req) => /(?:^|;\s*)remit_session=(\d{13,15}\.[a-f0-9]{64})/.exec(req.headers.cookie ?? "")?.[1];
 function authed(req) {
   if (!APP_PASSCODE) return true;
-  const t = cookieToken(req), exp = t && sessions.get(t);
-  if (exp && exp > Date.now()) return true;
-  if (t) sessions.delete(t);
-  return false;
+  const [exp, mac] = cookieToken(req)?.split(".") ?? [];
+  return !!exp && Number(exp) > Date.now() && timingSafeEqual(Buffer.from(mac), Buffer.from(sign(exp)));
 }
 const redirect = (res, to, cookie) => {
   res.writeHead(303, { location: to, ...SECURITY, ...(cookie ? { "set-cookie": cookie } : {}) });
@@ -252,9 +255,8 @@ async function handleLogin(req, res) {
     return loginPage(res, count >= MAX_FAILS ? "locked" : "wrong");
   }
   fails.delete(ip);
-  const token = randomBytes(32).toString("hex");
-  sessions.set(token, Date.now() + SESSION_HOURS * 3600e3);
-  redirect(res, "/", cookie(req, token, SESSION_HOURS * 3600));
+  const exp = String(Date.now() + SESSION_HOURS * 3600e3);
+  redirect(res, "/", cookie(req, `${exp}.${sign(exp)}`, SESSION_HOURS * 3600));
 }
 
 createServer(async (req, res) => {
@@ -265,7 +267,6 @@ createServer(async (req, res) => {
     return authed(req) ? redirect(res, "/") : loginPage(res, url.searchParams.get("e") === "expired" ? "expired" : null);
   }
   if (url.pathname === "/logout") {
-    sessions.delete(cookieToken(req));
     return redirect(res, APP_PASSCODE ? "/login" : "/", cookie(req, "", 0));
   }
   if (!authed(req)) {

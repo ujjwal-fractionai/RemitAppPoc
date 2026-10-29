@@ -11,7 +11,7 @@ Notation: `file:function()`. All paths are relative to `POC/`.
 ```
 Browser GET /
 └─ server.js: createServer handler
-   ├─ authed(req)                       cookie remit_session → sessions Map (in memory, 12 h)
+   ├─ authed(req)                       cookie remit_session = "<expiry>.<HMAC>" checked with SESSION_KEY (stateless, 12 h)
    │   └─ no/expired → redirect 303 /login  (or /login?e=expired if a stale cookie was sent)
    └─ authed → static file from public/ (path-normalised, CSP + no-store headers via send())
 
@@ -20,8 +20,8 @@ POST /login → handleLogin(req, res)
    ├─ ipOf(req) locked? (fails Map: 5 wrong tries → 15 min) → loginPage("locked") 429
    ├─ passcodeOk(given)  sha256 + timingSafeEqual against APP_PASSCODE
    │   ├─ wrong → count++, 500 ms delay, loginPage("wrong" | "locked")
-   │   └─ right → new random token in sessions, Set-Cookie HttpOnly SameSite=Strict, 303 /
-GET /logout → delete session, clear cookie, 303 /login        (sidebar "Lock" link)
+   │   └─ right → cookie "<now+12h>.<HMAC(expiry)>", Set-Cookie HttpOnly SameSite=Strict, 303 /
+GET /logout → clear cookie (no server state to delete), 303 /login        (sidebar "Lock" link)
 ```
 
 If `APP_PASSCODE` is empty: everything is open, and the server refuses to start unless `HOST` is local.
