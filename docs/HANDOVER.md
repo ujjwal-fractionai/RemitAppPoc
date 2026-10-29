@@ -2,7 +2,7 @@
 
 **Read this first when working on the POC.** Keep it short and current: replace stale lines, don't append history (history lives in `features/`, `bugs/` and `DECISIONS.md`). Project-wide state (Waystar SFTP, final app, open questions for the practice) is in the workspace `docs/HANDOVER.md`.
 
-_Last updated: 2026-10-28_
+_Last updated: 2026-10-29_
 
 ---
 
@@ -10,6 +10,7 @@ _Last updated: 2026-10-28_
 
 - **v2 tracking board** (FEAT-007) is merged to `main`.
 - **Billing team's denial playbook** (FEAT-008, D41) is on branch `billing-denial-playbook`, **uncommitted**: fix steps under each denied claim, reason names in next steps / Needs attention / top reasons, playbook + terms on the Rules tab, `billingPlaybook` to the AI, `demo/batch-4` (4 EOBs, one per uncovered denial code). The playbook + terms are a config file, `public/denial-playbook.json` (D42): edit it, then `npm test`. Demos use only its codes (no other adjustment, remark or fee codes, D44); `demo/` now holds only the 4 upload batches (D43).
+- **Vercel sign-outs fixed** (BUG-008, D45) on branch `vercel-sessions`, **uncommitted**: the login cookie is now signed, so any server instance accepts it. On Vercel set `APP_PASSCODE` (and optionally `SESSION_SECRET`) in the project env.
 - **Waiting on owner:** review + commit FEAT-008; ask billing about CO-119 on non-PIP plans, CARC 109 for "wrong payer", and which remark codes pick between CO-16 / CO-4 / CO-11 rows; confirm money definitions (workspace D39) and the 90-day filing estimate (D21).
 
 ## Done
@@ -27,7 +28,7 @@ _Last updated: 2026-10-28_
 
 ## Broken / open
 
-- Nothing known. Watch: Supabase free projects pause after ~1 week idle (restore in the dashboard before a demo).
+- Vercel: the AI queue runs inside the request's instance; a summary can sit on "pending" until a later page poll re-queues it, and two instances may both call Gemini for it. Fine for the demo; move to a queue/cron if it bites. Watch: Supabase free projects pause after ~1 week idle (restore in the dashboard before a demo).
 
 ## How to run
 

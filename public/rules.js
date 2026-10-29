@@ -111,7 +111,7 @@ export function renderRules() {
     card("Access",
       table([
         ["Passcode page", passState, where("APP_PASSCODE", ".env")],
-        ["Signed out automatically after", [session, h("div", { class: "muted small" }, "Or click Lock in the sidebar. A server restart also signs everyone out.")], where("SESSION_HOURS", "server.js")],
+        ["Signed out automatically after", [session, h("div", { class: "muted small" }, "Or click Lock in the sidebar. Changing the passcode signs everyone out.")], where("SESSION_HOURS", "server.js")],
         ["Wrong passcode limit", [tries, " then locked for ", lockMin], where("MAX_FAILS / LOCK_MINUTES", "server.js")],
       ]),
     ),

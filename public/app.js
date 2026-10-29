@@ -15,7 +15,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = "./vendor/pdf.worker.min.mjs";
 // Entry = { row: stored documents row, r: analyze() result, stage: "mismatch" | "action" | "ready" | "reviewed" }
 export const state = { docs: [] };
 
-// Fetch our API. A 401 means the session ended (12 h, Lock, or a server restart): say so instead of failing silently.
+// Fetch our API. A 401 means the session ended (12 h, Lock, or a changed passcode): say so instead of failing silently.
 export async function api(path, opts = {}) {
   const res = await fetch(path, opts);
   const body = await res.json().catch(() => ({}));

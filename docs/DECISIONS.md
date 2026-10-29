@@ -132,3 +132,9 @@ Trade-off: real EOBs will still carry codes outside the JSON (e.g. CO-253 on Med
 Owner: "the list i gave are the only codes we need". Remark codes (MA67, MA130, N130, N587) and provider-level codes (AH fee, L6 interest) are removed from every demo too; `b3-05-fees-and-paid.pdf` is now `b3-05-all-paid.pdf`. The test covers adjustment, remark and provider-level codes. On-screen and AI-prompt text no longer names N587 or "the remark code decides"; a code with several playbook rows says to check the EOB and payer notes.
 Trade-off: the parser still reads REM lines and provider adjustments, because real EOBs have them; the demos just don't show any. Reconciliation demos now prove check = claim payments only (the fee/interest case is covered by the unit-test fixture).
 
+### D45 — Stateless signed session cookie · Decided · 2026-10-29 · amends FEAT-004
+Decision: the login cookie is `<expiry ms>.<HMAC-SHA256(expiry)>`, keyed by `SESSION_SECRET` (optional .env) or else `APP_PASSCODE`. Any server instance checks it with no stored sessions. Lifetime stays `SESSION_HOURS` = 12 (owner asked for at least 3).
+Why: on Vercel each request can hit a different or freshly started instance; the in-memory `sessions` Map was empty there, so users were "signed out" within minutes, the board loaded empty and Open PDF bounced to the login page (BUG-008).
+Rejected: a sessions table in Supabase (a DB round trip on every request for a demo app); longer SESSION_HOURS (doesn't help: the session was lost, not expired).
+Trade-off: Lock only clears that browser's cookie; a copied cookie stays valid until it expires (rotate SESSION_SECRET or APP_PASSCODE to cut everyone off). The wrong-passcode lockout is still in memory, so on Vercel it counts per instance.
+
